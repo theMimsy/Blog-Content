@@ -1,0 +1,581 @@
+
+<!DOCTYPE HTML>
+<!--
+	Dopetrope 2.0 by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+			<title>mimsy.io</title>
+			<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+			<meta charset="utf-8" />
+			<link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="mimsy.io Full Atom Feed" />
+			<link href="/feeds/tutorials.atom.xml" type="application/atom+xml" rel="alternate" title="mimsy.io Categories Atom Feed" />
+			<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,900,300italic" rel="stylesheet" />
+				<link rel="stylesheet" href="/theme/css/pygment.css" />
+			<noscript>
+				<link rel="stylesheet" href="/theme/css/skel-noscript.css" />
+				<link rel="stylesheet" href="/theme/css/style.css" />
+				<link rel="stylesheet" href="/theme/css/style-desktop.css" />
+			</noscript>
+<link rel="stylesheet" href="/css/bayes_d3.css" type="text/css" />
+ 
+	</head>
+	<body class="no-sidebar">
+		<!-- Header Wrapper -->
+			<div id="header-wrapper">
+				<div class="container">
+					<div class="row">
+						<div class="12u">
+						
+							<!-- Header -->
+								<section id="header">
+									
+									<!-- Logo -->
+									<h1><a href="/">mimsy.io</a></h1>
+									
+									<!-- Nav -->
+										<nav id="nav">
+											<ul>
+															<li><a href="/category/announcements.html">Announcements</a></li>
+															<li><a href="/category/notebooks.html">Notebooks</a></li>
+															<li><a href="/category/stories.html">Stories</a></li>
+															<li class="active"><a href="/category/tutorials.html">Tutorials</a></li>
+											</ul>
+										</nav>
+
+								</section>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		
+		<!-- Main Wrapper -->
+			<div id="main-wrapper">
+				<div class="container">
+<div class="row">
+	<div class="12u">
+			<section>
+				<div>
+					<div class="row">
+						<div class="12u skel-cell-mainContent">
+							<!-- Content -->
+								<article class="box is-post">
+									<div class="image image-full"><img src="/images/Bayes_Final.svg"/><a href="" class="img-copy"></a></div>
+									<div class="post-infos">
+										<ul class="tags">
+											<li><a class="button" href="category/tutorials.html">Tutorials</a></li>
+												<li><a class="button button-alt" href="tag/learning.html">learning</a></li>
+
+												<li><a class="button button-alt" href="tag/bayes.html">bayes</a></li>
+
+										</ul>
+									</div>
+
+									<div class="pennant pennant-alt date">2017-09-15</div>
+									<h2>A Primer on Bayesian Statistics (Part 1)</h2>
+									<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><strong>NOTE:</strong> This is the first part in a two part series. You can find the second part <a class="reference external" href="a_primer_on_bayesian_statistics_p2.html">right here</a>.</p>
+</div>
+<div class="section" id="a-primer-on-bayesian-statistics-part-1">
+<h2>A Primer on Bayesian Statistics (Part 1)</h2>
+<p>Like many people first starting out on their journey into data science, I dove
+straight into the cool and shiny stuff long before I really knew what I was doing<a class="footnote-reference" href="#id10" id="id1"><sup>1</sup></a>. It was
+during this exploratory phase, while I oogled those fancy neural
+networks, that I began noticing the term
+<em>Bayesian Statistics</em> with increasing frequency. It popped up in blogs, it popped up in books, it
+popped up in online videos. &quot;What are they talking about?&quot; I thought, &quot;That one equation I learned
+about in my intro statistics course? What's the big deal here?&quot;</p>
+<p>As I soon found out, I was missing out on a whole school of statistics knowledge and I didn't even
+know about it! Unfortunately, sources I found on the subject tended to swing either towards textbook-levels of denseness or vague philosophical works about &quot;Dutch Books&quot;<a class="footnote-reference" href="#id11" id="id2"><sup>2</sup></a>. This is a shame, because I think you <em>can</em> explain the concept in some meaningful depth without writing a whole textbook; all you need is a few visuals and insightful examples.</p>
+<div class="section" id="reviewing-bayes-theorem-with-a-few-visuals-and-insightful-examples">
+<h3>Reviewing Bayes' Theorem With a Few Visuals and Insightful Examples</h3>
+<p>Unsurprisingly, I want to start this tutorial by reviewing <em>Bayes' Theorem</em>. The math involved in the theorem isn't especially difficult, but I think many people really miss the point when they first see it. I myself remember learning the formula, thinking to myself &quot;oh, that's cool&quot;, and then moving on, leaving the knowledge in a dusty corner of my mind. In order to avoid that in this tutorial, I'll try to be thorough, and build up intuition as much as possible. I'll do this by taking a visual approach and deriving <em>Bayes' Theorem</em> through an example:
+<span class="math">\(\require{color}\)</span>
+<span class="math">\(\definecolor{cs}{RGB}{252, 141, 98}\)</span>
+<span class="math">\(\definecolor{cc}{RGB}{102, 194, 165}\)</span>
+<span class="math">\(\definecolor{cr}{RGB}{141, 160, 203}\)</span>
+<span class="math">\(\definecolor{cj}{RGB}{231, 138, 195}\)</span>
+<span class="math">\(\definecolor{ccr}{RGB}{227, 26, 28}\)</span>
+<span class="math">\(\definecolor{ccb}{RGB}{31, 120, 180}\)</span>
+<span class="math">\(\definecolor{ccw}{RGB}{51, 160, 44}\)</span>
+<span class="math">\(\definecolor{def}{RGB}{93, 93, 93}\)</span></p>
+<div class="section" id="weather-and-hobbies">
+<h4>Weather and Hobbies</h4>
+<p>As all meteorologists will tell you, there are only three types of weather in the world: <span class="sunny">sunny</span>, <span class="cloudy">cloudy</span>, and <span class="rainy">rainy</span>. Here in California, the weather tends to favor long, dry days. As an approximation, let's say that it's <span class="sunny">sunny</span> <span class="math">\(\color{cs}{60\%}\)</span> of the time, <span class="cloudy">cloudy</span> <span class="math">\(\color{cc}{30\%}\)</span> of the time, and <span class="rainy">rainy</span> <span class="math">\(\color{cr}{10\%}\)</span> of the time. We can represent this situation quite simply with a visualization:</p>
+<object class="align-center" data="images/1d_weather_only.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>Now, when I make small talk about the weather, I usually talk about my hobbies as well. I'm a pretty simple guy, so you can segregate my hobbies into two categories: <span class="jog">running</span> and everything else. Out of these two groups, I estimate that I go <span class="jog">running</span> <span class="math">\(\color{cj}{40\%}\)</span> of all days:</p>
+<object class="align-center" data="images/1d_running_only.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>That's an intuitive way to represent probabilities, but it doesn't allow us to compare everything directly. It would be great if we could talk about the weather and our hobbies at the same time. Fortunately, we can! Just combine the scales above into a 2D figure:</p>
+<object class="align-center" data="images/2d_independent_plain.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>Now we can show off both sets of events, just like we wanted. We can see all of the probabilities and even measure them out if we wanted to:</p>
+<div class="math">
+\begin{equation*}
+\begin{array}{rccl}
+\boldsymbol{P}(\color{cs}sunny\color{def}) &amp; = 0.60 &amp; \rightarrow &amp; \, \scriptstyle\text{The size of the sunny area } \img[-0.25em][1em][1em]{images/ss.svg} \text{ when compared to the whole area}. \\
+\boldsymbol{P}(\color{cc}cloudy\color{def}) &amp; = 0.30 &amp; \rightarrow &amp; \, \scriptstyle\text{The size of the cloudy area } \img[-0.25em][1em][1em]{images/sc.svg} \text{ when compared to the whole area}. \\
+\boldsymbol{P}(\color{cr}rainy\color{def}) &amp; = 0.10 &amp; \rightarrow &amp; \, \scriptstyle\text{The size of the rainy area } \img[-0.25em][1em][1em]{images/sr.svg} \text{ when compared to the whole area}. \\
+\boldsymbol{P}(\color{cj}running\color{def}) &amp; = 0.40 &amp; \rightarrow &amp; \, \scriptstyle\text{The size of the running area } \img[-0.25em][1em][1em]{images/sj.svg} \text{ when compared to the whole area}.
+\end{array}
+\end{equation*}
+</div>
+</div>
+<div class="section" id="conditional-probability">
+<h4>Conditional Probability</h4>
+<p>Hmmm, something seems off. You see, I actually don't like running when it's too hot outside. While my overall rate is <span class="math">\(\color{cj}{40\%}\)</span>, I tend to run <em>less</em> than that if I think I might die of dehydration. Conversely, I also tend to run a lot <em>more</em> on cool, rainy days. The diagram above doesn't show that. See all those right angles? Those are right angles of <em>independence</em>! They imply that, no matter what kind of weather I'm currently experiencing, I will always have a <span class="math">\(\color{cj}40\%\)</span> running rate. Me <span class="jog">running</span> and the weather don't affect one another.</p>
+<p>We can visually prove this by looking at the <em>conditional probabilities</em> of each event. For example, say it's a <span class="sunny">sunny</span> day and we want to know the probability of me going for a <span class="jog">jog</span>. In mathematical notation, we're looking for the quantity <span class="math">\(\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cs}sunny\color{def})\)</span>. We can find it like this:</p>
+<object class="align-center" data="images/2d_conditional_sunny.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>This image shows how I like to think about <em>conditional probability</em>. When we assumed that it was a <span class="sunny">sunny</span> day, we essentially said that we must land in the <span class="math">\(\img[-0.25em][1em][1em]{images/ss.svg}\)</span> area (<em>you are here</em>). To see how likely it is that I go <span class="jog">running</span> in <span class="sunny">sunny</span> weather, we then look for how likely it is that we land in the <span class="math">\(\img[-0.25em][1em][1em]{images/sj.svg}\)</span> area, knowing that we have to stay in the <span class="math">\(\img[-0.25em][1em][1em]{images/ss.svg}\)</span> area. Thus, the probability of me <span class="jog">running</span> given that it's <span class="sunny">sunny</span>, <span class="math">\(\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cs}sunny\color{def})\)</span>, is the area of the intersection <span class="math">\(\img[-0.25em][1em][1em]{images/sjs.svg}\)</span> compared to the <span class="math">\(\img[-0.25em][1em][1em]{images/ss.svg}\)</span> area. Notice that this is still <span class="math">\(40\%\)</span>! Thus, <span class="math">\(\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cs}sunny\color{def}) = \boldsymbol{P}(\color{cj}running\color{def})\)</span> and we have <em>independence</em>.</p>
+<p>We can go a step further, take what I said above, and make it concrete with a formula:</p>
+<div class="math">
+\begin{equation*}
+\begin{array}{crcc}
+&amp; \boldsymbol{P}(\color{cj}running\color{def}) &amp; \rightarrow &amp; \img[-0.25em][1em][1em]{images/sj.svg} \\
+&amp; \boldsymbol{P}(\color{cs}sunny\color{def}) &amp; \rightarrow &amp; \img[-0.25em][1em][1em]{images/ss.svg} \\
+&amp; \boldsymbol{P}(\color{cj}running\color{def},\,\color{cs}sunny\color{def}) &amp; \rightarrow &amp; \img[-0.25em][1em][1em]{images/sjs.svg} \\
+&amp; \boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cs}sunny\color{def}) &amp; \rightarrow &amp; \dfrac{\img[-0.25em][1em][1em]{images/sjs.svg}}{\img[-0.25em][1em][1em]{images/ss.svg}}
+\end{array}
+\Large\Rightarrow\normalsize
+\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cs}sunny\color{def}) = \dfrac{\boldsymbol{P}(\color{cj}running\color{def},\,\color{cs}sunny\color{def})}{\boldsymbol{P}(\color{cs}sunny\color{def})}
+\end{equation*}
+</div>
+<p>To anyone who's taken a statistics course, this is the all-too-familiar formula for <em>conditional probability</em>, derived using a purely visual method! It's usually presented with arbitrary events <span class="math">\(A\)</span> and <span class="math">\(B\)</span> in a somewhat bland way:</p>
+<div class="math">
+\begin{equation*}
+\boldsymbol{P}(A|B) \boldsymbol{P}(B) = \boldsymbol{P}(A,B) = \boldsymbol{P}(B|A) \boldsymbol{P}(A)
+\end{equation*}
+</div>
+<p>Now that we've established <em>independence</em> between <span class="jog">running</span> and all the weather events, how can we go about changing that? Well, we just have to get rid of the right angles:</p>
+<object class="align-center" data="images/2d_fixed_plain.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>Look at how the probability of <span class="jog">running</span> shifted away from <span class="sunny">sunny</span> towards <span class="cloudy">cloudy</span> and <span class="rainy">rainy</span> (the dotted line is the old boundary). The events now work out in a way that reflects my preferences:</p>
+<div class="math">
+\begin{equation*}
+\begin{array}{rccl}
+\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cs}sunny\color{def}) &amp; = 0.32 &amp; &lt; 0.40\\
+\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cc}cloudy\color{def}) &amp; = 0.50 &amp; &gt; 0.40\\
+\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cr}rainy\color{def}) &amp; = 0.58 &amp; &gt; 0.40\\
+\end{array}
+\end{equation*}
+</div>
+</div>
+<div class="section" id="bayes-theorem">
+<h4>Bayes' Theorem</h4>
+<p>Bad luck, it seems you've suddenly developed an acute case of <em>can't-tell-the-weather-itus</em>. It's an extremely rare disease that temporarily removes your ability to detect the weather (strangely, it doesn't affect your life in any other way). Just as this happens, you spot me <span class="jog">jogging</span> across the street. Aha! A way out of this predicament! You've read this post, so you know that I'm more likely to be <span class="jog">running</span> if it's <span class="rainy">raining</span> or <span class="cloudy">cloudy</span>. The chances of <span class="rainy">rainy</span> or <span class="cloudy">cloudy</span> weather must be high!</p>
+<p>No wait, that's wrong. You only know how the weather affects my tendency to run, not the other way around. In other words, you might know <span class="math">\(\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cr}rainy\color{def})\)</span> but you do not know <span class="math">\(\boldsymbol{P}(\color{cr}rainy\color{def}\,|\,\color{cj}running\color{def})\)</span>, and these two values are <em>not</em> necessarily equal. Visually:</p>
+<object class="align-center" data="images/2d_bayes_rain.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>If we're looking for <span class="math">\(\boldsymbol{P}(\color{cr}rainy\color{def}\,|\,\color{cj}running\color{def})\)</span>, we want to know how likely it is that we land in <span class="math">\(\img[-0.25em][1em][1em]{images/sr.svg}\)</span> assuming we're already in <span class="math">\(\img[-0.25em][1em][1em]{images/sj.svg}\)</span>; just looking at the diagram, you can surmise that this is a small number, especially when compared to <span class="math">\(\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cr}rainy\color{def}) = 0.58\)</span> (how likely we are to land in <span class="math">\(\img[-0.25em][1em][1em]{images/sj.svg}\)</span> assuming we're inside <span class="math">\(\img[-0.25em][1em][1em]{images/sr.svg}\)</span>). The discrepancy stems from that fact that, in California, the base rate of <span class="rainy">rain</span> starts low, <span class="math">\(\boldsymbol{P}(\color{cr}rainy\color{def}) = 0.10\)</span>. If you want to get the correct prediction, you have to approach this from a different angle.</p>
+<p>Good thing we learned about <em>conditional probability</em> in the last section! Just like last time, we can find <span class="math">\(\boldsymbol{P}(\color{cr}rainy\color{def}\,|\,\color{cj}running\color{def})\)</span> as follows:</p>
+<div class="math">
+\begin{equation*}
+\begin{array}{crcc}
+&amp; \boldsymbol{P}(\color{cr}rainy\color{def}) &amp; \rightarrow &amp; \img[-0.25em][1em][1em]{images/sr.svg} \\
+&amp; \boldsymbol{P}(\color{cj}running\color{def}) &amp; \rightarrow &amp; \img[-0.25em][1em][1em]{images/sj.svg} \\
+&amp; \boldsymbol{P}(\color{cr}rainy\color{def},\,\color{cj}running\color{def}) &amp; \rightarrow &amp; \img[-0.25em][1em][1em]{images/sjr.svg} \\
+&amp; \boldsymbol{P}(\color{cr}rainy\color{def}\,|\,\color{cj}running\color{def}) &amp; \rightarrow &amp; \dfrac{\img[-0.25em][1em][1em]{images/sjr.svg}}{\img[-0.25em][1em][1em]{images/sj.svg}}
+\end{array}
+\Large\Rightarrow\normalsize
+\boldsymbol{P}(\color{cr}rainy\color{def}\,|\,\color{cj}running\color{def}) = \dfrac{\boldsymbol{P}(\color{cr}rainy\color{def},\,\color{cj}running\color{def})}{\boldsymbol{P}(\color{cj}running\color{def})}
+\end{equation*}
+</div>
+<p>The only problem here is that we don't know the numerical value of the <span class="math">\(\img[-0.25em][1em][1em]{images/sjr.svg}\)</span> area, the intersection <span class="math">\(\boldsymbol{P}(\color{cr}rainy\color{def},\,\color{cj}running\color{def})\)</span>. We can fix this by applying <em>conditional probability</em> in the other direction, basically switching the roles of <span class="jog">running</span> and <span class="rainy">rainy</span>:</p>
+<div class="math">
+\begin{align*}
+&amp; \boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cr}rainy\color{def}) = \dfrac{\boldsymbol{P}(\color{cr}rainy\color{def},\,\color{cj}running\color{def})}{\boldsymbol{P}(\color{cr}rainy\color{def})} \\
+\Large\Rightarrow\normalsize
+&amp; \boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cr}rainy\color{def}) \boldsymbol{P}(\color{cr}rainy\color{def}) = \boldsymbol{P}(\color{cr}rainy\color{def},\,\color{cj}running\color{def})
+\end{align*}
+</div>
+<p>Finally, we substitute and get our answer:</p>
+<div class="math">
+\begin{equation*}
+\boldsymbol{P}(\color{cr}rainy\color{def}\,|\,\color{cj}running\color{def}) = \dfrac{\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cr}rainy\color{def}) \boldsymbol{P}(\color{cr}rainy\color{def})}{\boldsymbol{P}(\color{cj}running\color{def})}
+\end{equation*}
+</div>
+<p>Or, in case you prefer to do all your math using colorful squares<a class="footnote-reference" href="#id12" id="id3"><sup>3</sup></a>:</p>
+<div class="math">
+\begin{equation*}
+\dfrac{\img[-0.25em][1em][1em]{images/sjr.svg}}{\img[-0.25em][1em][1em]{images/sj.svg}} = \dfrac{\img[-0.25em][1em][1em]{images/sjr.svg}}{\img[-0.25em][1em][1em]{images/sr.svg}} \cdot \dfrac{\img[-0.25em][1em][1em]{images/sr.svg}}{\img[-0.25em][1em][1em]{images/sj.svg}}
+\end{equation*}
+</div>
+<p>This formula is known as <em>Bayes' Theorem</em>. The most immediate result of <em>Bayes' Theorem</em> is that it allows you to flip <em>conditional probabilities</em>:</p>
+<div class="math">
+\begin{equation*}
+\boldsymbol{P}(\color{cr}rainy\color{def}\,|\,\color{cj}running\color{def})
+\leftrightarrow
+\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cr}rainy\color{def})
+\end{equation*}
+</div>
+<p>In our case, for example, it allows us to solve the big problem you were having just a little while ago:</p>
+<div class="math">
+\begin{align*}
+\boldsymbol{P}(\color{cr}rainy\color{def}\,|\,\color{cj}running\color{def}) = &amp; \dfrac{\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cr}rainy\color{def}) \boldsymbol{P}(\color{cr}rainy\color{def})}{\boldsymbol{P}(\color{cj}running\color{def})} \\
+= &amp; \dfrac{0.58 \cdot 0.10}{0.40} = 0.145
+\end{align*}
+</div>
+<p>Similarly, we can use this method to find the other probabilities as well:</p>
+<div class="math">
+\begin{align*}
+&amp; \boldsymbol{P}(\color{cc}cloudy\color{def}\,|\,\color{cj}running\color{def}) = \dfrac{\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cc}cloudy\color{def}) \boldsymbol{P}(\color{cc}cloudy\color{def})}{\boldsymbol{P}(\color{cj}running\color{def})} =
+0.375 \\
+&amp; \boldsymbol{P}(\color{cs}sunny\color{def}\,|\,\color{cj}running\color{def}) = \dfrac{\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cs}sunny\color{def}) \boldsymbol{P}(\color{cs}sunny\color{def})}{\boldsymbol{P}(\color{cj}running\color{def})} =
+0.48
+\end{align*}
+</div>
+<p>Predicament solved! Even though I prefer <span class="rainy">rain</span> to <span class="sunny">sun</span> when <span class="jog">jogging</span>, the fact that California has mostly <span class="sunny">sunny</span> weather beats out my preferences. If you see me out for a <span class="jog">jog</span>, I'm probably dehydrated (I should start working out with a water bottle).</p>
+</div>
+<div class="section" id="a-different-way-to-think-about-bayes">
+<h4>A Different Way to Think About Bayes</h4>
+<p>The ability to switch <em>conditional probabilities</em> sounds useful, but how can you create a whole school of thought based around it? How can people write whole textbooks on the subject? How come this tutorial is only half over? Well, the real power of <em>Bayes' Theorem</em> doesn't lie in it's ability to switch <em>conditional probabilities</em>, and I wouldn't want you to come away from this tutorial thinking that. Instead, statisticians view <em>Bayes' Theorem</em> like so:</p>
+<object class="align-center" data="images/Bayes_Theorem_Explained.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>This view of <em>Bayes' Theorem</em> says you can combine the base rate of an event (the <em>prior</em>) and modify it with new information to get a better estimate of the same event (the <em>posterior</em>). In the picture above, you start with base knowledge about the probability of <span class="rainy">rain</span>. If you don't have any other information, you can only rely on the this base rate, so <span class="math">\(\boldsymbol{P}(\color{cr}rainy\color{def}) = 0.10\)</span>. However, once you get a piece of data (whether I'm <span class="jog">running</span> that day or not), <em>Bayes' Theorem</em> says that you integrate this information into a new estimate and get a <em>posterior</em> probability. In this case, you find that <span class="math">\(\boldsymbol{P}(\color{cr}rainy\color{def}\,|\,\color{cj}running\color{def}) = 0.145\)</span>.</p>
+<p>The modifying term compares the likelihood of me <span class="jog">running</span> in <span class="rainy">rainy</span> weather (the numerator) to the flat chance of me <span class="jog">running</span> in any weather (the denominator). These two terms have names, the <em>likelihood</em> and the <em>evidence</em><a class="footnote-reference" href="#id13" id="id4"><sup>4</sup></a>:</p>
+<object class="align-center" data="images/Bayes_Theorem_Full.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>In effect, the <em>likelihood</em> and the <em>evidence</em> measure how much information we get out of the data. If the modifier ends up greater than <span class="math">\(1\)</span>, our <em>posterior</em> probability ends up higher than our <em>prior</em>. The same is true in the other direction; if the modifier is less than <span class="math">\(1\)</span>, the <em>posterior</em> probability will be lower than the <em>prior</em>. For example:</p>
+<div class="math">
+\begin{equation*}
+\dfrac{\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cr}rainy\color{def})}{\boldsymbol{P}(\color{cj}running\color{def})}
+= \dfrac{0.58}{0.40} &gt; 1
+\Large\Rightarrow\normalsize
+\text{posterior} \, &gt; \, \text{prior}
+\end{equation*}
+</div>
+<div class="math">
+\begin{equation*}
+\dfrac{\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cs}sunny\color{def})}{\boldsymbol{P}(\color{cj}running\color{def})}
+= \dfrac{0.32}{0.40} &lt; 1
+\Large\Rightarrow\normalsize
+\text{posterior} \, &lt; \, \text{prior}
+\end{equation*}
+</div>
+<p>Since you know that I prefer <span class="rainy">rainy</span> weather when working out, your estimate of <span class="rainy">rain</span> goes up from the base rate if you see me <span class="jog">running</span>. Similarly, your estimate on the chances of <span class="sunny">sunny</span> weather go down. Why is this so useful? Because now, we have a way to incorporate data into initial estimates and refine them! Isn't that exciting!</p>
+<p>What's that? You still don't see what the big deal is? Maybe we need another example.</p>
+</div>
+</div>
+<div class="section" id="a-new-example-and-a-change-of-colors">
+<h3>A New Example and a Change of Colors</h3>
+<p>To appreciate the power of incorporating data into estimates, let's change gears and work through a new, more serious, example.</p>
+<p>Consider a city with two competing cab companies: the <span class="red">red</span> and <span class="blue">blue</span> company. The <span class="red">red</span> company dominates the market with <span class="math">\(\color{ccr}75\%\)</span> of cabs in the city, leaving <span class="math">\(\color{ccb}25\%\)</span> to the <span class="blue">blue</span> company. One day, a hit-and-run occurs. Local camera footage manages to see that a cab driver was the perpetrator. Unfortunately, the camera did not catch the logo on the cab, the only distinguishing feature between the two companies. Because of your vast statistics knowledge, you've been chosen to act as a judge on this case. Which company do you believe should be fined<a class="footnote-reference" href="#id14" id="id5"><sup>5</sup></a>? Most likely, guilt lies with the <span class="red">red</span> company, simply due to chance:</p>
+<object class="align-center" data="images/cabs_1.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>This sets up our <em>prior</em>. Right now, we only know the following:</p>
+<div class="math">
+\begin{equation*}
+\begin{array}{rccl}
+\boldsymbol{P}(\color{ccb}blue\color{def}) &amp; = 0.25 &amp; \rightarrow &amp; \, \scriptstyle\text{The probability that the cab belonged to the blue company.} \\
+\boldsymbol{P}(\color{ccr}red\color{def}) &amp; = 0.75 &amp; \rightarrow &amp; \, \scriptstyle\text{The probability that the cab belonged to the red company.}
+\end{array}
+\end{equation*}
+</div>
+<p>Of course, the story doesn't end there. Not wanting to pay hefty fees, the <span class="red">red</span> company produces a <span class="wit">witness</span> that says he saw the <span class="blue">blue</span> company logo. You check the camera footage and notice that this <span class="wit">witness</span> was indeed nearby when the crime happened. The <span class="blue">blue</span> company, aware that eyewitnesses can be unreliable, proposes a test to see if the <span class="wit">witness</span> can correctly differentiate company logos when a cab drives past him. The <span class="wit">witness</span> takes the test and, much to the <span class="red">red</span> companies' chagrin, it's found he can only identify the correct logo <span class="math">\(\color{ccw}60\%\)</span> of the time.</p>
+<p>Ok judge, which company do you suspect now? Well, let's look at the data we just got:</p>
+<div class="math">
+\begin{equation*}
+\begin{array}{rccl}
+\boldsymbol{P}(\color{ccw}witness \color{def} \text{ says } \color{ccb}blue \color{def}\,|\,\color{ccb}blue\color{def}) &amp; = 0.60 &amp; \rightarrow &amp; \, \scriptstyle\text{The witness is correct.} \\
+\boldsymbol{P}(\color{ccw}witness \color{def} \text{ says } \color{ccb}blue \color{def}\,|\,\color{ccr}red\color{def}) &amp; = 0.40 &amp; \rightarrow &amp; \, \scriptstyle\text{The witness is incorrect.}
+\end{array}
+\end{equation*}
+</div>
+<p>The testimony represents a single data point that we can use to modify the base rate of either <span class="math">\(\boldsymbol{P}(\color{ccb}blue\color{def})\)</span> or <span class="math">\(\boldsymbol{P}(\color{ccr}red\color{def})\)</span>. Looking at the probability space can give us some good intuition about the case:</p>
+<object class="align-center" data="images/cabs_2.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>Since the <span class="wit">witness</span> testified against the <span class="blue">blue</span> company, we know we're in the striped region. Just looking at the picture, the <span class="red">red</span> company remains the most likely suspect: the area of the lower-right striped region (culprit was <span class="red">red</span> and the <span class="wit">witness</span> is wrong) looks larger than the upper-left striped region (culprit was <span class="blue">blue</span> and <span class="wit">witness</span> is right).</p>
+<p>Of course, we need to test this out rigorously. Let's try to find the <em>posterior</em> probability for <span class="blue">blue</span> (we could have also chosen to calculate the <em>posterior</em> for <span class="red">red</span>, I just made a random choice). To find <span class="math">\(\boldsymbol{P}(\color{ccb}blue\color{def} \,|\, \color{ccw}witness\color{def} \text{ says } \color{ccb}blue\color{def})\)</span> we use <em>Bayes' Theorem</em>:</p>
+<div class="math">
+\begin{equation*}
+\begin{array}{rcl}
+posterior &amp; = &amp; \dfrac{likelihood}{evidence} \cdot prior \\
+\boldsymbol{P}(\color{ccb}blue\color{def} \,|\, \color{ccw}witness\color{def} \text{ says } \color{ccb}blue\color{def}) &amp; = &amp; \dfrac{\boldsymbol{P}(\color{ccw}witness\color{def} \text{ says } \color{ccb}blue\color{def} \,|\, \color{ccb}blue\color{def})}{\boldsymbol{P}(\color{ccw}witness\color{def} \text{ says } \color{ccb}blue\color{def})} \cdot \boldsymbol{P}(\color{ccb}blue\color{def})
+\end{array}
+\end{equation*}
+</div>
+<p>The only term that we don't immediately know here is the <em>evidence</em>, the probability that the <span class="wit">witness</span> says <span class="blue">blue</span>. However, we can easily figure this out, we just need to consider all the situations that can lead to the <span class="wit">witness</span> saying <span class="blue">blue</span>. There are two, each represented by one of the striped regions in the probability space:</p>
+<object class="align-center" data="images/cabs_3.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>We arrive at a pretty expected answer:</p>
+<div class="math">
+\begin{equation*}
+\boldsymbol{P}(\color{ccb}blue\color{def} \,|\, \color{ccw}witness\color{def} \text{ says } \color{ccb}blue\color{def}) = \dfrac{(0.60)(0.25)}{(0.60)(0.25) + (0.40)(0.75)} = 0.333
+\end{equation*}
+</div>
+<p>So, even with the testimony, we find that most guilt still lies with the <span class="red">red</span> company. The chances of the culprit being <span class="blue">blue</span> are only <span class="math">\(1\)</span> in <span class="math">\(3\)</span>.</p>
+<p>But wait, just as you're about to pass your judgment, someone bursts into the courtroom<a class="footnote-reference" href="#id15" id="id6"><sup>6</sup></a>. It's a second <span class="wit">witness</span>, who also says he saw a <span class="blue">blue</span> logo. And behind him? There's a third <span class="wit">witness</span>, and a fourth, and a fifth, ...</p>
+<p>Each <span class="wit">witness</span> has their own story, ready to supply evidence for either the <span class="red">red</span> or <span class="blue">blue</span> company. They all took the test and each of them also got a <span class="math">\(\color{ccw}60\%\)</span> (really blurry logos)<a class="footnote-reference" href="#id16" id="id7"><sup>7</sup></a>. If running out of the courtroom while screaming is not an option, how can you handle this situation? Will <em>Bayes' Theorem</em> stop working now that we have multiple data points? Of course not! For example, if we have two <span class="wit">witnesses</span> and both say they saw <span class="blue">blue</span>, we could calculate:</p>
+<div class="math">
+\begin{equation*}
+\begin{array}{rcl}
+posterior &amp; = &amp; \dfrac{likelihood}{evidence} \cdot prior \\
+\boldsymbol{P}(\color{ccb}b\color{def} \,|\, \color{ccw}w_1\color{def} \text{ says } \color{ccb}b\color{def}, \color{ccw}w_2\color{def} \text{ says } \color{ccb}b\color{def}) &amp; = &amp; \dfrac{\boldsymbol{P}(\color{ccw}w_1\color{def} \text{ says } \color{ccb}b\color{def}, \color{ccw}w_2\color{def} \text{ says } \color{ccb}b\color{def} \,|\, \color{ccb}b\color{def})}{\boldsymbol{P}(\color{ccw}w_1\color{def} \text{ says } \color{ccb}b\color{def}, \color{ccw}w_2\color{def} \text{ says } \color{ccb}b\color{def})} \cdot \boldsymbol{P}(\color{ccb}b\color{def})
+\end{array}
+\end{equation*}
+</div>
+<p>Here, I used a shorthand <span class="math">\(\color{ccb}blue\color{def} \leftrightarrow \color{ccb}b\color{def}\)</span> and <span class="math">\(\color{ccw}witness\color{def} \leftrightarrow \color{ccw}w\color{def}\)</span> to save space. So clearly, <em>Bayes' Theorem</em> can handle any amount of data, we simply treat the two (or potentially more) data points as one event. To make this even more clear, we can rewrite our data <span class="math">\((\color{ccw}w_1\color{def} \text{ says } \color{ccb}b\color{def}, \color{ccw}w_2\color{def} \text{ says } \color{ccb}b\color{def})\)</span> as an ambiguous <span class="math">\(\color{ccw}d\color{def}\)</span>:</p>
+<div class="math">
+\begin{equation*}
+\begin{array}{rcl}
+\boldsymbol{P}(\color{ccb}b\color{def} \,|\, \color{ccw}d\color{def}) &amp; = &amp; \dfrac{\boldsymbol{P}(\color{ccw}d\color{def} \,|\, \color{ccb}b\color{def})}{\boldsymbol{P}(\color{ccw}d\color{def})} \cdot \boldsymbol{P}(\color{ccb}b\color{def})
+\end{array}
+\end{equation*}
+</div>
+<p>Unfortunately, I won't be able to draw probability spaces (like the ones I drew above) to explain the actual calculations that go on here. This stems from the fact that, to keep each data point <em>independent</em>, we would need to move from 2D into 3D, 4D, 5D, etc. We can, however, demonstrate the power of this approach by generating actual samples. Take a look at the following graph, which shows the outcome of using <em>Bayes' Theorem</em> with a <em>LOT</em> of <span class="wit">witnesses</span>:</p>
+<img alt="Whoops, something went wrong when fetching this png." class="align-center" src="images/Bayes_Multi.png" />
+<p>I randomly generated the <span class="blue">blue</span> line above by assuming that <span class="blue">blue</span> was the real culprit. This would mean that <span class="math">\(60\%\)</span> of the <span class="wit">witnesses</span> would testify against <span class="blue">blue</span>, so that if we have <span class="math">\(10\)</span> of them, <span class="math">\(6\)</span> (on average) would say they saw a <span class="blue">blue</span> logo. I randomly generated the <span class="red">red</span> line by assuming the opposite: the <span class="red">red</span> company was the culprit. This means that <span class="math">\(60\%\)</span> of the <span class="wit">witnesses</span> testified against the <span class="red">red</span> company. The y-axis represents our <em>posterior</em> in every case.</p>
+<p>Looking at the graph, it seems that within <span class="math">\(\color{ccw}20\)</span> <span class="wit">witnesses</span>, we had about <span class="math">\(99\%\)</span> confidence we knew the true culprit. This number would have been lower if each <span class="wit">witness</span> could identify the logos at a better rate than <span class="math">\(\color{ccw}60\%\)</span><a class="footnote-reference" href="#id17" id="id8"><sup>8</sup></a>.</p>
+<p>Notice also, that our data eventually overrode the <em>prior</em>. Even though we initially believed that <span class="red">red</span> was the culprit in both cases (the <em>prior</em>), we always end up believing in the correct outcome once we got enough information. This is an important aspect of the <em>Bayesian</em> approach that I hope to flesh out later: <em>priors</em> can skew <em>posteriors</em> when we have low amounts of data, but the <em>posterior</em> always converges to the same answer.</p>
+</div>
+<div class="section" id="moving-onto-the-harder-stuff">
+<h3>Moving Onto the Harder Stuff</h3>
+<p>If you care about using data to try and tease out answers, hopefully you see how fundamental <em>Bayes' Theorem</em> is. You can take initially available information, encode it in a <em>prior</em>, and modify it through data. But how is this different than what statisticians have been doing for decades using classical estimators and p-values? And what if we don't know what <em>prior</em> to pick? Are we out of luck?</p>
+<p>Discovering the connections between <em>Bayes</em> and the <em>Frequentist</em> (classical) approach and developing those consequences takes a bit more mathematical know-how than what I've used so far. If you're curious and feel up to the task, read on to <a class="reference external" href="a_primer_on_bayesian_statistics_p2.html">Part 2</a>.</p>
+</div>
+<div class="section" id="resources">
+<h3>Resources</h3>
+<div class="section" id="textbooks">
+<h4>Textbooks</h4>
+<p>The credit for a lot of the examples in this post doesn't belong to me. I took several examples on this page from two sources:</p>
+<ol class="arabic simple">
+<li>David MacKay's book <em>Information Theory, Inference, and Learning Algorithms</em>. Both the textbook
+and the lectures associated with them are free and available online with a simple search. Links
+for the lazy: <a class="reference external" href="http://www.inference.org.uk/itprnn/book.pdf">book</a> and <a class="reference external" href="http://videolectures.net/david_mackay/">lectures</a>.</li>
+<li>Andrew Gelman's book <em>Bayesian Data Analysis</em>. Not only is this <a class="reference external" href="https://www.amazon.com/gp/product/1439840954/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1439840954&amp;linkCode=as2&amp;tag=andrsblog0f-20&amp;linkId=YPLI6GJ24RK74BHN">text</a> well written, it also contains great one-lines like<a class="footnote-reference" href="#id18" id="id9"><sup>9</sup></a>:<ul>
+<li>&quot;As you know from teaching introductory statistics, 30 is infinity.&quot;</li>
+<li>&quot;Why is it Normal? Because that’s the only continuous multivariate distribution we have. Oh, we have the multivariate <span class="math">\(t\)</span> ... as if that’s a different distribution.”</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="footnotes">
+<h4>Footnotes</h4>
+<table class="docutils footnote" frame="void" id="id10" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Disclaimer: I still don't. I'm active learning about this topic as I write. Please don't hesitate to tell me about anything that seems wrong.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id11" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>Not that there's anything wrong with textbooks of philosophical works. If you're looking for the former, check out the two books I mention right above these footnotes. If you're looking for the latter, try some <a class="reference external" href="https://plato.stanford.edu/entries/epistemology-bayesian/">Bayesian Epistemology</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id12" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>I don't know about you, but I was personally surprised by this version of <em>Bayes' Theorem</em>. You're just canceling out areas!</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id13" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>Yes, this is the exact same <em>likelihood</em> function that you use when constructing a <em>maximum likelihood estimate</em> (MLE). In fact, <em>Bayes</em> essentially becomes <em>maximum likelihood</em> under certain conditions! Here's a good <a class="reference external" href="https://stats.stackexchange.com/questions/74082/what-is-the-difference-in-bayesian-estimate-and-maximum-likelihood-estimate">Stack Overflow</a> post about it.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id14" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td>If this were a real case, the legal system would obviously not work like this. This is just an example.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id15" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id6">[6]</a></td><td>Again, not how real courtrooms work. Pretend this is a TV drama.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id16" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[7]</a></td><td>What I'm doing here is setting up a set of independent and identically distributed samples; the bread and butter of pretty much all statistical inference.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id17" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id8">[8]</a></td><td>Luckily, it wasn't <span class="math">\(50\%\)</span>! I leave it as an exercise for you to imagine what would happen in that case. Hint, do the calculation for one data point assuming a <span class="math">\(50\%\)</span> reliable witness.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id18" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id9">[9]</a></td><td>For more great statistics lines (and you know you want more) see this <a class="reference external" href="http://www.stat.columbia.edu/~gelman/book/gelman_quotes.pdf">page of 77 best Gelman quotes</a>.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "true";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Ajax.config.path['img'] = 'https://cdn.rawgit.com/pkra/mathjax-img/1.0.0/';" +
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js',], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js','[img]/img.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+								</article>
+						</div>
+					</div>
+				</div>
+			</section>
+	</div>
+</div>
+
+				</div>
+			</div>
+
+		<!-- Footer Wrapper -->
+			<div id="footer-wrapper">
+				<!-- Footer -->
+					<section id="footer" class="container">
+						<div class="row">
+							<div class="8u">
+								<section>
+									<header>
+										<h2>Latest articles</h2>
+									</header>
+									<ul class="dates">
+										<li>
+											<span class="date">Sep <strong>30</strong></span>
+											<h3><a href="a_primer_on_bayesian_statistics_p2.html">A Primer on Bayesian Statistics (Part 2)</a></h3>
+											<p><p class="first last">The second in a two part series about Bayesian Statistics</p>
+</p>
+										</li>
+										<li>
+											<span class="date">Sep <strong>15</strong></span>
+											<h3><a href="a_primer_on_bayesian_statistics_p1.html">A Primer on Bayesian Statistics (Part 1)</a></h3>
+											<p><p class="first last">Heard about Bayesian statistics but don't really know what the hubbub is? Start here!</p>
+</p>
+										</li>
+										<li>
+											<span class="date">Aug <strong>30</strong></span>
+											<h3><a href="sinclair_1_3.html">Introducing the Sinclair Broadcast Group</a></h3>
+											<p><p class="first last">The first part in a three part series examining the Sinclair Broadcast Group and their affect on American political sentiment.</p>
+</p>
+										</li>
+										<li>
+											<span class="date">Aug <strong>30</strong></span>
+											<h3><a href="sinclair-station-exploration.html">Sinclair Station Exploration</a></h3>
+											<p><p>A step-by-step guide through my analysis of Sinclair Broadcast Group stations.</p></p>
+										</li>
+									</ul>
+								</section>
+							</div>
+								<div class="4u">
+									<section>
+										<header>
+											<h2>What's this all about?</h2>
+										</header>
+											<img src="/" class="image image-full" alt="" />
+										<p>
+										A blog written by a guy who prefers to look at the world through math, data, and python. Anytime I have too much time on my hands, you can be sure you're about to learn. </br> - Dawid Minorczyk
+										</p>
+										<footer>
+										</footer>
+									</section>
+								</div>
+						</div>
+						<div class="row">
+							<div class="4u">
+								<section>
+									<header>
+										<h2>Blogroll</h2>
+									</header>
+									<ul class="divided">
+											<li><a href="http://getpelican.com/">Pelican</a></li>
+											<li><a href="http://python.org/">Python.org</a></li>
+											<li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+									</ul>
+								</section>
+							</div>
+							<div class="4u">
+								<section>
+									<header>
+										<h2>Categories</h2>
+									</header>
+									<ul class="divided">
+											<li><a href="/category/announcements.html">Announcements</a></li>
+											<li><a href="/category/notebooks.html">Notebooks</a></li>
+											<li><a href="/category/stories.html">Stories</a></li>
+											<li><a href="/category/tutorials.html">Tutorials</a></li>
+									</ul>
+								</section>
+							</div>
+							<div class="4u">
+							
+								<section>
+									<header>
+										<h2>Contact</h2>
+									</header>
+									<ul class="social">
+									</ul>
+								</section>
+							</div>
+						</div>
+					</section>
+			</div>
+		<script src="/theme/js/jquery.min.js"></script>
+		<script src="/theme/js/jquery.dropotron.js"></script>
+		<script src="/theme/js/config.js"></script>
+		<script src="/theme/js/skel.min.js"></script>
+		<script src="/theme/js/skel-panels.min.js"></script>
+		<!--[if lte IE 8]><script src="js/html5shiv.js"></script><link rel="stylesheet" href="/theme/css/ie8.css" /><![endif]-->
+	</body>
+</html>

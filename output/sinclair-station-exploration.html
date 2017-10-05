@@ -1,0 +1,2770 @@
+
+<!DOCTYPE HTML>
+<!--
+	Dopetrope 2.0 by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+			<title>mimsy.io</title>
+			<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+			<meta charset="utf-8" />
+			<link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="mimsy.io Full Atom Feed" />
+			<link href="/feeds/notebooks.atom.xml" type="application/atom+xml" rel="alternate" title="mimsy.io Categories Atom Feed" />
+			<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,900,300italic" rel="stylesheet" />
+				<link rel="stylesheet" href="/theme/css/pygment.css" />
+			<noscript>
+				<link rel="stylesheet" href="/theme/css/skel-noscript.css" />
+				<link rel="stylesheet" href="/theme/css/style.css" />
+				<link rel="stylesheet" href="/theme/css/style-desktop.css" />
+			</noscript>
+ 
+	</head>
+	<body class="no-sidebar">
+		<!-- Header Wrapper -->
+			<div id="header-wrapper">
+				<div class="container">
+					<div class="row">
+						<div class="12u">
+						
+							<!-- Header -->
+								<section id="header">
+									
+									<!-- Logo -->
+									<h1><a href="/">mimsy.io</a></h1>
+									
+									<!-- Nav -->
+										<nav id="nav">
+											<ul>
+															<li><a href="/category/announcements.html">Announcements</a></li>
+															<li class="active"><a href="/category/notebooks.html">Notebooks</a></li>
+															<li><a href="/category/stories.html">Stories</a></li>
+															<li><a href="/category/tutorials.html">Tutorials</a></li>
+											</ul>
+										</nav>
+
+								</section>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		
+		<!-- Main Wrapper -->
+			<div id="main-wrapper">
+				<div class="container">
+<div class="row">
+	<div class="12u">
+			<section>
+				<div>
+					<div class="row">
+						<div class="12u skel-cell-mainContent">
+							<!-- Content -->
+								<article class="box is-post">
+									<div class="image image-full"><img src="/images/jupyter_r_logo.png"/><a href="" class="img-copy"></a></div>
+									<div class="post-infos">
+										<ul class="tags">
+											<li><a class="button" href="category/notebooks.html">Notebooks</a></li>
+												<li><a class="button button-alt" href="tag/r.html">R</a></li>
+
+												<li><a class="button button-alt" href="tag/ggplot2.html">ggplot2</a></li>
+
+												<li><a class="button button-alt" href="tag/maps.html">maps</a></li>
+
+												<li><a class="button button-alt" href="tag/sinclair.html">sinclair</a></li>
+
+										</ul>
+									</div>
+
+									<div class="pennant pennant-alt date">2017-08-30</div>
+									<h2>Sinclair Station Exploration</h2>
+									<style type="text/css">/*!
+*
+* IPython notebook
+*
+*/
+/* CSS font colors for translated ANSI colors. */
+.ansibold {
+  font-weight: bold;
+}
+/* use dark versions for foreground, to improve visibility */
+.ansiblack {
+  color: black;
+}
+.ansired {
+  color: darkred;
+}
+.ansigreen {
+  color: darkgreen;
+}
+.ansiyellow {
+  color: #c4a000;
+}
+.ansiblue {
+  color: darkblue;
+}
+.ansipurple {
+  color: darkviolet;
+}
+.ansicyan {
+  color: steelblue;
+}
+.ansigray {
+  color: gray;
+}
+/* and light for background, for the same reason */
+.ansibgblack {
+  background-color: black;
+}
+.ansibgred {
+  background-color: red;
+}
+.ansibggreen {
+  background-color: green;
+}
+.ansibgyellow {
+  background-color: yellow;
+}
+.ansibgblue {
+  background-color: blue;
+}
+.ansibgpurple {
+  background-color: magenta;
+}
+.ansibgcyan {
+  background-color: cyan;
+}
+.ansibggray {
+  background-color: gray;
+}
+div.cell {
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border-radius: 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
+  width: 100%;
+  padding: 5px;
+  /* This acts as a spacer between cells, that is outside the border */
+  margin: 0px;
+  outline: none;
+  border-left-width: 1px;
+  padding-left: 5px;
+  background: linear-gradient(to right, transparent -40px, transparent 1px, transparent 1px, transparent 100%);
+}
+div.cell.jupyter-soft-selected {
+  border-left-color: #90CAF9;
+  border-left-color: #E3F2FD;
+  border-left-width: 1px;
+  padding-left: 5px;
+  border-right-color: #E3F2FD;
+  border-right-width: 1px;
+  background: #E3F2FD;
+}
+@media print {
+  div.cell.jupyter-soft-selected {
+    border-color: transparent;
+  }
+}
+div.cell.selected {
+  border-color: #ababab;
+  border-left-width: 0px;
+  padding-left: 6px;
+  background: linear-gradient(to right, #42A5F5 -40px, #42A5F5 5px, transparent 5px, transparent 100%);
+}
+@media print {
+  div.cell.selected {
+    border-color: transparent;
+  }
+}
+div.cell.selected.jupyter-soft-selected {
+  border-left-width: 0;
+  padding-left: 6px;
+  background: linear-gradient(to right, #42A5F5 -40px, #42A5F5 7px, #E3F2FD 7px, #E3F2FD 100%);
+}
+.edit_mode div.cell.selected {
+  border-color: #66BB6A;
+  border-left-width: 0px;
+  padding-left: 6px;
+  background: linear-gradient(to right, #66BB6A -40px, #66BB6A 5px, transparent 5px, transparent 100%);
+}
+@media print {
+  .edit_mode div.cell.selected {
+    border-color: transparent;
+  }
+}
+.prompt {
+  /* This needs to be wide enough for 3 digit prompt numbers: In[100]: */
+  min-width: 14ex;
+  /* This padding is tuned to match the padding on the CodeMirror editor. */
+  padding: 0.4em;
+  margin: 0px;
+  font-family: monospace;
+  text-align: right;
+  /* This has to match that of the the CodeMirror class line-height below */
+  line-height: 1.21429em;
+  /* Don't highlight prompt number selection */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* Use default cursor */
+  cursor: default;
+}
+@media (max-width: 540px) {
+  .prompt {
+    text-align: left;
+  }
+}
+div.inner_cell {
+  min-width: 0;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  /* Old browsers */
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  /* Modern browsers */
+  flex: 1;
+}
+/* input_area and input_prompt must match in top border and margin for alignment */
+div.input_area {
+  border: 1px solid #cfcfcf;
+  border-radius: 2px;
+  background: #f7f7f7;
+  line-height: 1.21429em;
+}
+/* This is needed so that empty prompt areas can collapse to zero height when there
+   is no content in the output_subarea and the prompt. The main purpose of this is
+   to make sure that empty JavaScript output_subareas have no height. */
+div.prompt:empty {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+div.unrecognized_cell {
+  padding: 5px 5px 5px 0px;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+div.unrecognized_cell .inner_cell {
+  border-radius: 2px;
+  padding: 5px;
+  font-weight: bold;
+  color: red;
+  border: 1px solid #cfcfcf;
+  background: #eaeaea;
+}
+div.unrecognized_cell .inner_cell a {
+  color: inherit;
+  text-decoration: none;
+}
+div.unrecognized_cell .inner_cell a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+@media (max-width: 540px) {
+  div.unrecognized_cell > div.prompt {
+    display: none;
+  }
+}
+div.code_cell {
+  /* avoid page breaking on code cells when printing */
+}
+@media print {
+  div.code_cell {
+    page-break-inside: avoid;
+  }
+}
+/* any special styling for code cells that are currently running goes here */
+div.input {
+  page-break-inside: avoid;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+@media (max-width: 540px) {
+  div.input {
+    /* Old browsers */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-box-align: stretch;
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    -moz-box-align: stretch;
+    display: box;
+    box-orient: vertical;
+    box-align: stretch;
+    /* Modern browsers */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+/* input_area and input_prompt must match in top border and margin for alignment */
+div.input_prompt {
+  color: #303F9F;
+  border-top: 1px solid transparent;
+}
+div.input_area > div.highlight {
+  margin: 0.4em;
+  border: none;
+  padding: 0px;
+  background-color: transparent;
+}
+div.input_area > div.highlight > pre {
+  margin: 0px;
+  border: none;
+  padding: 0px;
+  background-color: transparent;
+}
+/* The following gets added to the <head> if it is detected that the user has a
+ * monospace font with inconsistent normal/bold/italic height.  See
+ * notebookmain.js.  Such fonts will have keywords vertically offset with
+ * respect to the rest of the text.  The user should select a better font.
+ * See: https://github.com/ipython/ipython/issues/1503
+ *
+ * .CodeMirror span {
+ *      vertical-align: bottom;
+ * }
+ */
+.CodeMirror {
+  line-height: 1.21429em;
+  /* Changed from 1em to our global default */
+  font-size: 14px;
+  height: auto;
+  /* Changed to auto to autogrow */
+  background: none;
+  /* Changed from white to allow our bg to show through */
+}
+.CodeMirror-scroll {
+  /*  The CodeMirror docs are a bit fuzzy on if overflow-y should be hidden or visible.*/
+  /*  We have found that if it is visible, vertical scrollbars appear with font size changes.*/
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+.CodeMirror-lines {
+  /* In CM2, this used to be 0.4em, but in CM3 it went to 4px. We need the em value because */
+  /* we have set a different line-height and want this to scale with that. */
+  padding: 0.4em;
+}
+.CodeMirror-linenumber {
+  padding: 0 8px 0 4px;
+}
+.CodeMirror-gutters {
+  border-bottom-left-radius: 2px;
+  border-top-left-radius: 2px;
+}
+.CodeMirror pre {
+  /* In CM3 this went to 4px from 0 in CM2. We need the 0 value because of how we size */
+  /* .CodeMirror-lines */
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+}
+/*
+
+Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>
+Adapted from GitHub theme
+
+*/
+.highlight-base {
+  color: #000;
+}
+.highlight-variable {
+  color: #000;
+}
+.highlight-variable-2 {
+  color: #1a1a1a;
+}
+.highlight-variable-3 {
+  color: #333333;
+}
+.highlight-string {
+  color: #BA2121;
+}
+.highlight-comment {
+  color: #408080;
+  font-style: italic;
+}
+.highlight-number {
+  color: #080;
+}
+.highlight-atom {
+  color: #88F;
+}
+.highlight-keyword {
+  color: #008000;
+  font-weight: bold;
+}
+.highlight-builtin {
+  color: #008000;
+}
+.highlight-error {
+  color: #f00;
+}
+.highlight-operator {
+  color: #AA22FF;
+  font-weight: bold;
+}
+.highlight-meta {
+  color: #AA22FF;
+}
+/* previously not defined, copying from default codemirror */
+.highlight-def {
+  color: #00f;
+}
+.highlight-string-2 {
+  color: #f50;
+}
+.highlight-qualifier {
+  color: #555;
+}
+.highlight-bracket {
+  color: #997;
+}
+.highlight-tag {
+  color: #170;
+}
+.highlight-attribute {
+  color: #00c;
+}
+.highlight-header {
+  color: blue;
+}
+.highlight-quote {
+  color: #090;
+}
+.highlight-link {
+  color: #00c;
+}
+/* apply the same style to codemirror */
+.cm-s-ipython span.cm-keyword {
+  color: #008000;
+  font-weight: bold;
+}
+.cm-s-ipython span.cm-atom {
+  color: #88F;
+}
+.cm-s-ipython span.cm-number {
+  color: #080;
+}
+.cm-s-ipython span.cm-def {
+  color: #00f;
+}
+.cm-s-ipython span.cm-variable {
+  color: #000;
+}
+.cm-s-ipython span.cm-operator {
+  color: #AA22FF;
+  font-weight: bold;
+}
+.cm-s-ipython span.cm-variable-2 {
+  color: #1a1a1a;
+}
+.cm-s-ipython span.cm-variable-3 {
+  color: #333333;
+}
+.cm-s-ipython span.cm-comment {
+  color: #408080;
+  font-style: italic;
+}
+.cm-s-ipython span.cm-string {
+  color: #BA2121;
+}
+.cm-s-ipython span.cm-string-2 {
+  color: #f50;
+}
+.cm-s-ipython span.cm-meta {
+  color: #AA22FF;
+}
+.cm-s-ipython span.cm-qualifier {
+  color: #555;
+}
+.cm-s-ipython span.cm-builtin {
+  color: #008000;
+}
+.cm-s-ipython span.cm-bracket {
+  color: #997;
+}
+.cm-s-ipython span.cm-tag {
+  color: #170;
+}
+.cm-s-ipython span.cm-attribute {
+  color: #00c;
+}
+.cm-s-ipython span.cm-header {
+  color: blue;
+}
+.cm-s-ipython span.cm-quote {
+  color: #090;
+}
+.cm-s-ipython span.cm-link {
+  color: #00c;
+}
+.cm-s-ipython span.cm-error {
+  color: #f00;
+}
+.cm-s-ipython span.cm-tab {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAAAXNSR0IArs4c6QAAAGFJREFUSMft1LsRQFAQheHPowAKoACx3IgEKtaEHujDjORSgWTH/ZOdnZOcM/sgk/kFFWY0qV8foQwS4MKBCS3qR6ixBJvElOobYAtivseIE120FaowJPN75GMu8j/LfMwNjh4HUpwg4LUAAAAASUVORK5CYII=);
+  background-position: right;
+  background-repeat: no-repeat;
+}
+div.output_wrapper {
+  /* this position must be relative to enable descendents to be absolute within it */
+  position: relative;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  z-index: 1;
+}
+/* class for the output area when it should be height-limited */
+div.output_scroll {
+  /* ideally, this would be max-height, but FF barfs all over that */
+  height: 24em;
+  /* FF needs this *and the wrapper* to specify full width, or it will shrinkwrap */
+  width: 100%;
+  overflow: auto;
+  border-radius: 2px;
+  -webkit-box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
+  display: block;
+}
+/* output div while it is collapsed */
+div.output_collapsed {
+  margin: 0px;
+  padding: 0px;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+div.out_prompt_overlay {
+  height: 100%;
+  padding: 0px 0.4em;
+  position: absolute;
+  border-radius: 2px;
+}
+div.out_prompt_overlay:hover {
+  /* use inner shadow to get border that is computed the same on WebKit/FF */
+  -webkit-box-shadow: inset 0 0 1px #000;
+  box-shadow: inset 0 0 1px #000;
+  background: rgba(240, 240, 240, 0.5);
+}
+div.output_prompt {
+  color: #D84315;
+}
+/* This class is the outer container of all output sections. */
+div.output_area {
+  padding: 0px;
+  page-break-inside: avoid;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+div.output_area .MathJax_Display {
+  text-align: left !important;
+}
+div.output_area 
+div.output_area 
+div.output_area img,
+div.output_area svg {
+  max-width: 100%;
+  height: auto;
+}
+div.output_area img.unconfined,
+div.output_area svg.unconfined {
+  max-width: none;
+}
+/* This is needed to protect the pre formating from global settings such
+   as that of bootstrap */
+.output {
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+@media (max-width: 540px) {
+  div.output_area {
+    /* Old browsers */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-box-align: stretch;
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    -moz-box-align: stretch;
+    display: box;
+    box-orient: vertical;
+    box-align: stretch;
+    /* Modern browsers */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+div.output_area pre {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+  color: black;
+  background-color: transparent;
+  border-radius: 0;
+}
+/* This class is for the output subarea inside the output_area and after
+   the prompt div. */
+div.output_subarea {
+  overflow-x: auto;
+  padding: 0.4em;
+  /* Old browsers */
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  /* Modern browsers */
+  flex: 1;
+  max-width: calc(100% - 14ex);
+}
+div.output_scroll div.output_subarea {
+  overflow-x: visible;
+}
+/* The rest of the output_* classes are for special styling of the different
+   output types */
+/* all text output has this class: */
+div.output_text {
+  text-align: left;
+  color: #000;
+  /* This has to match that of the the CodeMirror class line-height below */
+  line-height: 1.21429em;
+}
+/* stdout/stderr are 'text' as well as 'stream', but execute_result/error are *not* streams */
+div.output_stderr {
+  background: #fdd;
+  /* very light red background for stderr */
+}
+div.output_latex {
+  text-align: left;
+}
+/* Empty output_javascript divs should have no height */
+div.output_javascript:empty {
+  padding: 0;
+}
+.js-error {
+  color: darkred;
+}
+/* raw_input styles */
+div.raw_input_container {
+  line-height: 1.21429em;
+  padding-top: 5px;
+}
+pre.raw_input_prompt {
+  /* nothing needed here. */
+}
+input.raw_input {
+  font-family: monospace;
+  font-size: inherit;
+  color: inherit;
+  width: auto;
+  /* make sure input baseline aligns with prompt */
+  vertical-align: baseline;
+  /* padding + margin = 0.5em between prompt and cursor */
+  padding: 0em 0.25em;
+  margin: 0em 0.25em;
+}
+input.raw_input:focus {
+  box-shadow: none;
+}
+p.p-space {
+  margin-bottom: 10px;
+}
+div.output_unrecognized {
+  padding: 5px;
+  font-weight: bold;
+  color: red;
+}
+div.output_unrecognized a {
+  color: inherit;
+  text-decoration: none;
+}
+div.output_unrecognized a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+.rendered_html {
+  color: #000;
+  /* any extras will just be numbers: */
+}
+
+
+
+.rendered_html :link {
+  text-decoration: underline;
+}
+.rendered_html :visited {
+  text-decoration: underline;
+}
+
+
+
+
+
+
+.rendered_html h1:first-child {
+  margin-top: 0.538em;
+}
+.rendered_html h2:first-child {
+  margin-top: 0.636em;
+}
+.rendered_html h3:first-child {
+  margin-top: 0.777em;
+}
+.rendered_html h4:first-child {
+  margin-top: 1em;
+}
+.rendered_html h5:first-child {
+  margin-top: 1em;
+}
+.rendered_html h6:first-child {
+  margin-top: 1em;
+}
+
+
+
+
+
+
+
+
+.rendered_html * + ul {
+  margin-top: 1em;
+}
+.rendered_html * + ol {
+  margin-top: 1em;
+}
+
+
+.rendered_html pre,
+
+
+
+.rendered_html tr,
+.rendered_html th,
+
+.rendered_html td,
+
+
+.rendered_html * + table {
+  margin-top: 1em;
+}
+
+.rendered_html * + p {
+  margin-top: 1em;
+}
+
+.rendered_html * + img {
+  margin-top: 1em;
+}
+.rendered_html img,
+
+.rendered_html img.unconfined,
+
+div.text_cell {
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+@media (max-width: 540px) {
+  div.text_cell > div.prompt {
+    display: none;
+  }
+}
+div.text_cell_render {
+  /*font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;*/
+  outline: none;
+  resize: none;
+  width: inherit;
+  border-style: none;
+  padding: 0.5em 0.5em 0.5em 0.4em;
+  color: #000;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+a.anchor-link:link {
+  text-decoration: none;
+  padding: 0px 20px;
+  visibility: hidden;
+}
+h1:hover .anchor-link,
+h2:hover .anchor-link,
+h3:hover .anchor-link,
+h4:hover .anchor-link,
+h5:hover .anchor-link,
+h6:hover .anchor-link {
+  visibility: visible;
+}
+.text_cell.rendered .input_area {
+  display: none;
+}
+.text_cell.rendered 
+.text_cell.unrendered .text_cell_render {
+  display: none;
+}
+.cm-header-1,
+.cm-header-2,
+.cm-header-3,
+.cm-header-4,
+.cm-header-5,
+.cm-header-6 {
+  font-weight: bold;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.cm-header-1 {
+  font-size: 185.7%;
+}
+.cm-header-2 {
+  font-size: 157.1%;
+}
+.cm-header-3 {
+  font-size: 128.6%;
+}
+.cm-header-4 {
+  font-size: 110%;
+}
+.cm-header-5 {
+  font-size: 100%;
+  font-style: italic;
+}
+.cm-header-6 {
+  font-size: 100%;
+  font-style: italic;
+}
+</style>
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mb { color: #666666 } /* Literal.Number.Bin */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sa { color: #BA2121 } /* Literal.String.Affix */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .dl { color: #BA2121 } /* Literal.String.Delimiter */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #0000FF } /* Name.Function.Magic */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .vm { color: #19177C } /* Name.Variable.Magic */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+<style type="text/css">
+/* Temporary definitions which will become obsolete with Notebook release 5.0 */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-bold { font-weight: bold; }
+</style>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can find the main story that goes with the code developed below <a href="http://mimsy.io/sinclair_1_3.html">right here</a>.</p>
+<h2 id="Sinclair-Station-Exploration">Sinclair Station Exploration<a class="anchor-link" href="#Sinclair-Station-Exploration">¶</a></h2><p>In this JUPYTER notebook, we'll be cleaning and analyzing a small dataset scraped from Wikipedia. This dataset contains information about stations owned by the Sinclair Broadcasting Group, how these stations are spread throughout the United States, and how this distribution has changed over time.</p>
+<p>For the remainder of this notebook, I'll assume that the current working directory is a clone of <a href="https://github.com/theMimsy/Blog---Sinclair-Broadcast-Group">this github repo</a>.</p>
+<p>To analyze this data, we'll first load some libraries that we'll need throughout the notebook. These include libraries for basic join/merge commands as well as mapping and plotting libraries for producing our final visualizations.</p>
+<ul>
+<li><code>dplyr</code>: Used for <code>group_by()</code>, <code>filter()</code>, <code>summarize()</code>, and <code>mutate()</code> functions.</li>
+<li><code>maps</code>: A very simple R library containing outlines of the USA and USA states. Although we won't be using these, this library also contains world maps, locations of large US cities, and the locations of large world cities.</li>
+<li><code>ggplot2</code>: A flexible plotting tool that generates graphics using a <a href="http://byrneslab.net/classes/biol607/readings/wickham_layered-grammar.pdf">layered grammar of graphics</a>. If you want to know more, I'd recommend spending a bit of time reading through chapters 1 and 2 in <a href="http://ms.mcmaster.ca/~bolker/misc/ggplot2-book.pdf">Hadley Wickham's ggplot2 book</a>.</li>
+<li><code>RColorBrewer</code>: Pretty colors for our graphs.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [1]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># Load up some libraries</span>
+<span class="kn">library</span><span class="p">(</span>dplyr<span class="p">,</span> warn.conflicts <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>maps<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>ggplot2<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>RColorBrewer<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="The-Scraped-Data">The Scraped Data<a class="anchor-link" href="#The-Scraped-Data">¶</a></h3><p>All of the custom data we will be working with for this notebook exists under the <code>Scraper/sinclair_stations.csv</code> and <code>Scraper/sinclair_stations_previous.csv</code> files. I collected this data from the following URL:</p>
+<p><a href="https://en.wikipedia.org/wiki/List_of_stations_owned_or_operated_by_Sinclair_Broadcast_Group">Sinclair Group Stations</a></p>
+<p>A quick disclaimer: I scraped <em>some</em> of the data (the columns labeled <code>Location</code> and <code>Power</code>) by following links present in the original URL, not from the actual page itself. To see the (admittedly incomplete) module/script used to extract the data, have a look-see at <code>Scraper/scrape_wiki.py</code> and <code>Scraper/wikitable.py</code>.</p>
+<p>For the first part of this notebook, we'll be exploring and cleaning the data present in the two csvs mentioned above. <code>sinclair_stations.csv</code> contains information on all stations <em>currently</em> owned or operated by Sinclair. This is in contrast to <code>sinclair_stations_previous.csv</code> which contains information on stations that were <em>previously</em> owned or operated by Sinclair but are now under different management.</p>
+<h4 id="Cleaning-up-the-Data">Cleaning up the Data<a class="anchor-link" href="#Cleaning-up-the-Data">¶</a></h4><p>Now that we have a little bit of information on what's to come, lets load up both of these csv files into R, clean them up a bit, and create some nice visualizations.</p>
+<p>First up, we have <code>sinclair_stations.csv</code>:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [2]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>sinclair_station_path <span class="o"><-</span> <span class="s">"Scraper/sinclair_stations.csv"</span>
+sinclair_station_df <span class="o"><-</span> read.csv<span class="p">(</span>sinclair_station_path<span class="p">,</span> stringsAsFactors <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+sinclair_station_df <span class="o"><-</span> sinclair_station_df<span class="p">[,</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">9</span><span class="p">,</span> <span class="m">10</span><span class="p">,</span> <span class="m">11</span><span class="p">,</span> <span class="m">12</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [3]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">head</span><span class="p">(</span>sinclair_station_df<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_html rendered_html output_subarea ">
+<table>
+<thead><tr><th scope="col">Market</th><th scope="col">Station</th><th scope="col">Channel.RF.</th><th scope="col">Year</th><th scope="col">Power</th><th scope="col">Location</th><th scope="col">Latitude</th><th scope="col">Longitude</th></tr></thead>
+<tbody>
+<tr><td>Birmingham - Tuscaloosa - Anniston, AL</td><td>WTTO                                  </td><td>21 (28)                               </td><td>1995                                  </td><td>765 kW                                </td><td>33.484583; -86.807083                 </td><td>33.48458                              </td><td>-86.80708                             </td></tr>
+<tr><td>Birmingham - Tuscaloosa - Anniston, AL</td><td>WABM                                  </td><td>68 (36)                               </td><td>2001                                  </td><td>885 kW                                </td><td>33.484583; -86.807056                 </td><td>33.48458                              </td><td>-86.80706                             </td></tr>
+<tr><td>Birmingham - Tuscaloosa - Anniston, AL</td><td>WDBB                                  </td><td>17 (18)                               </td><td>1995                                  </td><td> </td><td> </td><td>      NA                              </td><td>       NA                             </td></tr>
+<tr><td>Birmingham - Tuscaloosa - Anniston, AL</td><td>WBMA-LD                               </td><td>58 (40)                               </td><td>2014                                  </td><td> </td><td>See table below                       </td><td>      NA                              </td><td>       NA                             </td></tr>
+<tr><td><span style="white-space:pre-wrap">Mobile, AL & Pensacola, FL            </span></td><td>WEAR-TV                                                                           </td><td>3 (17)                                                                            </td><td>1997                                                                              </td><td>1,000 kW                                                                          </td><td>30.612611; -87.644889                                                             </td><td>30.61261                                                                          </td><td>-87.64489                                                                         </td></tr>
+<tr><td><span style="white-space:pre-wrap">Mobile, AL & Pensacola, FL            </span></td><td>WPMI-TV                                                                           </td><td>15 (15)                                                                           </td><td>2012                                                                              </td><td>1000 kW                                                                           </td><td>30.61139; -87.607333                                                              </td><td>30.61139                                                                          </td><td>-87.60733                                                                         </td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>There are a couple of things to notice in the code and results above.</p>
+<p>First, I specifically skipped over columns 5-8 when reading the csv. These columns contain information on the DT affiliations (FOX, CBS, NBC, etc.) of each station that I thought might be useful in future research but that are not going to be useful to us today.</p>
+<p>Second, some rows are missing information under the <code>Location</code> and <code>Power</code> columns. Missing information occured because of two reasons: the information was actually missing (station WDBB), or the information was moved to a non-standard location on the wikipedia page (this is the case for station WBMA-LD). Instead of shaming me on creating a bad web-scraper, lets just manually fill in the stations that I originally missed.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [4]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># Columns to fill and column to select by</span>
+fill_cols <span class="o"><-</span> <span class="kt">c</span><span class="p">(</span><span class="s">"Power"</span><span class="p">,</span> <span class="s">"Location"</span><span class="p">,</span> <span class="s">"Latitude"</span><span class="p">,</span> <span class="s">"Longitude"</span><span class="p">)</span>
+select_col <span class="o"><-</span> sinclair_station_df<span class="o">$</span>Station
+
+<span class="c1"># Manual labor :(</span>
+sinclair_station_df<span class="p">[</span>select_col <span class="o">==</span> <span class="s">"WBMA-LD"</span><span class="p">,</span> fill_cols<span class="p">]</span> <span class="o"><-</span> 
+    <span class="kt">c</span><span class="p">(</span><span class="s">"885 kW"</span><span class="p">,</span> <span class="s">"33.484583; -86.807056"</span><span class="p">,</span> <span class="m">33.484583</span><span class="p">,</span> <span class="m">-86.807056</span><span class="p">)</span>
+sinclair_station_df<span class="p">[</span>select_col <span class="o">==</span> <span class="s">"WWHB-CA"</span><span class="p">,</span> fill_cols<span class="p">]</span> <span class="o"><-</span> 
+    <span class="kt">c</span><span class="p">(</span><span class="s">""</span><span class="p">,</span> <span class="s">"27.025222; -80.178528"</span><span class="p">,</span> <span class="m">27.025222</span><span class="p">,</span> <span class="m">-80.178528</span><span class="p">)</span>
+sinclair_station_df<span class="p">[</span>select_col <span class="o">==</span> <span class="s">"KECI-TV"</span><span class="p">,</span> fill_cols<span class="p">]</span> <span class="o"><-</span> 
+    <span class="kt">c</span><span class="p">(</span><span class="s">"30 kW"</span><span class="p">,</span> <span class="s">"47.017250; -114.014056"</span><span class="p">,</span> <span class="m">47.017250</span><span class="p">,</span> <span class="m">-114.014056</span><span class="p">)</span>
+sinclair_station_df<span class="p">[</span>select_col <span class="o">==</span> <span class="s">"KCFW-TV"</span><span class="p">,</span> fill_cols<span class="p">]</span> <span class="o"><-</span> 
+    <span class="kt">c</span><span class="p">(</span><span class="s">"2.5 kW"</span><span class="p">,</span> <span class="s">"48.01333; -114.36639"</span><span class="p">,</span> <span class="m">48.01333</span><span class="p">,</span> <span class="m">-114.36639</span><span class="p">)</span>
+sinclair_station_df<span class="p">[</span>select_col <span class="o">==</span> <span class="s">"KTVM-TV"</span><span class="p">,</span> fill_cols<span class="p">]</span> <span class="o"><-</span> 
+    <span class="kt">c</span><span class="p">(</span><span class="s">"11.2 kW"</span><span class="p">,</span> <span class="s">"46.00750; -112.44250"</span><span class="p">,</span> <span class="m">46.00750</span><span class="p">,</span> <span class="m">-112.44250</span><span class="p">)</span>
+sinclair_station_df<span class="p">[</span>select_col <span class="o">==</span> <span class="s">"KDBZ-CD"</span><span class="p">,</span> fill_cols<span class="p">]</span> <span class="o"><-</span> 
+    <span class="kt">c</span><span class="p">(</span><span class="s">"15 kW"</span><span class="p">,</span> <span class="s">"45.67333; -110.86722"</span><span class="p">,</span> <span class="m">45.67333</span><span class="p">,</span> <span class="m">-110.86722</span><span class="p">)</span>
+
+<span class="c1"># Make sure that Latitude and Longitude are still numeric columns</span>
+sinclair_station_df<span class="p">[</span><span class="kt">c</span><span class="p">(</span><span class="s">"Latitude"</span><span class="p">,</span> <span class="s">"Longitude"</span><span class="p">)]</span> <span class="o"><-</span> <span class="kp">sapply</span><span class="p">(</span>
+    sinclair_station_df<span class="p">[</span><span class="kt">c</span><span class="p">(</span><span class="s">"Latitude"</span><span class="p">,</span> <span class="s">"Longitude"</span><span class="p">)],</span> <span class="kp">as.numeric</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [5]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">head</span><span class="p">(</span>sinclair_station_df<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_html rendered_html output_subarea ">
+<table>
+<thead><tr><th scope="col">Market</th><th scope="col">Station</th><th scope="col">Channel.RF.</th><th scope="col">Year</th><th scope="col">Power</th><th scope="col">Location</th><th scope="col">Latitude</th><th scope="col">Longitude</th></tr></thead>
+<tbody>
+<tr><td>Birmingham - Tuscaloosa - Anniston, AL</td><td>WTTO                                  </td><td>21 (28)                               </td><td>1995                                  </td><td>765 kW                                </td><td>33.484583; -86.807083                 </td><td>33.48458                              </td><td>-86.80708                             </td></tr>
+<tr><td>Birmingham - Tuscaloosa - Anniston, AL</td><td>WABM                                  </td><td>68 (36)                               </td><td>2001                                  </td><td>885 kW                                </td><td>33.484583; -86.807056                 </td><td>33.48458                              </td><td>-86.80706                             </td></tr>
+<tr><td>Birmingham - Tuscaloosa - Anniston, AL</td><td>WDBB                                  </td><td>17 (18)                               </td><td>1995                                  </td><td> </td><td> </td><td>      NA                              </td><td>       NA                             </td></tr>
+<tr><td>Birmingham - Tuscaloosa - Anniston, AL</td><td>WBMA-LD                               </td><td>58 (40)                               </td><td>2014                                  </td><td>885 kW                                </td><td>33.484583; -86.807056                 </td><td>33.48458                              </td><td>-86.80706                             </td></tr>
+<tr><td><span style="white-space:pre-wrap">Mobile, AL & Pensacola, FL            </span></td><td>WEAR-TV                                                                           </td><td>3 (17)                                                                            </td><td>1997                                                                              </td><td>1,000 kW                                                                          </td><td>30.612611; -87.644889                                                             </td><td>30.61261                                                                          </td><td>-87.64489                                                                         </td></tr>
+<tr><td><span style="white-space:pre-wrap">Mobile, AL & Pensacola, FL            </span></td><td>WPMI-TV                                                                           </td><td>15 (15)                                                                           </td><td>2012                                                                              </td><td>1000 kW                                                                           </td><td>30.61139; -87.607333                                                              </td><td>30.61139                                                                          </td><td>-87.60733                                                                         </td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This looks better but we still have some missing data. How much?</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [6]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>total <span class="o"><-</span> <span class="kp">nrow</span><span class="p">(</span>sinclair_station_df<span class="p">)</span>
+missing_power <span class="o"><-</span> 
+    <span class="kp">sum</span><span class="p">(</span><span class="kp">is.na</span><span class="p">(</span>sinclair_station_df<span class="o">$</span>Power<span class="p">)</span> <span class="o">|</span> sinclair_station_df<span class="o">$</span>Power <span class="o">==</span> <span class="s">""</span><span class="p">)</span>
+missing_location <span class="o"><-</span> 
+    <span class="kp">sum</span><span class="p">(</span><span class="kp">is.na</span><span class="p">(</span>sinclair_station_df<span class="o">$</span>Location<span class="p">)</span> <span class="o">|</span> sinclair_station_df<span class="o">$</span>Location <span class="o">==</span> <span class="s">""</span><span class="p">)</span>
+
+<span class="kp">print</span><span class="p">(</span><span class="kp">paste</span><span class="p">(</span><span class="s">"Missing Power   "</span><span class="p">,</span> missing_power<span class="p">,</span> <span class="s">"/"</span><span class="p">,</span> total<span class="p">))</span>
+<span class="kp">print</span><span class="p">(</span><span class="kp">paste</span><span class="p">(</span><span class="s">"Missing Location"</span><span class="p">,</span> missing_location<span class="p">,</span> <span class="s">"/"</span><span class="p">,</span> total<span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1] "Missing Power    22 / 190"
+[1] "Missing Location 25 / 190"
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>While it might seem alarming that we're missing more than 10% of our data, after looking into the missing values I found that most corresponded to satellite versions of stations that do <em>not</em> have missing values. For example, the station WDBB (which has missing values) is just a satellite version of the station WTTO (which does not have missing values). With this in mind, we safely ignore the missing values and continue the analysis.</p>
+<p>One last bit of cleanup work to do for our first csv file: we need to convert the <code>Power</code> column from character to numeric values. While its informative that we have units for each station/transmitter, it would be a lot more useful to just have this as a numeric column. We can put the units in the column name.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [7]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>sinclair_station_df<span class="o">$</span>Power <span class="o"><-</span> 
+    <span class="kp">sub</span><span class="p">(</span><span class="s">" kW"</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> sinclair_station_df<span class="o">$</span>Power<span class="p">)</span>   <span class="c1"># Remove units</span>
+sinclair_station_df<span class="o">$</span>Power <span class="o"><-</span> 
+    <span class="kp">sub</span><span class="p">(</span><span class="s">","</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> sinclair_station_df<span class="o">$</span>Power<span class="p">)</span>     <span class="c1"># Remove commas</span>
+sinclair_station_df<span class="o">$</span>Power <span class="o"><-</span> 
+    <span class="kp">as.numeric</span><span class="p">(</span>sinclair_station_df<span class="o">$</span>Power<span class="p">)</span>       <span class="c1"># Convert to numeric values</span>
+<span class="kp">colnames</span><span class="p">(</span>sinclair_station_df<span class="p">)[</span><span class="m">5</span><span class="p">]</span> <span class="o"><-</span> <span class="s">"Power.kW"</span>  <span class="c1"># Change column name</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Don't worry, I made sure all of the rows were given in "kW" so I didn't have to check for other units like "MW" or "W".</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [8]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">head</span><span class="p">(</span>sinclair_station_df<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_html rendered_html output_subarea ">
+<table>
+<thead><tr><th scope="col">Market</th><th scope="col">Station</th><th scope="col">Channel.RF.</th><th scope="col">Year</th><th scope="col">Power.kW</th><th scope="col">Location</th><th scope="col">Latitude</th><th scope="col">Longitude</th></tr></thead>
+<tbody>
+<tr><td>Birmingham - Tuscaloosa - Anniston, AL</td><td>WTTO                                  </td><td>21 (28)                               </td><td>1995                                  </td><td> 765                                  </td><td>33.484583; -86.807083                 </td><td>33.48458                              </td><td>-86.80708                             </td></tr>
+<tr><td>Birmingham - Tuscaloosa - Anniston, AL</td><td>WABM                                  </td><td>68 (36)                               </td><td>2001                                  </td><td> 885                                  </td><td>33.484583; -86.807056                 </td><td>33.48458                              </td><td>-86.80706                             </td></tr>
+<tr><td>Birmingham - Tuscaloosa - Anniston, AL</td><td>WDBB                                  </td><td>17 (18)                               </td><td>1995                                  </td><td>  NA                                  </td><td> </td><td>      NA                              </td><td>       NA                             </td></tr>
+<tr><td>Birmingham - Tuscaloosa - Anniston, AL</td><td>WBMA-LD                               </td><td>58 (40)                               </td><td>2014                                  </td><td> 885                                  </td><td>33.484583; -86.807056                 </td><td>33.48458                              </td><td>-86.80706                             </td></tr>
+<tr><td><span style="white-space:pre-wrap">Mobile, AL & Pensacola, FL            </span></td><td>WEAR-TV                                                                           </td><td>3 (17)                                                                            </td><td>1997                                                                              </td><td>1000                                                                              </td><td>30.612611; -87.644889                                                             </td><td>30.61261                                                                          </td><td>-87.64489                                                                         </td></tr>
+<tr><td><span style="white-space:pre-wrap">Mobile, AL & Pensacola, FL            </span></td><td>WPMI-TV                                                                           </td><td>15 (15)                                                                           </td><td>2012                                                                              </td><td>1000                                                                              </td><td>30.61139; -87.607333                                                              </td><td>30.61139                                                                          </td><td>-87.60733                                                                         </td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, let's move onto cleaning up the second csv file <code>sinclair_stations_previous.csv</code>. This file basically contains the same information as the first, except that the <code>Year</code> column is now a character column with two dates: the start date and the end date.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [9]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>sinclair_station_prev_path <span class="o"><-</span> <span class="s">"Scraper/sinclair_stations_previous.csv"</span>
+sinclair_station_prev_df <span class="o"><-</span> read.csv<span class="p">(</span>sinclair_station_prev_path<span class="p">,</span> stringsAsFactors <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+sinclair_station_prev_df <span class="o"><-</span> sinclair_station_prev_df<span class="p">[,</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">6</span><span class="p">,</span> <span class="m">7</span><span class="p">,</span> <span class="m">8</span><span class="p">,</span> <span class="m">9</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [10]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">head</span><span class="p">(</span>sinclair_station_prev_df<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_html rendered_html output_subarea ">
+<table>
+<thead><tr><th scope="col">Market</th><th scope="col">Station</th><th scope="col">Channel.RF.</th><th scope="col">Year</th><th scope="col">Power</th><th scope="col">Location</th><th scope="col">Latitude</th><th scope="col">Longitude</th></tr></thead>
+<tbody>
+<tr><td>Anniston, AL                 </td><td>WJSU-TV                      </td><td>40 (9)                       </td><td>2014-2015                    </td><td> </td><td> </td><td>      NA                     </td><td>        NA                   </td></tr>
+<tr><td>Tuscaloosa, AL               </td><td>WCFT-TV                      </td><td>33 (33)                      </td><td>2014-2015                    </td><td> </td><td> </td><td>      NA                     </td><td>        NA                   </td></tr>
+<tr><td>Stockton - Sacramento, CA    </td><td>KOVR                         </td><td>13 (25)                      </td><td>1997-2005                    </td><td>1,000 kW                     </td><td>38.24000; -121.50083         </td><td>38.24000                     </td><td>-121.50083                   </td></tr>
+<tr><td>Colorado Springs - Pueblo, CO</td><td>KXRM-TV                      </td><td>21 (22)                      </td><td>2013-2014                    </td><td>51 kW                        </td><td>38.745389; -104.860889       </td><td>38.74539                     </td><td>-104.86089                   </td></tr>
+<tr><td>Colorado Springs - Pueblo, CO</td><td>KXTU-LD                      </td><td>57 (20)                      </td><td>2013-2014                    </td><td> </td><td> </td><td>      NA                     </td><td>        NA                   </td></tr>
+<tr><td>St. Petersburg - Tampa       </td><td>WTTA                         </td><td>38 (32)                      </td><td>1991-2014                    </td><td>1,000 kW                     </td><td>27.84250; -82.262528         </td><td>27.84250                     </td><td> -82.26253                   </td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Good news and bad news.</p>
+<p>Good news: this time around the web-scraper didn't miss any information! All of the missing values you see above actually don't exist on Wikipedia.</p>
+<p>Bad news: out of 27 rows of data, 7 of them have missing <code>Location</code> and <code>Power</code> information. Since I will be combining this dataset with the previous one, this missing data isn't the end of the world, but it may be worth it to independently chase it down if someone has time.</p>
+<p>Now, we will do the same <code>Power</code> transformation that we did on the previous file.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [11]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>sinclair_station_prev_df<span class="o">$</span>Power <span class="o"><-</span> 
+    <span class="kp">sub</span><span class="p">(</span><span class="s">" kW"</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> sinclair_station_prev_df<span class="o">$</span>Power<span class="p">)</span>  <span class="c1"># Remove units</span>
+sinclair_station_prev_df<span class="o">$</span>Power <span class="o"><-</span> 
+    <span class="kp">sub</span><span class="p">(</span><span class="s">","</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> sinclair_station_prev_df<span class="o">$</span>Power<span class="p">)</span>    <span class="c1"># Remove commas</span>
+sinclair_station_prev_df<span class="o">$</span>Power <span class="o"><-</span> 
+    <span class="kp">as.numeric</span><span class="p">(</span>sinclair_station_prev_df<span class="o">$</span>Power<span class="p">)</span>      <span class="c1"># Convert to numeric</span>
+<span class="kp">colnames</span><span class="p">(</span>sinclair_station_prev_df<span class="p">)[</span><span class="m">5</span><span class="p">]</span> <span class="o"><-</span> <span class="s">"Power.kW"</span> <span class="c1"># Change column name</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [12]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">head</span><span class="p">(</span>sinclair_station_prev_df<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_html rendered_html output_subarea ">
+<table>
+<thead><tr><th scope="col">Market</th><th scope="col">Station</th><th scope="col">Channel.RF.</th><th scope="col">Year</th><th scope="col">Power.kW</th><th scope="col">Location</th><th scope="col">Latitude</th><th scope="col">Longitude</th></tr></thead>
+<tbody>
+<tr><td>Anniston, AL                 </td><td>WJSU-TV                      </td><td>40 (9)                       </td><td>2014-2015                    </td><td>  NA                         </td><td> </td><td>      NA                     </td><td>        NA                   </td></tr>
+<tr><td>Tuscaloosa, AL               </td><td>WCFT-TV                      </td><td>33 (33)                      </td><td>2014-2015                    </td><td>  NA                         </td><td> </td><td>      NA                     </td><td>        NA                   </td></tr>
+<tr><td>Stockton - Sacramento, CA    </td><td>KOVR                         </td><td>13 (25)                      </td><td>1997-2005                    </td><td>1000                         </td><td>38.24000; -121.50083         </td><td>38.24000                     </td><td>-121.50083                   </td></tr>
+<tr><td>Colorado Springs - Pueblo, CO</td><td>KXRM-TV                      </td><td>21 (22)                      </td><td>2013-2014                    </td><td>  51                         </td><td>38.745389; -104.860889       </td><td>38.74539                     </td><td>-104.86089                   </td></tr>
+<tr><td>Colorado Springs - Pueblo, CO</td><td>KXTU-LD                      </td><td>57 (20)                      </td><td>2013-2014                    </td><td>  NA                         </td><td> </td><td>      NA                     </td><td>        NA                   </td></tr>
+<tr><td>St. Petersburg - Tampa       </td><td>WTTA                         </td><td>38 (32)                      </td><td>1991-2014                    </td><td>1000                         </td><td>27.84250; -82.262528         </td><td>27.84250                     </td><td> -82.26253                   </td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To finish the cleanup, we separate out the start and end dates from the <code>Year</code> column and split them out into their own. It helps that (almost) every entry is given in <code><year>-<year></code> form; it makes it much easier to extract.</p>
+<p>There are a few entries that only show one year. This implies that Sinclair only owned that station for a single year before selling it. We can handle this by setting the end date equal to the start date.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [13]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># Separate start and end dates</span>
+sinclair_station_prev_df<span class="o">$</span>Year.Start <span class="o"><-</span> 
+    <span class="kp">substr</span><span class="p">(</span>sinclair_station_prev_df<span class="o">$</span>Year<span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">4</span><span class="p">)</span> <span class="c1"># First 4 characters</span>
+sinclair_station_prev_df<span class="o">$</span>Year.End <span class="o"><-</span> 
+    <span class="kp">substr</span><span class="p">(</span>sinclair_station_prev_df<span class="o">$</span>Year<span class="p">,</span> <span class="m">6</span><span class="p">,</span> <span class="m">9</span><span class="p">)</span> <span class="c1"># Last 4 characters</span>
+
+<span class="c1"># Some stations were only owned for a year so only one piece of data was listed</span>
+<span class="c1"># Take care of this by creating a mask and copying over the right values</span>
+one_year_mask <span class="o"><-</span> sinclair_station_prev_df<span class="o">$</span>Year.End <span class="o">==</span> <span class="s">""</span>
+sinclair_station_prev_df<span class="o">$</span>Year.End<span class="p">[</span>one_year_mask<span class="p">]</span> <span class="o"><-</span> 
+    sinclair_station_prev_df<span class="o">$</span>Year.Start<span class="p">[</span>one_year_mask<span class="p">]</span>
+
+<span class="c1"># Remember to conver to numeric</span>
+sinclair_station_prev_df<span class="p">[</span><span class="kt">c</span><span class="p">(</span><span class="s">"Year.Start"</span><span class="p">,</span> <span class="s">"Year.End"</span><span class="p">)]</span> <span class="o"><-</span> 
+    <span class="kp">sapply</span><span class="p">(</span>sinclair_station_prev_df<span class="p">[</span><span class="kt">c</span><span class="p">(</span><span class="s">"Year.Start"</span><span class="p">,</span> <span class="s">"Year.End"</span><span class="p">)],</span> <span class="kp">as.numeric</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [14]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>sinclair_station_prev_df<span class="p">[</span>
+    <span class="kt">c</span><span class="p">(</span><span class="s">"Market"</span><span class="p">,</span> <span class="s">"Station"</span><span class="p">,</span> <span class="s">"Year"</span><span class="p">,</span> <span class="s">"Power.kW"</span><span class="p">,</span> 
+      <span class="s">"Latitude"</span><span class="p">,</span> <span class="s">"Longitude"</span><span class="p">,</span> <span class="s">"Year.Start"</span><span class="p">,</span> <span class="s">"Year.End"</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_html rendered_html output_subarea ">
+<table>
+<thead><tr><th scope="col">Market</th><th scope="col">Station</th><th scope="col">Year</th><th scope="col">Power.kW</th><th scope="col">Latitude</th><th scope="col">Longitude</th><th scope="col">Year.Start</th><th scope="col">Year.End</th></tr></thead>
+<tbody>
+<tr><td>Anniston, AL                             </td><td>WJSU-TV                                  </td><td>2014-2015                                </td><td>    NA                                   </td><td>      NA                                 </td><td>        NA                               </td><td>2014                                     </td><td>2015                                     </td></tr>
+<tr><td>Tuscaloosa, AL                           </td><td>WCFT-TV                                  </td><td>2014-2015                                </td><td>    NA                                   </td><td>      NA                                 </td><td>        NA                               </td><td>2014                                     </td><td>2015                                     </td></tr>
+<tr><td>Stockton - Sacramento, CA                </td><td>KOVR                                     </td><td>1997-2005                                </td><td>1000.0                                   </td><td>38.24000                                 </td><td>-121.50083                               </td><td>1997                                     </td><td>2005                                     </td></tr>
+<tr><td>Colorado Springs - Pueblo, CO            </td><td>KXRM-TV                                  </td><td>2013-2014                                </td><td>  51.0                                   </td><td>38.74539                                 </td><td>-104.86089                               </td><td>2013                                     </td><td>2014                                     </td></tr>
+<tr><td>Colorado Springs - Pueblo, CO            </td><td>KXTU-LD                                  </td><td>2013-2014                                </td><td>    NA                                   </td><td>      NA                                 </td><td>        NA                               </td><td>2013                                     </td><td>2014                                     </td></tr>
+<tr><td>St. Petersburg - Tampa                   </td><td>WTTA                                     </td><td>1991-2014                                </td><td>1000.0                                   </td><td>27.84250                                 </td><td> -82.26253                               </td><td>1991                                     </td><td>2014                                     </td></tr>
+<tr><td>Tallahassee, FL - Thomasville, GA        </td><td>WTXL-TV                                  </td><td>2001-2006                                </td><td>1000.0                                   </td><td>30.66833                                 </td><td> -83.96944                               </td><td>2001                                     </td><td>2006                                     </td></tr>
+<tr><td>Idaho Falls - Pocatello                  </td><td>KIDK                                     </td><td>2013                                     </td><td> 200.0                                   </td><td>43.49739                                 </td><td>-112.66464                               </td><td>2013                                     </td><td>2013                                     </td></tr>
+<tr><td>Idaho Falls - Pocatello                  </td><td>KXPI-LD                                  </td><td>2013                                     </td><td>   5.2                                   </td><td>42.86611                                 </td><td>-112.51333                               </td><td>2013                                     </td><td>2013                                     </td></tr>
+<tr><td>Bloomington - Indianapolis               </td><td>WIIB                                     </td><td>1988-1997                                </td><td>    NA                                   </td><td>      NA                                 </td><td>        NA                               </td><td>1988                                     </td><td>1997                                     </td></tr>
+<tr><td>Bloomington - Indianapolis               </td><td>WTTV                                     </td><td>1997-2002                                </td><td> 870.0                                   </td><td>39.40750                                 </td><td> -86.14778                               </td><td>1997                                     </td><td>2002                                     </td></tr>
+<tr><td>Kokomo, Indiana                          </td><td>WTTK                                     </td><td>1997-2002                                </td><td>    NA                                   </td><td>      NA                                 </td><td>        NA                               </td><td>1997                                     </td><td>2002                                     </td></tr>
+<tr><td>Springfield - Holyoke, MA                </td><td>WGGB-TV                                  </td><td>1998-2007                                </td><td> 460.0                                   </td><td>42.24167                                 </td><td> -72.64917                               </td><td>1998                                     </td><td>2007                                     </td></tr>
+<tr><td>New Bedford, MA - Providence, RI         </td><td>WLWC                                     </td><td>2012-2013                                </td><td> 350.0                                   </td><td>41.77733                                 </td><td> -70.92756                               </td><td>2012                                     </td><td>2013                                     </td></tr>
+<tr><td>Lansing, Michigan                        </td><td>WLAJ                                     </td><td>2012-2013                                </td><td> 483.3                                   </td><td>42.42028                                 </td><td> -84.52361                               </td><td>2012                                     </td><td>2013                                     </td></tr>
+<tr><td>Marquette, Michigan                      </td><td>WLUC-TV                                  </td><td>2013-2016                                </td><td>  63.0                                   </td><td>46.33683                                 </td><td> -87.84908                               </td><td>2013                                     </td><td>2016                                     </td></tr>
+<tr><td>Kansas City, Missouri                    </td><td>KSMO-TV                                  </td><td>1996-2005                                </td><td>1000.0                                   </td><td>39.09050                                 </td><td> -94.47200                               </td><td>1996                                     </td><td>2005                                     </td></tr>
+<tr><td>Plattsburgh, NY - Burlington, VT         </td><td>WPTZ                                     </td><td>1997-1998                                </td><td> 650.0                                   </td><td>44.52556                                 </td><td> -72.81556                               </td><td>1997                                     </td><td>1998                                     </td></tr>
+<tr><td>Syracuse, NY                             </td><td>WNYS-TV                                  </td><td> </td><td> 680.0                                   </td><td>42.88056                                 </td><td> -76.20000                               </td><td>  NA                                     </td><td>  NA                                     </td></tr>
+<tr><td>Syracuse, NY                             </td><td>WSYT                                     </td><td>1998-2013                                </td><td> 621.0                                   </td><td>42.88056                                 </td><td> -76.20000                               </td><td>1998                                     </td><td>2013                                     </td></tr>
+<tr><td>Harrisburg - Lancaster - Lebanon - York  </td><td>WLYH-TV                                  </td><td> </td><td>    NA                                   </td><td>      NA                                 </td><td>        NA                               </td><td>  NA                                     </td><td>  NA                                     </td></tr>
+<tr><td>Harrisburg - Lancaster - Lebanon - York  </td><td>WHTM-TV                                  </td><td>2014                                     </td><td>  16.2                                   </td><td>40.31611                                 </td><td> -76.95028                               </td><td>2014                                     </td><td>2014                                     </td></tr>
+<tr><td>Charleston, SC                           </td><td>WCIV                                     </td><td>2014-2015                                </td><td>    NA                                   </td><td>      NA                                 </td><td>        NA                               </td><td>2014                                     </td><td>2015                                     </td></tr>
+<tr><td>Greenville, Tennessee (Tri-Cities, TN-VA)</td><td>WEMT                                     </td><td>2000-2006                                </td><td>1000.0                                   </td><td>36.44950                                 </td><td> -82.10797                               </td><td>2000                                     </td><td>2006                                     </td></tr>
+<tr><td>Jacksonville - Tyler - Longview, TX      </td><td>KETK-TV                                  </td><td>1998-2004                                </td><td>1000.0                                   </td><td>32.06111                                 </td><td> -95.31389                               </td><td>1998                                     </td><td>2004                                     </td></tr>
+<tr><td>Hartford, VT - Hanover, N.H.             </td><td>WNNE                                     </td><td>1997-1998                                </td><td> 117.0                                   </td><td>43.44333                                 </td><td> -72.45417                               </td><td>1997                                     </td><td>1998                                     </td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Merging-the-Datasets">Merging the Datasets<a class="anchor-link" href="#Merging-the-Datasets">¶</a></h4><p>Now that we finished the cleanup of both csv files, we are almost ready to get on to the fun part: analysis! However, our life will be much easier once we start plotting if we first combine both datasets into one large one.</p>
+<p>This is pretty simple to do; we'll just add the <code>Year.Start</code> and <code>Year.End</code> columns to the <code>sinclair_stations_df</code> so that it looks like <code>sinclair_stations_prev_df</code>. "But the stations in the first dataset don't have end dates!", you say. Well, we can just give all those stations the value <code>NA</code> for their <code>Year.End</code> column. It's important to remember that we've done this, however, so that we correctly set the limits on our graphs later.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [15]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># Add start and end dates to our first dataset</span>
+sinclair_station_df<span class="o">$</span>Year.Start <span class="o"><-</span> sinclair_station_df<span class="o">$</span>Year
+sinclair_station_df<span class="o">$</span>Year.End <span class="o"><-</span> <span class="kc">NA</span>
+
+<span class="c1"># Concatenate the datasets</span>
+sinclair_station_all_df <span class="o"><-</span> <span class="kp">rbind</span><span class="p">(</span>sinclair_station_df<span class="p">,</span> sinclair_station_prev_df<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [16]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">head</span><span class="p">(</span>sinclair_station_all_df<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_html rendered_html output_subarea ">
+<table>
+<thead><tr><th scope="col">Market</th><th scope="col">Station</th><th scope="col">Channel.RF.</th><th scope="col">Year</th><th scope="col">Power.kW</th><th scope="col">Location</th><th scope="col">Latitude</th><th scope="col">Longitude</th><th scope="col">Year.Start</th><th scope="col">Year.End</th></tr></thead>
+<tbody>
+<tr><td>Birmingham - Tuscaloosa - Anniston, AL</td><td>WTTO                                  </td><td>21 (28)                               </td><td>1995                                  </td><td> 765                                  </td><td>33.484583; -86.807083                 </td><td>33.48458                              </td><td>-86.80708                             </td><td>1995                                  </td><td>NA                                    </td></tr>
+<tr><td>Birmingham - Tuscaloosa - Anniston, AL</td><td>WABM                                  </td><td>68 (36)                               </td><td>2001                                  </td><td> 885                                  </td><td>33.484583; -86.807056                 </td><td>33.48458                              </td><td>-86.80706                             </td><td>2001                                  </td><td>NA                                    </td></tr>
+<tr><td>Birmingham - Tuscaloosa - Anniston, AL</td><td>WDBB                                  </td><td>17 (18)                               </td><td>1995                                  </td><td>  NA                                  </td><td> </td><td>      NA                              </td><td>       NA                             </td><td>1995                                  </td><td>NA                                    </td></tr>
+<tr><td>Birmingham - Tuscaloosa - Anniston, AL</td><td>WBMA-LD                               </td><td>58 (40)                               </td><td>2014                                  </td><td> 885                                  </td><td>33.484583; -86.807056                 </td><td>33.48458                              </td><td>-86.80706                             </td><td>2014                                  </td><td>NA                                    </td></tr>
+<tr><td><span style="white-space:pre-wrap">Mobile, AL & Pensacola, FL            </span></td><td>WEAR-TV                                                                           </td><td>3 (17)                                                                            </td><td>1997                                                                              </td><td>1000                                                                              </td><td>30.612611; -87.644889                                                             </td><td>30.61261                                                                          </td><td>-87.64489                                                                         </td><td>1997                                                                              </td><td>NA                                                                                </td></tr>
+<tr><td><span style="white-space:pre-wrap">Mobile, AL & Pensacola, FL            </span></td><td>WPMI-TV                                                                           </td><td>15 (15)                                                                           </td><td>2012                                                                              </td><td>1000                                                                              </td><td>30.61139; -87.607333                                                              </td><td>30.61139                                                                          </td><td>-87.60733                                                                         </td><td>2012                                                                              </td><td>NA                                                                                </td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As a sanity check, make sure that all of the columns in our data have the expected types.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [17]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">sapply</span><span class="p">(</span>sinclair_station_all_df<span class="p">,</span> <span class="kp">class</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_html rendered_html output_subarea ">
+<dl class="dl-horizontal">
+<dt>Market</dt>
+<dd>'character'</dd>
+<dt>Station</dt>
+<dd>'character'</dd>
+<dt>Channel.RF.</dt>
+<dd>'character'</dd>
+<dt>Year</dt>
+<dd>'character'</dd>
+<dt>Power.kW</dt>
+<dd>'numeric'</dd>
+<dt>Location</dt>
+<dd>'character'</dd>
+<dt>Latitude</dt>
+<dd>'numeric'</dd>
+<dt>Longitude</dt>
+<dd>'numeric'</dd>
+<dt>Year.Start</dt>
+<dd>'numeric'</dd>
+<dt>Year.End</dt>
+<dd>'numeric'</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Looks good. We'll be using <code>Latitude</code>, <code>Longitude</code>, <code>Year.Start</code>, <code>Year.End</code>, and <code>Power.kW</code> in our plots so its important that these columns are numeric.</p>
+<p>Of course, we don't want all our hard work to go to waste so we'll also save the merged dataframe into a csv file.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [18]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>sinclair_station_all_path <span class="o"><-</span> <span class="s">"sinclair_station_all.csv"</span>
+write.csv<span class="p">(</span>sinclair_station_all_df<span class="p">,</span> file <span class="o">=</span> sinclair_station_all_path<span class="p">,</span> row.names <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, lets get to graphing!</p>
+<h3 id="Graph-and-Analyze">Graph and Analyze<a class="anchor-link" href="#Graph-and-Analyze">¶</a></h3><p>We have two questions that we want to answer in this notebook:</p>
+<ol>
+<li>How has the number of stations owned/operated by Sinclair changed over time?</li>
+<li>How does the spread of stations look like spatially, from the viewpoint of the US as a whole?</li>
+</ol>
+<h4 id="Stations-vs-Time">Stations vs Time<a class="anchor-link" href="#Stations-vs-Time">¶</a></h4><p>Unsurprisingly, we'll tackle question <strong>1</strong> first.</p>
+<p>Since we've already done the hard part of getting a coherent dataframe together, this will be pretty easy to do. We'll just look at every year between the minimum and maximum years in our dataset; for each of these years we'll count up all stations owned by Sinclair and substract the stations that they've sold off. Finally, we'll take this data and present it in a tidy line graph.</p>
+<p>The code below generates the data we want:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [19]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># Get temporal limits of the data</span>
+max_year <span class="o"><-</span> <span class="kp">max</span><span class="p">(</span>sinclair_station_all_df<span class="o">$</span>Year.Start<span class="p">,</span> na.rm <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+min_year <span class="o"><-</span> <span class="kp">min</span><span class="p">(</span>sinclair_station_all_df<span class="o">$</span>Year.Start<span class="p">,</span> na.rm <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+
+<span class="c1"># Get rid of data that has missing year values</span>
+no_na_year_df <span class="o"><-</span> sinclair_station_all_df <span class="o">%>%</span> filter<span class="p">(</span><span class="o">!</span><span class="kp">is.na</span><span class="p">(</span>Year.Start<span class="p">))</span>
+
+<span class="c1"># Create aliases for the two year columns</span>
+start_year <span class="o"><-</span> no_na_year_df<span class="o">$</span>Year.Start
+end_year <span class="o"><-</span> no_na_year_df<span class="o">$</span>Year.End
+
+<span class="c1"># Make a new data.frame and fill it using a for-loop</span>
+<span class="c1"># This is a slow way to do it but our dataset is not huge </span>
+station_count_df <span class="o"><-</span> <span class="kt">data.frame</span><span class="p">()</span>
+<span class="kr">for</span><span class="p">(</span>year <span class="kr">in</span> min_year<span class="o">:</span>max_year<span class="p">)</span> <span class="p">{</span>
+    <span class="c1"># Generate the station count</span>
+    <span class="c1"># Remember to take care of possible NA values in `end_year`</span>
+    new_row <span class="o"><-</span> <span class="kt">c</span><span class="p">(</span>year<span class="p">,</span> <span class="kp">sum</span><span class="p">(</span>start_year <span class="o"><=</span> year <span class="o">&</span> <span class="p">(</span>end_year <span class="o">>=</span> year <span class="o">|</span> <span class="kp">is.na</span><span class="p">(</span>end_year<span class="p">)))</span> <span class="p">)</span>
+    station_count_df <span class="o"><-</span> <span class="kp">rbind</span><span class="p">(</span>station_count_df<span class="p">,</span> new_row<span class="p">)</span>
+<span class="p">}</span>
+<span class="kp">colnames</span><span class="p">(</span>station_count_df<span class="p">)</span> <span class="o"><-</span> <span class="kt">c</span><span class="p">(</span><span class="s">"Year"</span><span class="p">,</span> <span class="s">"Station.Count"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here's a random unordered sample of years just to see what the output looks like.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [20]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>station_count_df<span class="p">[</span><span class="kp">sample</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="kp">nrow</span><span class="p">(</span>station_count_df<span class="p">),</span> <span class="m">5</span><span class="p">),]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_html rendered_html output_subarea ">
+<table>
+<thead><tr><th></th><th scope="col">Year</th><th scope="col">Station.Count</th></tr></thead>
+<tbody>
+<tr><th scope="row">9</th><td>1979</td><td> 1  </td></tr>
+<tr><th scope="row">23</th><td>1993</td><td> 5  </td></tr>
+<tr><th scope="row">2</th><td>1972</td><td> 1  </td></tr>
+<tr><th scope="row">5</th><td>1975</td><td> 1  </td></tr>
+<tr><th scope="row">38</th><td>2008</td><td>54  </td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, we use my favorite plotting library (<code>ggplot2</code> in case you were wondering) to visualize this data.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [21]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># Set the size of output graphics</span>
+<span class="kn">library</span><span class="p">(</span>repr<span class="p">)</span>
+<span class="kp">options</span><span class="p">(</span>repr.plot.width<span class="o">=</span><span class="m">8</span><span class="p">,</span> repr.plot.height<span class="o">=</span><span class="m">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [22]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># Create the plot</span>
+sinclair_growth_plot <span class="o"><-</span> ggplot<span class="p">(</span>data <span class="o">=</span> station_count_df<span class="p">)</span> <span class="o">+</span>
+    geom_line<span class="p">(</span>aes<span class="p">(</span>x <span class="o">=</span> Year<span class="p">,</span> y <span class="o">=</span> Station.Count<span class="p">),</span> color <span class="o">=</span> brewer.pal<span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="s">"Set2"</span><span class="p">)[</span><span class="m">2</span><span class="p">])</span> <span class="o">+</span> 
+    ggtitle<span class="p">(</span><span class="s">"Sinclair Growth"</span><span class="p">)</span> <span class="o">+</span> 
+    xlab<span class="p">(</span><span class="s">"Year"</span><span class="p">)</span> <span class="o">+</span> 
+    ylab<span class="p">(</span><span class="s">"Stations Owned by Sinclair"</span><span class="p">)</span> <span class="o">+</span>
+    theme<span class="p">(</span>plot.title <span class="o">=</span> element_text<span class="p">(</span>color<span class="o">=</span><span class="s">"#666666"</span><span class="p">,</span> face<span class="o">=</span><span class="s">"bold"</span><span class="p">,</span> size<span class="o">=</span><span class="m">20</span><span class="p">))</span>
+
+sinclair_growth_plot
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+</div>
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA8AAAAJYCAMAAACaSn8zAAAAZlBMVEUAAAAzMzNNTU1mZmZo
+aGh8fHyMjIyUlJSampqkpKSnp6ewsLCysrK6urq9vb3CwsLHx8fKysrQ0NDR0dHX19fZ2dnd
+3d3h4eHj4+Po6Ojp6enr6+vt7e3w8PDx8fH29vb8jWL///9JnFzTAAAACXBIWXMAABJ0AAAS
+dAHeZh94AAAgAElEQVR4nO2diVbbSBBFhbBZTEiAhLAMBPz/PzmWvNsyWHJXqV7rvnMmGGOu
+3zRctLWkYkoIkU3RdwFCSPcgMCHCQWBChIPAhAgHgQkRDgITIhwEJkQ4CEyIcBCYEOEgMCHC
+SSfw39vL8/Pzm1/Pq2fOqxwP+OLlR5FeftcNLm9//zv+Tb/Kx22Ldyekj6QS+PnyfJnrl8Vz
+rgI/X5+vc/N2/NsezJ/lWyIwCZtEAv8538xiIewp8K/z86YK3fNyfY7AJHzSCPxv257LTpBT
+PLk5382pBm+0QWASNmkEvq+1rZz5W/+2/+kCOcGT2/m6+3O18ftye8IfkcY2CEzCJo3A9Qbw
+fLuzXpm+6QLp7snz9l+NP93/iDS2QWASNmkE3vgV/1g/Xj2af3z7NdusvP79sfqut/tqzffm
+/m0f8rtejO5/qf74Mvu2m81V5OsdYesN4uvG1z//uqx2VP9df+P8+25Xf3aqdYiNHWLrd/8z
+w1zfr+sT0n8SCry353dbu9vdrdP1fqf77Zcvlqh1fu+Tnje+p87LytdFPi5v/7x8NLz+ZbWv
+vF7fn/6ePbrdefOq5+99gVe72U/ePUZIuqQReL7I2zV4S7uN3UzzhdjmfqdfWy9/2fjK3Jct
+0uXun4tat7+NxbZfv7WvvDL6bcl9WzPrB/sC79YnJELSCLz4hb/5uzWFYku7maUf07fLpTpz
+62YrpPOF4vPmy2/mB3L/1cvs2wbS8ulFbneE3q2wfH39h6Fa9M6XppXy1YPqsPV6s7n6X7mc
+bq3Qr+vXq9a/kwwZISmS6Djw/VKUy/uX1ZPb2tXK1auz1bbmx/5Tq5f/+z1fmNevudwn7S5t
+N1zbzdbra23rPzH/luRfCyF/rSpWf1h+TfcFrru+LLsSEiOpZmKtDJ6JsdydtK1dLfZqF9fv
+5XJ35tVig3Xfw23A6sH9dNr8sunW6u7u6583Ht8vvH5eCHm5+pab8531gc367JAmwZJsLvTb
+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
+cBCYEOH8D084qLn1uNJRAAAAAElFTkSuQmCC" />
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Yup, that's a healthy looking business! We can see that their real growth started during the mid 1990s (a few small acquisitions), dropped a little bit in the late 2000s (not really good times for anyone), but skyrocketed after late 2011-2012.</p>
+<p>We can also see from the chart the global maximum is the last datapoint (2017). What exactly is this number?</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [23]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">max</span><span class="p">(</span>station_count_df<span class="o">$</span>Station.Count<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_html rendered_html output_subarea ">
+174
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Starting from just a single tower, Sinclair has done well for itself! As of 2017 they've grown to own or operate 174 stations.</p>
+<h4 id="Stations-vs-USA">Stations vs USA<a class="anchor-link" href="#Stations-vs-USA">¶</a></h4><p>Now that we've had a good idea of how fast the Sinclair Group has grown, we need to answer question <strong>2</strong> and take a look at <em>where</em> in the US that growth has occured.</p>
+<p>To do this, we'll once again use <code>ggplot2</code>. To anyone with a background in GIS (Geographic Information Systems), they might find it useful to know that I'll be using the Albers projection optimized for viewing the USA (<code>lat0 = 37.5, lat1 = 29.5</code>).</p>
+<p>After creating a simple plot of the USA, I'll use the layers feature of <code>ggplot2</code> to add markers of each station on top. The size of each station marker will correspond to the <code>Power</code> of that station. I decided that the best way to visualize the spread of Sinclair stations is by looking at "snapshots" of stations during every year. This means that I'll create a different map for every year in the dataset and plot the stations owned during that year.</p>
+<p>Onto the code! Before getting to <code>ggplot2</code> we'll have to filter out any missing data from <code>sinclair_station_all_df</code> and get the spatial coordinates for drawing a map of the USA.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [24]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># Get USA spatial data</span>
+usa_map_df <span class="o"><-</span> map_data<span class="p">(</span><span class="s">"usa"</span><span class="p">)</span>     <span class="c1"># Tells ggplot2 how to plot outline of the US</span>
+state_map_df <span class="o"><-</span> map_data<span class="p">(</span><span class="s">"state"</span><span class="p">)</span> <span class="c1"># Tells ggplot2 how to plot outlines of each US state</span>
+
+<span class="c1"># Extract only that station data that we'll need for plotting</span>
+sinclair_final_df <span class="o"><-</span> sinclair_station_all_df<span class="p">[</span><span class="kt">c</span><span class="p">(</span><span class="s">"Station"</span><span class="p">,</span> <span class="s">"Power.kW"</span><span class="p">,</span> <span class="s">"Latitude"</span><span class="p">,</span>
+                                                 <span class="s">"Longitude"</span><span class="p">,</span> <span class="s">"Year.Start"</span><span class="p">,</span> <span class="s">"Year.End"</span><span class="p">)]</span>
+
+<span class="c1"># Get rid of rows that don't have the necessary data</span>
+has_location <span class="o"><-</span> <span class="o">!</span><span class="kp">is.na</span><span class="p">(</span>sinclair_final_df<span class="o">$</span>Latitude<span class="p">)</span> <span class="o">&</span> <span class="o">!</span><span class="kp">is.na</span><span class="p">(</span>sinclair_final_df<span class="o">$</span>Longitude<span class="p">)</span>
+has_power <span class="o"><-</span> <span class="o">!</span><span class="kp">is.na</span><span class="p">(</span>sinclair_final_df<span class="o">$</span>Power<span class="p">)</span>
+has_start <span class="o"><-</span> <span class="o">!</span><span class="kp">is.na</span><span class="p">(</span>sinclair_final_df<span class="o">$</span>Year.Start<span class="p">)</span>
+sinclair_final_df <span class="o"><-</span> sinclair_final_df<span class="p">[</span>has_location <span class="o">&</span> has_power <span class="o">&</span> has_start<span class="p">,]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [25]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">head</span><span class="p">(</span>sinclair_final_df<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_html rendered_html output_subarea ">
+<table>
+<thead><tr><th></th><th scope="col">Station</th><th scope="col">Power.kW</th><th scope="col">Latitude</th><th scope="col">Longitude</th><th scope="col">Year.Start</th><th scope="col">Year.End</th></tr></thead>
+<tbody>
+<tr><th scope="row">1</th><td>WTTO     </td><td> 765     </td><td>33.48458 </td><td>-86.80708</td><td>1995     </td><td>NA       </td></tr>
+<tr><th scope="row">2</th><td>WABM     </td><td> 885     </td><td>33.48458 </td><td>-86.80706</td><td>2001     </td><td>NA       </td></tr>
+<tr><th scope="row">4</th><td>WBMA-LD  </td><td> 885     </td><td>33.48458 </td><td>-86.80706</td><td>2014     </td><td>NA       </td></tr>
+<tr><th scope="row">5</th><td>WEAR-TV  </td><td>1000     </td><td>30.61261 </td><td>-87.64489</td><td>1997     </td><td>NA       </td></tr>
+<tr><th scope="row">6</th><td>WPMI-TV  </td><td>1000     </td><td>30.61139 </td><td>-87.60733</td><td>2012     </td><td>NA       </td></tr>
+<tr><th scope="row">7</th><td>WFGX     </td><td>1000     </td><td>30.61261 </td><td>-87.64489</td><td>2001     </td><td>NA       </td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Since I'll be plotting the stations owned by Sinclair for every year in the dataset, it would be best to put all of the necessary code into one function that takes the <code>year</code> as its only argument. This function will separate the data in <code>sinclair_final_df</code> by the given <code>year</code> variable and label it appropriately. It will then filter out the stations not currently owned and graph the remaining ones on top of a map of the US. The code is quite involved, but I hope the comments make it easy to read.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [26]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>plot_sinclair_stations <span class="o"><-</span> <span class="kr">function</span><span class="p">(</span>year<span class="p">)</span> <span class="p">{</span>
+    
+    <span class="c1"># Separate the spatial data into four datasets</span>
+    <span class="c1"># The output is a dataframe with an additional column that labels a particular</span>
+    <span class="c1"># station as either "acquired this year", "sold this year",</span>
+    <span class="c1"># "acquired previous years", or "not held".</span>
+    final_spatial_df <span class="o"><-</span> sinclair_final_df <span class="o">%>%</span>
+        mutate<span class="p">(</span>Acquired <span class="o">=</span> case_when<span class="p">(</span>
+            <span class="p">(</span>Year.Start <span class="o"><</span> year<span class="p">)</span> <span class="o">&</span> <span class="p">(</span>Year.End <span class="o">></span> year <span class="o">|</span> <span class="kp">is.na</span><span class="p">(</span>Year.End<span class="p">))</span> <span class="o">~</span> 
+                <span class="s">"acquired\nprevious years"</span><span class="p">,</span>
+            Year.Start <span class="o">==</span> year <span class="o">~</span> <span class="s">"acquired\nthis year"</span><span class="p">,</span>
+            Year.End <span class="o">==</span> year <span class="o">~</span> <span class="s">"sold\nthis year"</span><span class="p">,</span>
+            <span class="kc">TRUE</span> <span class="o">~</span> <span class="s">"not held"</span><span class="p">)</span>
+        <span class="p">)</span>
+    
+    <span class="c1"># We don't want to show the station that were not held during the given year</span>
+    <span class="c1"># Filter out unwanted stations using a mask</span>
+    held_mask <span class="o"><-</span> final_spatial_df<span class="o">$</span>Acquired <span class="o">!=</span> <span class="s">"not held"</span>
+    final_spatial_df <span class="o"><-</span> final_spatial_df<span class="p">[</span>held_mask<span class="p">,</span> <span class="p">]</span>
+    factor_levels <span class="o"><-</span> <span class="kt">c</span><span class="p">(</span><span class="s">"acquired\nprevious years"</span><span class="p">,</span> <span class="s">"acquired\nthis year"</span><span class="p">,</span> <span class="s">"sold\nthis year"</span><span class="p">)</span>
+    final_spatial_df<span class="o">$</span>Acquired <span class="o"><-</span> <span class="kp">factor</span><span class="p">(</span>final_spatial_df<span class="o">$</span>Acquired<span class="p">,</span> levels <span class="o">=</span> factor_levels<span class="p">)</span>
+
+    <span class="c1"># Pick some nice colors</span>
+    nice_colors <span class="o"><-</span> brewer.pal<span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="s">"Set2"</span><span class="p">)</span>
+    
+    <span class="c1"># Make the plot</span>
+    ggplot<span class="p">()</span> <span class="o">+</span>
+        <span class="c1"># Set the projection to USA-Albers</span>
+        coord_map<span class="p">(</span><span class="s">"albers"</span><span class="p">,</span> lat0 <span class="o">=</span> <span class="m">37.5</span><span class="p">,</span> lat1 <span class="o">=</span> <span class="m">29.5</span><span class="p">)</span> <span class="o">+</span> 
+        <span class="c1"># Graph the outline of the US</span>
+        geom_polygon<span class="p">(</span>data <span class="o">=</span> usa_map_df<span class="p">,</span>
+                     aes<span class="p">(</span>x <span class="o">=</span> long<span class="p">,</span> y <span class="o">=</span> lat<span class="p">,</span> group <span class="o">=</span> group<span class="p">),</span>
+                     color <span class="o">=</span> <span class="s">"gray60"</span><span class="p">)</span> <span class="o">+</span>
+        <span class="c1"># Graph the outline of each state</span>
+        geom_polygon<span class="p">(</span>data <span class="o">=</span> state_map_df<span class="p">,</span>
+                     aes<span class="p">(</span>x <span class="o">=</span> long<span class="p">,</span> y <span class="o">=</span> lat<span class="p">,</span> group <span class="o">=</span> group<span class="p">),</span>
+                     color <span class="o">=</span> <span class="s">"gray60"</span><span class="p">)</span> <span class="o">+</span>
+        <span class="c1"># Graph the location of each station</span>
+        geom_point<span class="p">(</span>data <span class="o">=</span> final_spatial_df<span class="p">,</span>
+                   aes<span class="p">(</span>x <span class="o">=</span> Longitude<span class="p">,</span> y <span class="o">=</span> Latitude<span class="p">,</span> size <span class="o">=</span> Power.kW<span class="p">,</span> color <span class="o">=</span> Acquired<span class="p">),</span>
+                   alpha <span class="o">=</span> <span class="m">0.75</span><span class="p">)</span> <span class="o">+</span>
+        <span class="c1"># Set size/radius and color of the station markers</span>
+        scale_radius<span class="p">(</span>limits <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">1000</span><span class="p">))</span> <span class="o">+</span>
+        scale_color_manual<span class="p">(</span>values <span class="o">=</span> nice_colors<span class="p">,</span> drop <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span> <span class="o">+</span>
+        <span class="c1"># Set the title, colors, legend position and other thematic options</span>
+        theme<span class="p">(</span>plot.title <span class="o">=</span> element_text<span class="p">(</span>hjust <span class="o">=</span> <span class="m">0.1</span><span class="p">,</span> color<span class="o">=</span><span class="s">"#666666"</span><span class="p">,</span> face<span class="o">=</span><span class="s">"bold"</span><span class="p">,</span> size<span class="o">=</span><span class="m">20</span><span class="p">),</span> 
+            axis.text <span class="o">=</span> element_blank<span class="p">(),</span> 
+            axis.line <span class="o">=</span> element_blank<span class="p">(),</span> 
+            axis.ticks <span class="o">=</span> element_blank<span class="p">(),</span>
+            axis.title <span class="o">=</span> element_blank<span class="p">(),</span>
+            panel.border <span class="o">=</span> element_blank<span class="p">(),</span>
+            legend.position <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">0.93</span><span class="p">,</span> <span class="m">0.5</span><span class="p">),</span>
+            legend.key.size <span class="o">=</span> unit<span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="s">"cm"</span><span class="p">),</span>
+            legend.text <span class="o">=</span> element_text<span class="p">(</span>size<span class="o">=</span><span class="m">12</span><span class="p">),</span>
+            legend.title <span class="o">=</span> element_text<span class="p">(</span>size<span class="o">=</span><span class="m">12</span><span class="p">),</span>
+            panel.grid <span class="o">=</span> element_blank<span class="p">(),</span>
+            panel.background <span class="o">=</span> element_blank<span class="p">())</span> <span class="o">+</span>
+        guides<span class="p">(</span>size<span class="o">=</span>guide_legend<span class="p">(</span>title<span class="o">=</span><span class="s">"Transmitter\nPower (kW)"</span><span class="p">),</span> byrow <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span> <span class="o">+</span>
+        ggtitle<span class="p">(</span><span class="kp">paste</span><span class="p">(</span><span class="s">"Sinclair Stations in"</span><span class="p">,</span> year<span class="p">))</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Phew! Now to test out our function. I know from looking at the data that there was a lot of action during the year 2013. Lets use this year as our test date.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [27]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>plot_sinclair_stations<span class="p">(</span><span class="m">2013</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+</div>
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA8AAAAJYCAMAAACaSn8zAAABEVBMVEUAAAAPDw8zMzM9PT1N
+TU1ZnohjuZ5lwKNmZmZmwaRmwqVnwaVnwqVnwqZoaGhpv6Rpw6dsvaBuv6JvvqBvvqFvv6Fv
+xapwxqtzuKJ2haV8fHx/r5GFtZiHmcGIs5OJtZWJzriKtZWLtJSMjIyM0byOn8iQnr6Tpc6U
+lJSZmZmampqcla6kpKSmmrCmtdWnp6eom7Cpm7GwsLCysrK6urq9vb3CwsLHx8fKdlbKysrQ
+0NDR0dHTkWzWmHHXmnPX19fZ2dnd3d3h4eHjkHDj4+Po6Ojp6ent7e3vh1/w8PDx8fHyjmXy
+kGby8vLzkGb2jmb29vb5i2H5pob6jWP7jGL7jWL7k2v8j2X8lGz9qon///+obtzDAAAACXBI
+WXMAABJ0AAASdAHeZh94AAAgAElEQVR4nO2dj2Pbtpn3GUWiYucqtevdWdXe9r07Z7vQS09b
+HCeO+m517NSVs+0c33pbwv//D3kJgAQBEAABECAJ6fludSgKeMAf+OjBbyQ5CASKVsnQFwAC
+gdwFAINAEQsABoEiFgAMAkUsABgEilgAMAgUsQBgEChiAcAgUMQCgEGgiAUAg0ARCwAGgSIW
+AAwCRSwAGASKWAAwCBSxAGAQKGIBwCBQxAKAQaCIBQCDQBELAAaBIhYADAJFLAAYBIpYADAI
+FLEAYBAoYgHAIFDEAoBBoIgFAINAEQsABoEiFgAMAkUsABgEilgAMAgUsQBgEChiAcAgUMQC
+gEGgiAUAg0ARCwAGgSIWAAwCRSwAGASKWAAwCBSxAGAQKGIBwCBQxPIJ8LtXz588efLy9Xt6
+5gmSuQFNcANLzeQLfXyliVF9aXmZWhnbevcKXe3bn+sz79GZV++FcB9Zgx/fvnzy5PlrMQzo
+YOUP4PfPn1R68VN5rkeAZcnn+Y+6SPTLAQD+iV7u2+rUy/LESz7ka8bgj1Uk3c8S6JDkDWCa
+t7BKF9EfwNLkf3qhicR82T/APzMXWxL8kp7gCH7HGGRu8qVoEXSY8gXwBw6gJ8+djLiDJE9e
+a88ntdZ6wV4tLjC8b/7+IP3wpL7Oj2ykHwe5btDY5Avgt5gblPPeuecvd6bkyY8WYEzr85/z
+j9jtvkanXhBy8TcvqnAfKreMP2GYX3wkNwsuGITkC+DnKFORBpkfnfOXO1Py5EcL8OvqR+an
+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" />
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Hey, not bad! In case you're wondering why the legend is so large, that was done on purpose. It might look wonky in this JUPYTER notebook, but this legend size looks perfect (in my opinion) when each image is saved as a png.</p>
+<p>Speaking of which, we just need to save our images and then we're done! The last bit of code that will do this needs to loop through every year and create an image like the one above. Later, I'll stitch the images together into one gif so that we can observe how Sinclair stations have spread from the east coast to the west throughout the last several years. We'll also save our earlier <em>Sinclair Growth</em> plot as well.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [28]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>IMAGE_OUTPUT_PATH <span class="o"><-</span> <span class="s">"Images"</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [29]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># Don't forget to save our earlier graph</span>
+ggsave<span class="p">(</span>filename <span class="o">=</span> <span class="s">'Sinclair_Growth.png'</span><span class="p">,</span> 
+    plot <span class="o">=</span> sinclair_growth_plot<span class="p">,</span>
+    path <span class="o">=</span> IMAGE_OUTPUT_PATH<span class="p">,</span>
+    width <span class="o">=</span> unit<span class="p">(</span><span class="m">8</span><span class="p">,</span> <span class="s">"cm"</span><span class="p">),</span>
+    height <span class="o">=</span> unit<span class="p">(</span><span class="m">5</span><span class="p">,</span> <span class="s">"cm"</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [30]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># Get the limits on the years</span>
+max_year <span class="o"><-</span> <span class="kp">max</span><span class="p">(</span>sinclair_final_df<span class="o">$</span>Year.Start<span class="p">,</span> na.rm <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+min_year <span class="o"><-</span> <span class="kp">min</span><span class="p">(</span>sinclair_final_df<span class="o">$</span>Year.Start<span class="p">,</span> na.rm <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+
+<span class="c1"># Loop through each year, generate a plot, and save that plot.</span>
+<span class="kr">for</span><span class="p">(</span>year <span class="kr">in</span> min_year<span class="o">:</span>max_year<span class="p">)</span> <span class="p">{</span>
+    image <span class="o"><-</span> plot_sinclair_stations<span class="p">(</span>year<span class="p">)</span>
+    image.name <span class="o"><-</span> <span class="kp">paste</span><span class="p">(</span><span class="s">"Sinclair_Stations"</span><span class="p">,</span> year<span class="p">,</span> sep <span class="o">=</span> <span class="s">"_"</span><span class="p">)</span>
+    image.name <span class="o"><-</span> <span class="kp">paste</span><span class="p">(</span>image.name<span class="p">,</span> <span class="s">".png"</span><span class="p">,</span> sep <span class="o">=</span> <span class="s">""</span><span class="p">)</span>
+    ggsave<span class="p">(</span>filename <span class="o">=</span> image.name<span class="p">,</span> 
+        plot <span class="o">=</span> image<span class="p">,</span>
+        path <span class="o">=</span> IMAGE_OUTPUT_PATH<span class="p">,</span>
+        width <span class="o">=</span> unit<span class="p">(</span><span class="m">14</span><span class="p">,</span> <span class="s">"cm"</span><span class="p">),</span>
+        height <span class="o">=</span> unit<span class="p">(</span><span class="m">10</span><span class="p">,</span> <span class="s">"cm"</span><span class="p">))</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finished! =)</p>
+</div>
+</div>
+</div>
+
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: 'center'," +
+        "    displayIndent: '0em'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['$','$'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+        "    } " +
+        "}); ";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+								</article>
+						</div>
+					</div>
+				</div>
+			</section>
+	</div>
+</div>
+
+				</div>
+			</div>
+
+		<!-- Footer Wrapper -->
+			<div id="footer-wrapper">
+				<!-- Footer -->
+					<section id="footer" class="container">
+						<div class="row">
+							<div class="8u">
+								<section>
+									<header>
+										<h2>Latest articles</h2>
+									</header>
+									<ul class="dates">
+										<li>
+											<span class="date">Sep <strong>30</strong></span>
+											<h3><a href="a_primer_on_bayesian_statistics_p2.html">A Primer on Bayesian Statistics (Part 2)</a></h3>
+											<p><p class="first last">The second in a two part series about Bayesian Statistics</p>
+</p>
+										</li>
+										<li>
+											<span class="date">Sep <strong>15</strong></span>
+											<h3><a href="a_primer_on_bayesian_statistics_p1.html">A Primer on Bayesian Statistics (Part 1)</a></h3>
+											<p><p class="first last">Heard about Bayesian statistics but don't really know what the hubbub is? Start here!</p>
+</p>
+										</li>
+										<li>
+											<span class="date">Aug <strong>30</strong></span>
+											<h3><a href="sinclair_1_3.html">Introducing the Sinclair Broadcast Group</a></h3>
+											<p><p class="first last">The first part in a three part series examining the Sinclair Broadcast Group and their affect on American political sentiment.</p>
+</p>
+										</li>
+										<li>
+											<span class="date">Aug <strong>30</strong></span>
+											<h3><a href="sinclair-station-exploration.html">Sinclair Station Exploration</a></h3>
+											<p><p>A step-by-step guide through my analysis of Sinclair Broadcast Group stations.</p></p>
+										</li>
+									</ul>
+								</section>
+							</div>
+								<div class="4u">
+									<section>
+										<header>
+											<h2>What's this all about?</h2>
+										</header>
+											<img src="/" class="image image-full" alt="" />
+										<p>
+										A blog written by a guy who prefers to look at the world through math, data, and python. Anytime I have too much time on my hands, you can be sure you're about to learn. </br> - Dawid Minorczyk
+										</p>
+										<footer>
+										</footer>
+									</section>
+								</div>
+						</div>
+						<div class="row">
+							<div class="4u">
+								<section>
+									<header>
+										<h2>Blogroll</h2>
+									</header>
+									<ul class="divided">
+											<li><a href="http://getpelican.com/">Pelican</a></li>
+											<li><a href="http://python.org/">Python.org</a></li>
+											<li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+									</ul>
+								</section>
+							</div>
+							<div class="4u">
+								<section>
+									<header>
+										<h2>Categories</h2>
+									</header>
+									<ul class="divided">
+											<li><a href="/category/announcements.html">Announcements</a></li>
+											<li><a href="/category/notebooks.html">Notebooks</a></li>
+											<li><a href="/category/stories.html">Stories</a></li>
+											<li><a href="/category/tutorials.html">Tutorials</a></li>
+									</ul>
+								</section>
+							</div>
+							<div class="4u">
+							
+								<section>
+									<header>
+										<h2>Contact</h2>
+									</header>
+									<ul class="social">
+									</ul>
+								</section>
+							</div>
+						</div>
+					</section>
+			</div>
+		<script src="/theme/js/jquery.min.js"></script>
+		<script src="/theme/js/jquery.dropotron.js"></script>
+		<script src="/theme/js/config.js"></script>
+		<script src="/theme/js/skel.min.js"></script>
+		<script src="/theme/js/skel-panels.min.js"></script>
+		<!--[if lte IE 8]><script src="js/html5shiv.js"></script><link rel="stylesheet" href="/theme/css/ie8.css" /><![endif]-->
+	</body>
+</html>

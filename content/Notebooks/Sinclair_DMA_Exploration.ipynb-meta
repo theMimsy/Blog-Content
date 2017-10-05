@@ -1,0 +1,9 @@
+title: Sinclair DMA Exploration
+slug: sinclair-dma-exploration
+date: 2017-08-30 12:00
+category: Notebooks
+tags: R, ggplot2, maps, sinclair
+author: Dawid Minorczyk
+picture: images/jupyter_r_logo.png
+summary: A step-by-step guide through my analysis of Nielsen Designated Marketing Areas (DMAs) and how to apply them to explore Sinclair's TV market reach.
+sortorder: 4

@@ -1,0 +1,945 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>mimsy.io - Tutorials</title><link href="/" rel="alternate"></link><link href="/feeds/tutorials.atom.xml" rel="self"></link><id>/</id><updated>2017-09-30T12:00:00-07:00</updated><entry><title>A Primer on Bayesian Statistics (Part 2)</title><link href="/a_primer_on_bayesian_statistics_p2.html" rel="alternate"></link><published>2017-09-30T12:00:00-07:00</published><updated>2017-09-30T12:00:00-07:00</updated><author><name>Dawid Minorczyk</name></author><id>tag:None,2017-09-30:/a_primer_on_bayesian_statistics_p2.html</id><summary type="html">&lt;p class="first last"&gt;The second in a two part series about Bayesian Statistics&lt;/p&gt;
+</summary><content type="html">&lt;div class="admonition note"&gt;
+&lt;p class="first admonition-title"&gt;Note&lt;/p&gt;
+&lt;p class="last"&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; This is the second part in a two part series. You can find the first part &lt;a class="reference external" href="a_primer_on_bayesian_statistics_p1.html"&gt;right here&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="a-primer-on-bayesian-statistics-part-2"&gt;
+&lt;h2&gt;A Primer on Bayesian Statistics (Part 2)&lt;/h2&gt;
+&lt;p&gt;Last time, we explained the basics surrounding Bayesian Statistics and its use in data science. We covered &lt;em&gt;Bayes' Theorem&lt;/em&gt;, &lt;em&gt;priors&lt;/em&gt;, &lt;em&gt;posteriors&lt;/em&gt;, and how we can use these tools to refine estimates. While this knowledge opens up a lot of doors, I left a few big questions unanswered:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;I never mentioned how one might use &lt;em&gt;Bayes' Theorem&lt;/em&gt; in conjunction with popular distributions; in fact, I didn't even define a single random variable! The Frequentist method has standard tools based (mostly) around the normal distribution, such as confidence intervals and p-values. What tools do we have for Bayesian analysis?&lt;/li&gt;
+&lt;li&gt;Why would you want to use Bayesian statistics as opposed to classical methods in the first place? What advantages does it bring? Are there any disadvantages?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To answer these questions, I'll need to bring out a bit more mathematical machinery from this point on. As such, Part 2 will be harder (but also more interesting!) than the first part. Glance at the &lt;strong&gt;Notation&lt;/strong&gt; card below to get an idea of what I'll be using; see if everything makes sense. A word of warning: I'll be making &lt;em&gt;heavy&lt;/em&gt; use of the binomial distribution over the next few sections; I definitely recommend brushing up on it!&lt;/p&gt;
+&lt;p&gt;&lt;div class="card"&gt;
+  &lt;p class="notation"&gt;&lt;/p&gt;
+&lt;div class="section" id="notation"&gt;
+&lt;h3&gt;Notation&lt;/h3&gt;
+&lt;p&gt;To try to keep things organized and clear, I'll use verbose and self-explanatory notation throughout the post:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Uppercase letters like &lt;span class="math"&gt;\(X\)&lt;/span&gt;, &lt;span class="math"&gt;\(N_b\)&lt;/span&gt;, or &lt;span class="math"&gt;\(U\)&lt;/span&gt; will represent &lt;em&gt;random variables&lt;/em&gt; only.&lt;/li&gt;
+&lt;li&gt;I'll use lowercase letters like &lt;span class="math"&gt;\(x\)&lt;/span&gt;, &lt;span class="math"&gt;\(n_b\)&lt;/span&gt;, or &lt;span class="math"&gt;\(u\)&lt;/span&gt; to represent &lt;em&gt;constant parameters&lt;/em&gt; or &lt;em&gt;specific values of random variables&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;As before, the symbol &lt;span class="math"&gt;\(\boldsymbol{P}\)&lt;/span&gt; will represent the standard probability function.&lt;/li&gt;
+&lt;li&gt;The symbol &lt;span class="math"&gt;\(\partial \boldsymbol{P}\)&lt;/span&gt; will represent continuous probability distributions. This is nonstandard notation, read on for an explanation.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="section" id="why-partial-boldsymbol-p"&gt;
+&lt;h4&gt;Why &lt;span class="math"&gt;\(\partial \boldsymbol{P}\)&lt;/span&gt;?&lt;/h4&gt;
+&lt;p&gt;The final piece of notation will probably be unfamiliar. When reading statistics textbooks, most authors tend to use a single function (usually a lower case &lt;span class="math"&gt;\(\boldsymbol{p}\)&lt;/span&gt;) to describe distributions of random variables:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;If &lt;span class="math"&gt;\(X\)&lt;/span&gt; is &lt;em&gt;any&lt;/em&gt; random variable (either discrete or continuous) with density function &lt;span class="math"&gt;\(f\)&lt;/span&gt;, then &lt;span class="math"&gt;\(f(x) \leftrightarrow \boldsymbol{p}(X = x)\)&lt;/span&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In fact, they usually don't mention &lt;span class="math"&gt;\(X\)&lt;/span&gt; at all and just write &lt;span class="math"&gt;\(\boldsymbol{p}(x)\)&lt;/span&gt;! This saves space and allows authors to sweep unneeded details under a rug. I want to be as clear as possible in this post, so I'll want to differentiate between discrete and continuous random variables. I'll write:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;If &lt;span class="math"&gt;\(X\)&lt;/span&gt; is a discrete random variable with density function &lt;span class="math"&gt;\(f_X\)&lt;/span&gt;, then &lt;span class="math"&gt;\(f_X(x) \leftrightarrow \boldsymbol{P}(X = x)\)&lt;/span&gt;.&lt;/li&gt;
+&lt;li&gt;If &lt;span class="math"&gt;\(Y\)&lt;/span&gt; is a continuous random variable with density function &lt;span class="math"&gt;\(f_Y\)&lt;/span&gt;, then &lt;span class="math"&gt;\(f_Y(y) \leftrightarrow \partial \boldsymbol{P}(Y = y)\)&lt;/span&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If you feel uncomfortable with having a partial (&lt;span class="math"&gt;\(\partial\)&lt;/span&gt;) in front of the probability function (&lt;span class="math"&gt;\(\boldsymbol{P}\)&lt;/span&gt;), rest assured there's a good reason for it!&lt;a class="footnote-reference" href="#id10" id="id1"&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Hopefully, all of this housekeeping made sense. Let's move on to the actual material.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="example"&gt;
+&lt;h4&gt;Example&lt;/h4&gt;
+&lt;p&gt;Let's see this notation in action by reading through a classic card problem.&lt;/p&gt;
+&lt;p&gt;Say we're playing cards with a standard &lt;span class="math"&gt;\(52\)&lt;/span&gt;-card deck. You draw &lt;span class="math"&gt;\(n = 5\)&lt;/span&gt; cards and you want to figure out the probability of getting &lt;span class="math"&gt;\(0\)&lt;/span&gt; to &lt;span class="math"&gt;\(4\)&lt;/span&gt; aces. We can let &lt;span class="math"&gt;\(N_a\)&lt;/span&gt; be a random variable representing the number of aces in your hand. In this case, we're looking for &lt;span class="math"&gt;\(\boldsymbol{P}(N_a = x)\)&lt;/span&gt; for &lt;span class="math"&gt;\(x \in \{0, 1, 2, 3, 4 \}\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Here, I set &lt;span class="math"&gt;\(n\)&lt;/span&gt; as a simple constant that does not change, &lt;span class="math"&gt;\(N_a\)&lt;/span&gt; as a random variable, and &lt;span class="math"&gt;\(x\)&lt;/span&gt; as a specific value for the random variable &lt;span class="math"&gt;\(N_a\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Although it's pretty standard, I will &lt;em&gt;not&lt;/em&gt; use the notation &lt;span class="math"&gt;\(\boldsymbol{P}(X)\)&lt;/span&gt; or &lt;span class="math"&gt;\(\boldsymbol{P}(x)\)&lt;/span&gt; as shorthand for &lt;span class="math"&gt;\(\boldsymbol{P}(X = x)\)&lt;/span&gt;. I do this to separate the notion of a random variable &lt;span class="math"&gt;\(X\)&lt;/span&gt; and the notion of an event &lt;span class="math"&gt;\(X = x\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;  &lt;/p&gt;
+&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="i-want-to-get-into-modeling"&gt;
+&lt;h3&gt;I Want to Get Into Modeling&lt;/h3&gt;
+&lt;p&gt;When we make predictions using the Bayesian approach, how do they differ from predictions made using the Frequentist approach? To answer this, I'll first go on a bit of a tangent about statistical modeling. This won't take long, and understanding the anatomy of statistical models is useful in and of itself. By the end of this section, we'll use our newfound knowledge pinpoint the exact locations where the two competing approaches diverge.&lt;/p&gt;
+&lt;div class="section" id="what-do-models-look-like"&gt;
+&lt;h4&gt;What Do Models Look Like?&lt;/h4&gt;
+&lt;p&gt;In theory, modeling is a simple concept to understand; in practice it can be very tricky to implement. The simplest description of modeling is that it allows us to compartmentalize and organize probability spaces. For example, consider tossing a coin &lt;span class="math"&gt;\(n = 4\)&lt;/span&gt; times and counting the number of heads. The probability space for all possible outcomes looks like this (assuming a fair coin):&lt;/p&gt;
+&lt;object class="align-center" data="images/4_toss_1.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;It would be a pain to have to refer to each event in the probability space individually, even in this simplistic example. Imagine doing this in something like image recognition, where we might not even know what the probability space looks like! This is where models come in. As you probably already know, we usually model counting heads in coin tosses with a single random variable, which I'll call &lt;span class="math"&gt;\(N_h\)&lt;/span&gt; (number of heads). This random variable partitions the probability space and allows us to talk about groups of events using the &lt;span class="math"&gt;\(N_h = x\)&lt;/span&gt; notation. For example, if we want to talk about getting &lt;span class="math"&gt;\(1\)&lt;/span&gt; or &lt;span class="math"&gt;\(2\)&lt;/span&gt; heads, we can say &lt;span class="math"&gt;\(N_h = 1\)&lt;/span&gt; or &lt;span class="math"&gt;\(N_h = 2\)&lt;/span&gt; instead of listing all the events ourselves:&lt;/p&gt;
+&lt;object class="align-center" data="images/4_toss_2.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;To complete our model, we assign probabilities to each of our new compound events. Since coin tossing is such an elementary example, we already have a ready-made answer for this. We say that &lt;span class="math"&gt;\(N_h\)&lt;/span&gt; has a binomial distribution:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+N_h \sim \mathit{Binomial}(n, p) \implies \boldsymbol{P}(N_h = x) =
+\binom{n}{x} \cdot p^x (1 - p)^{n - x}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;Let's try to formalize what we just did. We started with a natural phenomena along with some underlying probability space. This phenomena took in some inputs (&lt;span class="math"&gt;\(x\)&lt;/span&gt;) and spat out some outputs (&lt;span class="math"&gt;\(y\)&lt;/span&gt;). Visually:&lt;/p&gt;
+&lt;object class="align-center" data="images/Model_1.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;In our coin tossing case, we can view the input as the number of tosses we perform (&lt;span class="math"&gt;\(n\)&lt;/span&gt;) and the output as the number of heads we count (&lt;span class="math"&gt;\(N_h\)&lt;/span&gt;):&lt;/p&gt;
+&lt;object class="align-center" data="images/Model_Coin_1.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;I should point out that this diagram is a bit misleading. Most natural phenomena are not fully deterministic&lt;a class="footnote-reference" href="#id11" id="id2"&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;, events usually involve some chance (especially when tossing a coin!). As such, we might not always get the same &lt;span class="math"&gt;\(y\)&lt;/span&gt; for the same &lt;span class="math"&gt;\(x\)&lt;/span&gt;, like the diagram might imply. I'll get back to this soon, but just keep it in the back of your head for now.&lt;/p&gt;
+&lt;p&gt;After identifying the ins and outs of a phenomena, we start to build the model. We construct it by attempting to parameterize the probability space. In layman's terms, we build a mathematical formula with some knobs and levers (called parameters). We turn the knobs and pulls the levers (vary the parameters) to try to get the model to look as close as possible to our phenomena:&lt;/p&gt;
+&lt;object class="align-center" data="images/Model_2.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;In the picture above, we tweak the model by varying the  &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; terms, the parameters I spoke about. These quantities affect how the model makes it's predictions &lt;span class="math"&gt;\(\hat{y}\)&lt;/span&gt;. Of course, we want these predictions to approximate &lt;span class="math"&gt;\(y\)&lt;/span&gt; as closely as possible.&lt;/p&gt;
+&lt;p&gt;What does &lt;span class="math"&gt;\(\hat{y}\)&lt;/span&gt; look like? Most of the time, &lt;span class="math"&gt;\(\hat{y}\)&lt;/span&gt; looks like &lt;span class="math"&gt;\(y\)&lt;/span&gt;. I don't mean that &lt;span class="math"&gt;\(\hat{y}\)&lt;/span&gt; equals &lt;span class="math"&gt;\(y\)&lt;/span&gt; (that would be quite an impressive model!). What I mean is, the two span the same range of values. If &lt;span class="math"&gt;\(y \in \{1, 2, ... , 10\}\)&lt;/span&gt;, then &lt;span class="math"&gt;\(\hat{y} \in \{1, 2, ... , 10\}\)&lt;/span&gt;. If &lt;span class="math"&gt;\(y\)&lt;/span&gt; is a vector with &lt;span class="math"&gt;\(3\)&lt;/span&gt; values, then &lt;span class="math"&gt;\(\hat{y}\)&lt;/span&gt; is also a vector with &lt;span class="math"&gt;\(3\)&lt;/span&gt; values.&lt;/p&gt;
+&lt;p&gt;If &lt;span class="math"&gt;\(\hat{y}\)&lt;/span&gt; looks like &lt;span class="math"&gt;\(y\)&lt;/span&gt; most of the time, when does it not? Well, if we have a lot of uncertainty in our model, we might opt to output a set of answers, each with a probability attached, instead of a single value. For example, in our coin tossing case, the simplest &lt;span class="math"&gt;\(\hat{y}\)&lt;/span&gt; we could output is a prediction for the number of heads. However, since our model involves a lot of uncertainty (by design), it would be safer to report a list all of the possibilities and attach probabilities to them. In other words, we output a distribution:&lt;/p&gt;
+&lt;object class="align-center" data="images/Model_Coin_2.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;To summarize, instead of saying:&lt;/p&gt;
+&lt;blockquote&gt;
+&amp;quot;With &lt;span class="math"&gt;\(n = 4\)&lt;/span&gt; flips, we expect &lt;span class="math"&gt;\(\hat{y} = 2\)&lt;/span&gt; heads&amp;quot;&lt;/blockquote&gt;
+&lt;p&gt;For our model, we say:&lt;/p&gt;
+&lt;blockquote&gt;
+&amp;quot;With &lt;span class="math"&gt;\(n = 4\)&lt;/span&gt; flips, there could be anywhere between &lt;span class="math"&gt;\(0\)&lt;/span&gt; and &lt;span class="math"&gt;\(4\)&lt;/span&gt; heads with such and such probabilities&amp;quot;.&lt;/blockquote&gt;
+&lt;p&gt;These two views of &lt;span class="math"&gt;\(\hat{y}\)&lt;/span&gt; (single value vs. a distributions) are usually only semantic differences. If your model outputs a distribution and you're forced to pick a single value, you can always pick the most likely value (the one with the highest probability).&lt;/p&gt;
+&lt;p&gt;Congratulations! Now we know how models look like in general. It might seem simple, just a few boxes and arrows, but this picture is a very good way to get a handle on even the most complicated cases.&lt;/p&gt;
+&lt;p&gt;For example, say you want to predict the price of a home. If you want to be accurate (and of course you do) you will probably use hundreds of variables, each representing a feature of the house, such as square footage and zip code. After exploring all the data, you might decide that this problems is complex enough to warrant the use of something like a neural network. Can we imagine what this model will look like? Yes!&lt;/p&gt;
+&lt;object class="align-center" data="images/Model_NN.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;In this case, our input &lt;span class="math"&gt;\(x\)&lt;/span&gt;, our parameters &lt;span class="math"&gt;\(\theta\)&lt;/span&gt;, and our output &lt;span class="math"&gt;\(\hat{y}\)&lt;/span&gt; all grew in complexity. &lt;span class="math"&gt;\(x\)&lt;/span&gt; turned into a vector, our parameters into matrices, and our output into the network network function &lt;span class="math"&gt;\(nn(x)\)&lt;/span&gt;. Through all of this, notice that our two box structure remained the same!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="what-do-models-do"&gt;
+&lt;h4&gt;What Do Models Do?&lt;/h4&gt;
+&lt;p&gt;At this point, it should be pretty clear that models are a powerful tool&lt;a class="footnote-reference" href="#id12" id="id3"&gt;&lt;sup&gt;3&lt;/sup&gt;&lt;/a&gt;. Anytime we want to describe or predict a phenomena using statistics, we always model the problem first. We can construct models that are quite simple (for example, models you see in introductory statistics classes and blogs), or quite complex (for example, &lt;a class="reference external" href="http://twiecki.github.io/blog/2017/02/08/bayesian-hierchical-non-centered/"&gt;hierarchical models&lt;/a&gt; or &lt;a class="reference external" href="http://www.wildml.com/2015/09/recurrent-neural-networks-tutorial-part-1-introduction-to-rnns/"&gt;RNNs&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;So, what exactly do we get out of model besides boxes? Two things:&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;When we model a phenomena, we can use that model to make predictions about future outcomes. This means we can predict where a hurricane will hit, how a disease will spread, or how many ads to show you so that you buy that expensive new laptop.&lt;/li&gt;
+&lt;li&gt;A model allows us to make sense of past observations. That is, if we have a model for a situation where we don't exactly know what is going on (our model is not perfect), we can use data to try and refine our model and learn more about the underlying situation.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;To put it another way, we either want to our model to generate new data (&lt;strong&gt;1&lt;/strong&gt;), or we want to use data gathered about some phenomena to adjust our model (&lt;strong&gt;2&lt;/strong&gt;). David McKay&lt;a class="footnote-reference" href="#id13" id="id4"&gt;&lt;sup&gt;4&lt;/sup&gt;&lt;/a&gt; calls these two ideas &lt;em&gt;forward probability&lt;/em&gt; and &lt;em&gt;reverse probability&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Using this vocabulary, we can now locate where Bayesian and Frequentist methods differ! Both do &lt;em&gt;forward probability&lt;/em&gt; in the same way; it's &lt;em&gt;reverse probability&lt;/em&gt; where the two schools begin to diverge. The best way to show this is through examples:
+&lt;span class="math"&gt;\(\require{color}\)&lt;/span&gt;
+&lt;span class="math"&gt;\(\definecolor{cco}{RGB}{252, 141, 98}\)&lt;/span&gt;
+&lt;span class="math"&gt;\(\definecolor{ccr}{RGB}{227, 26, 28}\)&lt;/span&gt;
+&lt;span class="math"&gt;\(\definecolor{ccb}{RGB}{31, 120, 180}\)&lt;/span&gt;
+&lt;span class="math"&gt;\(\definecolor{ccg}{RGB}{51, 160, 44}\)&lt;/span&gt;
+&lt;span class="math"&gt;\(\definecolor{def}{RGB}{93, 93, 93}\)&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="forward-probability-example"&gt;
+&lt;h4&gt;Forward Probability Example&lt;/h4&gt;
+&lt;p&gt;An urn contains &lt;span class="math"&gt;\(k\)&lt;/span&gt; marbles, of which &lt;span class="math"&gt;\(b\)&lt;/span&gt; are black and &lt;span class="math"&gt;\(w = k - b\)&lt;/span&gt; are white. Fred draws a marble at random, notes its color, and puts it back in the urn. He does this &lt;span class="math"&gt;\(n\)&lt;/span&gt; times. What is the probability distribution of the number of black marbles drawn, &lt;span class="math"&gt;\(N_b\)&lt;/span&gt;?&lt;/p&gt;
+&lt;p&gt;You might see this type of problem in any standard textbook on probability theory. In fact, I took it straight out of one! Here, we are given all of the necessary information to fully model the situation. It ends up being just another incarnation of the binomial distribution, with a modified value of &lt;span class="math"&gt;\(p\)&lt;/span&gt;:&lt;/p&gt;
+&lt;object class="align-center" data="images/Model_Urn_1.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;And we're done! &lt;em&gt;Forward probability&lt;/em&gt;, where we already know the model as well as all the parameter values, typically never occurs out in the real world. Next up, a more realistic but still urn-related problem.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="reverse-probability-example"&gt;
+&lt;h4&gt;Reverse Probability Example&lt;/h4&gt;
+&lt;p&gt;In front of you are &lt;span class="math"&gt;\(11\)&lt;/span&gt; urns labeled by a number &lt;span class="math"&gt;\(u \in \{ 0, 1, ... , 10 \}\)&lt;/span&gt;. Each urn contains &lt;span class="math"&gt;\(10\)&lt;/span&gt; marbles. The urn labeled &lt;span class="math"&gt;\(u\)&lt;/span&gt; contains &lt;span class="math"&gt;\(u\)&lt;/span&gt; black marbles and &lt;span class="math"&gt;\(10 - u\)&lt;/span&gt; white marbles. Fred selects an urn at random (you don't know which) and draws from that urn  &lt;span class="math"&gt;\(n\)&lt;/span&gt; times, always putting back the marble he drew. He counts &lt;span class="math"&gt;\(N_b\)&lt;/span&gt; black marbles and &lt;span class="math"&gt;\(N_w = n - N_b\)&lt;/span&gt; white marbles. After &lt;span class="math"&gt;\(n = 10\)&lt;/span&gt; draws, he counted &lt;span class="math"&gt;\(N_b = 3\)&lt;/span&gt; black marbles. If we were to draw another marble (the &lt;span class="math"&gt;\(11^{th}\)&lt;/span&gt; draw) from the same urn, what is the probability that it would be black?&lt;/p&gt;
+&lt;p&gt;Another textbook problem, except much harder than the previous one. Here is where Bayesian and Frequentist statistics start to differ. Let's solve this problem twice, once using &lt;em&gt;Bayes' Theorem&lt;/em&gt; and once using classical methods, so that we can directly compare and contrast.&lt;/p&gt;
+&lt;p&gt;First up, the Bayesian approach.&lt;/p&gt;
+&lt;p&gt;We start with our oh-so-handy chart for the model that we'll use. I've circled in &lt;span class="orange"&gt;orange&lt;/span&gt; the main difference between this problem and the &lt;em&gt;forward probability&lt;/em&gt; one we had earlier:&lt;/p&gt;
+&lt;object class="align-center" data="images/Model_Urn_3.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;Unlike all the other cases before, we don't know the correct value of one of our parameters; we don't know which urn Fred picked! The probability of getting a single black marble may have been &lt;span class="math"&gt;\(p = \frac{1}{10}\)&lt;/span&gt; if Fred chose &lt;span class="math"&gt;\(u = 1\)&lt;/span&gt;. It may have been &lt;span class="math"&gt;\(p = \frac{5}{10}\)&lt;/span&gt; if Fred chose &lt;span class="math"&gt;\(u = 5\)&lt;/span&gt;. Thus, we can't immediately use our model for prediction. Instead, we have data (shown in &lt;span class="green"&gt;green&lt;/span&gt;) that must use to try and &lt;em&gt;infer&lt;/em&gt; what &lt;span class="math"&gt;\(u\)&lt;/span&gt; might be. We can only do predictions after we get this sorted out.&lt;/p&gt;
+&lt;p&gt;In the Bayesian view, we can never know for sure what the correct value of &lt;span class="math"&gt;\(u\)&lt;/span&gt; (and thus &lt;span class="math"&gt;\(p\)&lt;/span&gt;) actually is, and we won't try to. You probably noticed that I used capital letters &lt;span class="math"&gt;\(U\)&lt;/span&gt; and &lt;span class="math"&gt;\(P\)&lt;/span&gt; in our box diagram. This points to the way to our approach: we'll say that &lt;span class="math"&gt;\(u\)&lt;/span&gt; can have any value between &lt;span class="math"&gt;\(0\)&lt;/span&gt; and &lt;span class="math"&gt;\(10\)&lt;/span&gt; and try to find the probabilities of each of those values. In other words, we'll assume that there exists some random variable &lt;span class="math"&gt;\(U\)&lt;/span&gt; (and thus &lt;span class="math"&gt;\(P\)&lt;/span&gt;) that represents the urn Fred picked.&lt;/p&gt;
+&lt;p&gt;The random variable &lt;span class="math"&gt;\(U\)&lt;/span&gt; will have some sort of initial distribution (our &lt;em&gt;prior&lt;/em&gt;). We'll use our &lt;span class="green"&gt;data&lt;/span&gt; to modify this &lt;em&gt;prior&lt;/em&gt; and turn it into a &lt;em&gt;posterior&lt;/em&gt; distribution. Yup! Our old friend is back:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\text{posterior} = \dfrac{\text{likelihood} \: \cdot \: \text{prior}}{\text{evidence}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;Let's see what this looks like in action:&lt;/p&gt;
+&lt;object class="align-center" data="images/Urn_Problem_1.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;Ok, that was a lot of information all at once. What happened here? Unlike in &lt;a class="reference external" href="a_primer_on_bayesian_statistics_p1.html"&gt;Part 1&lt;/a&gt; we're not dealing with single events anymore. The unknown value &lt;span class="math"&gt;\(u\)&lt;/span&gt; parameterizes our &lt;em&gt;prior&lt;/em&gt;, &lt;em&gt;posterior&lt;/em&gt;, and &lt;em&gt;likelihood&lt;/em&gt; so that the probabilities change when &lt;span class="math"&gt;\(u\)&lt;/span&gt; changes. The charts above show this by having &lt;span class="math"&gt;\(u\)&lt;/span&gt; on their x-axes. A bit more information:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;&lt;strong&gt;PRIOR&lt;/strong&gt; &lt;br \&gt; Since Fred chose an urn at random, it makes sense to think that he didn't have a preference for any urn in particular. It should be safe to assume that each urn &lt;span class="math"&gt;\(u\)&lt;/span&gt; had a &lt;span class="math"&gt;\(\frac{1}{11}\)&lt;/span&gt; chance of being selected.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;&lt;strong&gt;LIKELIHOOD&lt;/strong&gt; &lt;br \&gt; In Bayesian analysis, this always comes from our model, which is binomial in our case. However, notice that the &lt;em&gt;likelihood&lt;/em&gt; plot in the top-right corner is not a traditional binomial plot! Normally, when we have a &lt;em&gt;binomal&lt;/em&gt; random variable:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+X \sim \mathit{Binomial}(n, p)
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;We usually see this as a function of &lt;span class="math"&gt;\(x\)&lt;/span&gt; with constant &lt;span class="math"&gt;\(n\)&lt;/span&gt; and &lt;span class="math"&gt;\(p\)&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\boldsymbol{P}(X = x) = \binom{n}{x} \cdot p^x (1 - p)^{n - x}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;However, in our case, we already know &lt;span class="math"&gt;\(x\)&lt;/span&gt;. From our data we have &lt;span class="math"&gt;\(\color{ccg}N_b = 3\)&lt;/span&gt; when &lt;span class="math"&gt;\(\color{ccg}n = 10\)&lt;/span&gt;. What we don't know is &lt;span class="math"&gt;\(p = u / 10\)&lt;/span&gt;. Thus, our situation looks like this:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\boldsymbol{P}(\color{ccg}N_b = 3\color{def} \,|\, U = u) = \binom{\color{ccg}10\color{def}}{\color{ccg}3\color{def}} p^{\color{ccg}3\color{def}} (1 - p)^{\color{ccg}10 - 3\color{def}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;We're looking at this binomial distribution as a function of our parameter &lt;span class="math"&gt;\(u\)&lt;/span&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;&lt;strong&gt;EVIDENCE&lt;/strong&gt; &lt;br \&gt; This value acts as a normalization constant. It does not depend on the value of &lt;span class="math"&gt;\(u\)&lt;/span&gt;, so we have no graph to draw&lt;a class="footnote-reference" href="#id14" id="id5"&gt;&lt;sup&gt;5&lt;/sup&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;&lt;strong&gt;POSTERIOR&lt;/strong&gt; &lt;br \&gt; The final distribution for &lt;span class="math"&gt;\(U\)&lt;/span&gt;. Since our &lt;em&gt;prior&lt;/em&gt; was &lt;em&gt;uniform&lt;/em&gt;, it looks almost exactly the same as our &lt;em&gt;likelihood&lt;/em&gt;. It doesn't have a closed form, so I won't write it here. For our purposes, the graph above (calculated numerically) is enough.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Now, how do we go about making a prediction for the &lt;span class="math"&gt;\(11^{th}\)&lt;/span&gt; marble? Even after all that work, we still don't know for sure which urn we drew from. Most likely, &lt;span class="math"&gt;\(u = 3\)&lt;/span&gt;, so should the probability of drawing a black marble be &lt;span class="math"&gt;\(\frac{u}{10} = \frac{3}{10}\)&lt;/span&gt;? Not according to Bayes. The Bayesian approach doesn't decide on one value of &lt;span class="math"&gt;\(u\)&lt;/span&gt;, it averages out all of them to make a prediction:&lt;/p&gt;
+&lt;object class="align-center" data="images/Urn_Problem_2.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;Here, we looked at each possible value of &lt;span class="math"&gt;\(u\)&lt;/span&gt;, asked what the probability of drawing a black marble would be if that urn were picked, and then weighed that probability by our &lt;em&gt;posterior&lt;/em&gt;. The result was &lt;span class="math"&gt;\(\frac{1}{3}\)&lt;/span&gt;. Notice that this is a bit over &lt;span class="math"&gt;\(30\% = \frac{3}{10}\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Next up, the Frequentist method.&lt;/p&gt;
+&lt;p&gt;Again, we start with a model:&lt;/p&gt;
+&lt;object class="align-center" data="images/Model_Urn_2.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;Looks similar doesn't it? No wait, there is one difference! I used a lowercase &lt;span class="math"&gt;\(u\)&lt;/span&gt; this time instead of and upper case &lt;span class="math"&gt;\(U\)&lt;/span&gt;. According to the Frequentist scheme, we do not assume that &lt;span class="math"&gt;\(u\)&lt;/span&gt; has some distribution. Instead we think of &lt;span class="math"&gt;\(u\)&lt;/span&gt; as a constant but unknown value. We then try to figure out value of &lt;span class="math"&gt;\(u\)&lt;/span&gt; by using an &lt;em&gt;estimator&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;The most popular estimator around (and the most appropriate to use in this case) is the &lt;em&gt;maximum likelihood estimator&lt;/em&gt;, or MLE. Basically, we just calculate the &lt;em&gt;likelihood&lt;/em&gt;, &lt;span class="math"&gt;\(\boldsymbol{P}(\color{ccg}N_b = 3\color{def} \,|\, U = u)\)&lt;/span&gt;, like we would when using &lt;em&gt;Bayes' Theorem&lt;/em&gt;. Then, instead of using this as a building block for our &lt;em&gt;posterior&lt;/em&gt;, we pick the &lt;span class="math"&gt;\(u\)&lt;/span&gt; that gives us the highest probability.&lt;/p&gt;
+&lt;p&gt;We've already done all the work for this!&lt;/p&gt;
+&lt;object class="align-center" data="images/Urn_Problem_3.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;Clearly, the most probable value of &lt;span class="math"&gt;\(u\)&lt;/span&gt; occurs at &lt;span class="math"&gt;\(u = 3\)&lt;/span&gt;. Thus, when we estimate what the &lt;span class="math"&gt;\(11^{th}\)&lt;/span&gt; draw will look like, we say we'll have a &lt;span class="math"&gt;\(30\% = \frac{3}{10}\)&lt;/span&gt; chance of getting a black marble. This is different than the Bayesian approach!&lt;/p&gt;
+&lt;p&gt;But wait, this seems wrong. We don't know for sure that &lt;span class="math"&gt;\(u = 3\)&lt;/span&gt;, do we? We accounted for that in the Bayesian approach by averaging over all the values in the &lt;em&gt;posterior&lt;/em&gt;. How do we account for this uncertainty here?&lt;/p&gt;
+&lt;p&gt;Classically, we usually do this using confidence intervals or p-values. When we use an &lt;em&gt;estimators&lt;/em&gt; like the MLE, we can calculate how sure/confident we are in our guess of &lt;span class="math"&gt;\(u\)&lt;/span&gt;. I won't do this here, but in the real world we would report that value alongside the &lt;span class="math"&gt;\(30\%\)&lt;/span&gt; we predicted earlier.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="compare-and-contrast"&gt;
+&lt;h4&gt;Compare and Contrast&lt;/h4&gt;
+&lt;p&gt;We solved Fred's marble problem with two approaches. How did they differ?&lt;/p&gt;
+&lt;p&gt;When using the &lt;em&gt;Bayesian&lt;/em&gt; approach:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;We assumed the hole in our model was an unknown distribution represented by the random variable &lt;span class="math"&gt;\(U\)&lt;/span&gt;.&lt;/li&gt;
+&lt;li&gt;Using the data, we modified a uniform &lt;em&gt;prior&lt;/em&gt; to generate a &lt;em&gt;posterior&lt;/em&gt; distribution.&lt;/li&gt;
+&lt;li&gt;Once we had a &lt;em&gt;posterior&lt;/em&gt; distribution, we averaged over all the values to generate our prediction. In this case, we found that the probability of getting a black marble in our &lt;span class="math"&gt;\(11^{th}\)&lt;/span&gt; sample as &lt;span class="math"&gt;\(\frac{1}{3}\)&lt;/span&gt;, slightly higher than with the &lt;em&gt;Frequentist&lt;/em&gt; method.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;When using the &lt;em&gt;Frequentist&lt;/em&gt; approach:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;We assumed that the hole in our model was unknown but constant, a value &lt;span class="math"&gt;\(u\)&lt;/span&gt;.&lt;/li&gt;
+&lt;li&gt;Using the data, we constructed an estimator for the value &lt;span class="math"&gt;\(u\)&lt;/span&gt;.&lt;/li&gt;
+&lt;li&gt;Once we arrived at a value of &lt;span class="math"&gt;\(u\)&lt;/span&gt;, we reported how uncertain we were about this. In the real world, we usually do this using p-values or confidence intervals.&lt;/li&gt;
+&lt;li&gt;After reporting our uncertainty, we simply used our estimate of &lt;span class="math"&gt;\(u\)&lt;/span&gt; in all future predictions that we generated out of our model. In this case, we found that the probability of getting a black marble in our &lt;span class="math"&gt;\(11^{th}\)&lt;/span&gt; sample was &lt;span class="math"&gt;\(\frac{3}{10}\)&lt;/span&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;So which method is better? Looking at the above example, you might think that &lt;em&gt;Bayes&lt;/em&gt; wins hands down. After all, it's the more general estimate of the two. It takes into account all possible values of &lt;span class="math"&gt;\(U\)&lt;/span&gt; to make our prediction! Comparatively, the classical method seems to make assumptions that it doesn't need to.&lt;/p&gt;
+&lt;p&gt;Of course, it's not that black and white. David McKay, the man who engineered this example, did so with the intention of creating this contrast. The classical method is called &amp;quot;classical&amp;quot; for a reason. Historically, people tended to use Frequentist methods much more often than Bayesian ones. What gives?&lt;/p&gt;
+&lt;p&gt;For one, when using the Bayesian method, you have to keep track of the entire &lt;em&gt;prior&lt;/em&gt; distribution and the entire &lt;em&gt;posterior&lt;/em&gt; distribution. Compare this with a single MLE estimate (one value) that you might make when using the classical approach! Not only that, in real world examples, you won't have nice closed forms of probability distributions; the models grow way too complex for that. You'll have to numerically estimate the &lt;em&gt;posterior&lt;/em&gt;. Today this doesn't pose as much a challenge, but you can imagine it was a real show-stopper during most of the twentieth century.&lt;/p&gt;
+&lt;p&gt;Then, there's the problem of &lt;em&gt;priors&lt;/em&gt;, a topic I spend the rest of this post discussing.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="priors"&gt;
+&lt;h3&gt;Priors&lt;/h3&gt;
+&lt;p&gt;Although Bayes published his seminal paper in 1763, doing inference through conditional
+probabilities didn't really become popular until the 1990s, when &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Markov_chain_Monte_Carlo"&gt;Markov Chain Monte Carlo&lt;/a&gt; methods (used to estimate &lt;em&gt;posterior&lt;/em&gt; distributions), along with widespread computerization, pushed it to the mainstream. Why is this?&lt;/p&gt;
+&lt;p&gt;One common complaint against Bayes was that choosing a &lt;em&gt;prior&lt;/em&gt; feels very subjective and unscientific&lt;a class="footnote-reference" href="#id15" id="id6"&gt;&lt;sup&gt;6&lt;/sup&gt;&lt;/a&gt;. In the problems above, we always had a pretty obvious choice of &lt;em&gt;prior&lt;/em&gt;. For example, we assumed that each urn had the same probability of being chosen. In the real world, this choice becomes more tricky.&lt;/p&gt;
+&lt;p&gt;The problem becomes easier to appreciate when you're modeling a complex situation. Say you're trying to infer (&lt;em&gt;reverse probability&lt;/em&gt;) the proportion of people that will vote for a specific mayoral candidate. Furthermore, say that you've constructed a sophisticated model for this situation that uses poll data. What's your &lt;em&gt;prior&lt;/em&gt;? Do you assume that all proportions are equally likely? This might sound appealing at first, but by doing this, you assume that mayoral candidates are just as likely to barely edge out the election (get &lt;span class="math"&gt;\(51\%\)&lt;/span&gt; of the vote) as they are to win in a complete landslide (get &lt;span class="math"&gt;\(99\%\)&lt;/span&gt; of the vote). To get a better &lt;em&gt;prior&lt;/em&gt;, you might first need to know how close most mayoral races are in general.&lt;/p&gt;
+&lt;p&gt;Other factors could affect the &lt;em&gt;prior&lt;/em&gt;. For example, say this candidate is part of a particularly well-liked political party in this city. Should you try to include this in the &lt;em&gt;prior&lt;/em&gt;, or should you just assume that this information is already implicit in the poll data?&lt;/p&gt;
+&lt;p&gt;As you'll see below, your choice of &lt;em&gt;prior&lt;/em&gt; can affect the distribution of the &lt;em&gt;posterior&lt;/em&gt;, so in some ways the fear of setting an unhelpful (or even hurtful) &lt;em&gt;prior&lt;/em&gt; is justified. In this last section I want to show you how to mitigate this problem and how, for sufficiently large datasets, choosing a &lt;em&gt;prior&lt;/em&gt; isn't a problem at all. And who will help me with this? Fred, of course.&lt;/p&gt;
+&lt;div class="section" id="fred"&gt;
+&lt;h4&gt;Fred&lt;/h4&gt;
+&lt;p&gt;I know a guy; his name is Fred. When Fred walks into a room, a smell that people describe as &amp;quot;hair-gel ... probably&amp;quot; assaults all those unfortunate enough to stand near the entrance. Fred enjoys sporting his gold watch, always half visible below his white shirt, as well as his favorite tie, satin black patterned with subtle dollar bills. The first words that pop into the heads of most people who meet Fred? Used car salesman.&lt;/p&gt;
+&lt;p&gt;One day, Fred comes up to you with a proposition for a simple betting game. Even though you feel slightly faint (most likely because of the inordinate amount of hair-gel particles entering your lungs) you manage to hear out the basic rules: it's a simple coin-toss, where you win &lt;span class="math"&gt;\(\$1\)&lt;/span&gt; for every heads and lose &lt;span class="math"&gt;\(\$1\)&lt;/span&gt; for every tails. You and Fred keep going until one of you decides to stop.&lt;/p&gt;
+&lt;p&gt;Of course, you immediately suspect a rigged game. It would be wise to simply turn down the offer, but you don't want to refuse since you know this will make him angry. You agree on the condition that you toss the coin a few times before playing. How can you test for fairness?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="solving-the-game"&gt;
+&lt;h4&gt;Solving the Game&lt;/h4&gt;
+&lt;p&gt;Let's translate Fred's game into the language of statistics, so that we can put it under heavy
+analysis and quantify exactly how much we can trust Fred (if at all). To do this, we'll first define all of the variables/constants we need to solve the problem and create a model of the situation:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(n\)&lt;/span&gt;: the number of times we flip the coin (this is a &lt;em&gt;constant&lt;/em&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(N_h\)&lt;/span&gt;: the number of heads we observe (this is a &lt;em&gt;random variable&lt;/em&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(P_h\)&lt;/span&gt;: the probability of getting heads in a single toss (this is also a &lt;em&gt;random
+variable&lt;/em&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Notice that we're taking the &lt;em&gt;Bayesian&lt;/em&gt; approach here, because &lt;span class="math"&gt;\(P_H\)&lt;/span&gt; is a random variable as opposed to an unknown constant. Our goal is to answer the question: what is the probability distribution of &lt;span class="math"&gt;\(P_h\)&lt;/span&gt; given that we have performed &lt;span class="math"&gt;\(n\)&lt;/span&gt; tosses and found that &lt;span class="math"&gt;\(N_h\)&lt;/span&gt; of them ended up as heads? In other words, we want to find:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\partial\boldsymbol{P}( P_h = p \: | \: N_h = x)
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;Notice that I used &lt;span class="math"&gt;\(\partial\boldsymbol{P}\)&lt;/span&gt; notation as opposed to &lt;span class="math"&gt;\(\boldsymbol{P}\)&lt;/span&gt;. This is because &lt;span class="math"&gt;\(P_h\)&lt;/span&gt; is a &lt;em&gt;continuous&lt;/em&gt; random variable as opposed to a discrete one. If the coin is fair, then &lt;span class="math"&gt;\(P_h\)&lt;/span&gt; has a high density around &lt;span class="math"&gt;\(p = 0.5\)&lt;/span&gt;, but it could theoretically take on any value in the interval &lt;span class="math"&gt;\([0, 1]\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;So, how do we actually go about finding this value? Well, we already know what model we should use. Say it with me:&lt;/p&gt;
+&lt;object class="align-center" data="images/Model_Fred_1.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;Furthermore, you may have noticed that this is an example of a &lt;em&gt;reverse probability&lt;/em&gt; problem, so that our friend Bayes can help us out. According to &lt;em&gt;Bayes Theorem&lt;/em&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\text{posterior} = \dfrac{\text{likelihood} \: \cdot \: \text{prior}}{\text{evidence}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;Or, if we substitute in all of our variables:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\partial\boldsymbol{P}(P_h = p \: | \: N_h = x) =
+\dfrac{\boldsymbol{P}(N_h = x \: | \: P_h = p) \:
+\cdot \: \partial\boldsymbol{P}(P_h = p)}{\boldsymbol{P}(N_h = x)}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;Let's tackle each term one at a time, explaining the intuition behind it and deriving it's value
+along the way.&lt;/p&gt;
+&lt;p&gt;First, we'll look at the &lt;em&gt;prior&lt;/em&gt; value &lt;span class="math"&gt;\(\partial\boldsymbol{P}(P_h = p)\)&lt;/span&gt;. This is the only term in the above relation that we have to guess at or assume. The prior term basically codifies what we originally think about the probability distribution of &lt;span class="math"&gt;\(P_h\)&lt;/span&gt;. Since this is Fred we're talking about, we probably don't want to assume that the coin is perfectly fair. In fact, we shouldn't rule out any possibility; it's equally likely to be any value. Thus, we will choose a &lt;em&gt;uniform&lt;/em&gt; distribution over all the values that &lt;span class="math"&gt;\(P_h\)&lt;/span&gt; can take on (values in the interval &lt;span class="math"&gt;\([0, 1]\)&lt;/span&gt;). This leads to:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+P_h \sim \mathit{Uniform}(0,1) \implies \partial\boldsymbol{P}(P_h = p) =
+\mathbf{1}_{[0,1]}(p) = \left\{
+\begin{array}{ll}
+1, &amp;amp; \quad x \in [0, 1] \\
+0, &amp;amp; \quad \text{otherwise}
+\end{array}
+\right.
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;The next value we have to calculate is the &lt;em&gt;likelihood&lt;/em&gt;. This quantity ask the question: if we
+assume that &lt;span class="math"&gt;\(P_h = p\)&lt;/span&gt; is in fact true, then what is the probability that we get &lt;span class="math"&gt;\(N_h =
+x\)&lt;/span&gt; heads in &lt;span class="math"&gt;\(n\)&lt;/span&gt; tosses? Of course, this is just our binomial model. With this knowledge, we can write:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+N_h \: | \: P_h \sim \mathit{Binomial}(n, p) \implies \boldsymbol{P}(N_h = x \: | \: P_h = p) =
+\binom{n}{x} \cdot p^x (1 - p)^{n - x}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;Finally, we turn towards the last value we need, the &lt;em&gt;evidence&lt;/em&gt;. This value is a bit
+different because it doesn't depend at all on the random variable who's distribution we're trying to
+estimate &lt;span class="math"&gt;\(P_h\)&lt;/span&gt;. Because of this, it's common to see this term as a sort of normalization term
+that's not needed when comparing two different &amp;quot;estimates&amp;quot; for the &lt;em&gt;posterior&lt;/em&gt; distribution.&lt;/p&gt;
+&lt;p&gt;In this case, however, we want to know the exact value of the &lt;em&gt;posterior&lt;/em&gt; so we go ahead and compute it. To do this, we note that we can rewrite &lt;span class="math"&gt;\(\boldsymbol{P}(N_h = x \: | \: n)\)&lt;/span&gt; using the join distribution between &lt;span class="math"&gt;\(N_h\)&lt;/span&gt; and &lt;span class="math"&gt;\(P_h\)&lt;/span&gt; and then marginalize over &lt;span class="math"&gt;\(P_h\)&lt;/span&gt;. The calculation is pretty cumbersome and also relies on the &lt;em&gt;Gamma&lt;/em&gt; integral&lt;a class="footnote-reference" href="#id16" id="id7"&gt;&lt;sup&gt;7&lt;/sup&gt;&lt;/a&gt;, but the final result is strikingly simple:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\boldsymbol{P}(N_h = x) = \dfrac{1}{n + 1}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;This makes intuitive sense. The &lt;em&gt;evidence&lt;/em&gt; term in &lt;em&gt;Bayes' Theorem&lt;/em&gt; calculates the probability that &lt;span class="math"&gt;\(N_h = x\)&lt;/span&gt; regardless of the value of &lt;span class="math"&gt;\(P_h\)&lt;/span&gt;. We do this by averaging over all possible values of &lt;span class="math"&gt;\(P_h\)&lt;/span&gt; in the &lt;em&gt;prior&lt;/em&gt;. So, if we toss the coin &lt;span class="math"&gt;\(n = 5\)&lt;/span&gt; times, we have &lt;span class="math"&gt;\(6\)&lt;/span&gt; possible values of &lt;span class="math"&gt;\(x\)&lt;/span&gt;. The number of heads could anywhere between &lt;span class="math"&gt;\(0\)&lt;/span&gt; and &lt;span class="math"&gt;\(5\)&lt;/span&gt;: &lt;span class="math"&gt;\(x \in \{ 0, 1, 2, 3, 4, 5 \}\)&lt;/span&gt;. If we have a &lt;em&gt;uniform prior&lt;/em&gt; (the coin can be biased in either direction or fair) then the chances of getting &lt;span class="math"&gt;\(x = 0\)&lt;/span&gt; heads are &lt;span class="math"&gt;\(\frac{1}{1 + n} = \frac{1}{6}\)&lt;/span&gt;. The chances of getting &lt;span class="math"&gt;\(x = 1\)&lt;/span&gt; are also &lt;span class="math"&gt;\(\frac{1}{1 + n} = \frac{1}{6}\)&lt;/span&gt;. For a &lt;em&gt;uniform prior&lt;/em&gt; all values of &lt;span class="math"&gt;\(x\)&lt;/span&gt; are equally likely.&lt;/p&gt;
+&lt;p&gt;Putting together the &lt;em&gt;prior&lt;/em&gt;, &lt;em&gt;likelihood&lt;/em&gt;, and &lt;em&gt;evidence&lt;/em&gt; yields us the following expression&lt;a class="footnote-reference" href="#id17" id="id8"&gt;&lt;sup&gt;8&lt;/sup&gt;&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\partial\boldsymbol{P}(P_h = p \: | \: N_h = x) =
+(n + 1) \cdot \binom{n}{x} \cdot
+p^x (1 - p)^{n - x} \cdot
+\mathbf{1}_{[0,1]}(p)
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;This formula probably doesn't tell you much about how you should trust Fred. What does the &lt;em&gt;posterior&lt;/em&gt; actually look like? Well, it depends on the specific value of &lt;span class="math"&gt;\(n\)&lt;/span&gt; we use and the value of &lt;span class="math"&gt;\(x\)&lt;/span&gt; we get. To help you visualize this, I graphed both the &lt;em&gt;prior&lt;/em&gt; and &lt;em&gt;posterior&lt;/em&gt; in the visualization below. Play around with the values!&lt;/p&gt;
+&lt;div class="d3-visual" id="bayes-uniform"&gt;
+  &lt;h3&gt;&lt;span class="prior"&gt;Uniform Prior&lt;/span&gt; and
+    &lt;span class="posterior"&gt;Resulting Posterior&lt;/span&gt; Distribution&lt;/h3&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td class="labels"&gt;\(n\) :  &lt;/td&gt;
+      &lt;td&gt;&lt;input class="ranges" id="n-range-uniform" type="range" min="0" max="160"&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;span class="counts" id="n-count-uniform"&gt;80&lt;/span&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="labels"&gt;\(x\) :  &lt;/td&gt;
+      &lt;td&gt;&lt;input class="ranges" id="x-range-uniform" type="range" min="0" max="80"&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;span class="counts" id="x-count-uniform"&gt;40&lt;/span&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;&lt;p&gt;To get better intuition about this, try the following combinations:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(n = 0\)&lt;/span&gt; and &lt;span class="math"&gt;\(x = 0\)&lt;/span&gt;. Why does this happen?&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(n = 20\)&lt;/span&gt; compared to &lt;span class="math"&gt;\(n = 120\)&lt;/span&gt; with any value of &lt;span class="math"&gt;\(x\)&lt;/span&gt;. You can see how the &lt;em&gt;posterior&lt;/em&gt; starts wide, but as more information comes in (increasing &lt;span class="math"&gt;\(n\)&lt;/span&gt;), we get more and more sure of the true value.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Now we can figure out whether Fred is using a fair coin or not. To do this we should test the &lt;em&gt;posterior&lt;/em&gt; for whatever conditions we want. For example, one way to check for a fair coin might be to check where the mean or median are after &lt;span class="math"&gt;\(n\)&lt;/span&gt; tosses. If they're within a specified range (say &lt;span class="math"&gt;\([0.49, 0.51]\)&lt;/span&gt;), then we can say the coin is fair. Another, probably more robust way to test for fairness is to require that &lt;span class="math"&gt;\(95\%\)&lt;/span&gt; of the probability lies in a specified range.&lt;/p&gt;
+&lt;p&gt;The specifics of these tests depends on how stringent we want to be: being more confident requires a skinnier &lt;em&gt;posterior&lt;/em&gt; and that, in turn, requires more data. I'll let you decide how you would want to test for fairness in this case.&lt;/p&gt;
+&lt;p&gt;What I want to do instead is focus on the &lt;em&gt;prior&lt;/em&gt;. I mentioned at the beginning of this section that we would see how a changing &lt;em&gt;prior&lt;/em&gt; can affect our final results. What if we wanted to use a different &lt;em&gt;prior&lt;/em&gt;?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="fred-again"&gt;
+&lt;h4&gt;Fred Again&lt;/h4&gt;
+&lt;p&gt;I know a guy; his name is Fred. When Fred walks into a room, a ray of sunlight illuminates his face, even on cloudy days. Every morning, he asks about your day and listens intently. He makes an effort to organize fun events and always includes everyone he can. You've known him for years, but he's never missed your birthday. A few weeks ago, you heard a rumor that he risked his life to save a litter of puppies from a burning shelter; you believed it.&lt;/p&gt;
+&lt;p&gt;One day, Fred comes up to you with a proposition for a simple betting game. Even though you feel slightly faint (most likely because of his blinding smile) you manage to hear out the basic rules: it's a simple coin-toss, where you win &lt;span class="math"&gt;\(\$1\)&lt;/span&gt; for every heads and lose &lt;span class="math"&gt;\(\$1\)&lt;/span&gt; for every tails. You and Fred keep going until one of you decides to stop.&lt;/p&gt;
+&lt;p&gt;Of course, you immediately suspect a rigged game; rigged in your favor that is. He probably heard about your case of &lt;em&gt;can't-tell-the-weather-itus&lt;/em&gt; and wants to cheer you up. You don't want to take advantage of him so you agree on the condition that you toss the coin a few times before playing. How can you test for fairness?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="you-already-know-the-answer"&gt;
+&lt;h4&gt;You Already Know the Answer&lt;/h4&gt;
+&lt;p&gt;Hopefully, the story above should sound a bit familiar. As opposed to Fred #1, most people would trust Fred #2 a lot more. It would seem a unfair to use a &lt;em&gt;uniform&lt;/em&gt; distribution as a &lt;em&gt;prior&lt;/em&gt; here with Fred #2, like we used for Fred #1. Can we change our &lt;em&gt;prior&lt;/em&gt; to reflect our newfound trust?&lt;/p&gt;
+&lt;p&gt;Of course. We can use a more pointy and centered distribution instead! I recommend the &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Beta_distribution"&gt;Beta&lt;/a&gt; distribution:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\partial\boldsymbol{P}(P_h = p) =
+\dfrac{\Gamma(\alpha) \Gamma(\beta)}{\Gamma(\alpha + \beta)} p^{\alpha - 1} (1 - p)^{\beta - 1}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;I already did all the work for you here, it's very similar to the case with the &lt;em&gt;uniform&lt;/em&gt; distribution. Here's the result:&lt;/p&gt;
+&lt;div class="d3-visual" id="bayes-beta"&gt;
+  &lt;h3&gt;&lt;span class="prior"&gt;Beta Prior&lt;/span&gt; and
+    &lt;span class="posterior"&gt;Resulting Posterior&lt;/span&gt; Distribution&lt;/br&gt;
+    (Compared to a &lt;span class="gray"&gt;Posterior from Uniform Prior&lt;/span&gt;)&lt;/h3&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td class="labels"&gt;\(n\) :  &lt;/td&gt;
+      &lt;td&gt;&lt;input class="ranges" id="n-range-beta" type="range" min="0" max="200"&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;span class="counts" id="n-count-beta"&gt;100&lt;/span&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="labels"&gt;\(x\) :  &lt;/td&gt;
+      &lt;td&gt;&lt;input class="ranges" id="x-range-beta" type="range" min="0" max="100"&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;span class="counts" id="x-count-beta"&gt;50&lt;/span&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td class="labels"&gt;\(\alpha\) :  &lt;/td&gt;
+      &lt;td class="numeric"&gt;
+        &lt;input id="alpha-numeric-beta" type="number" min="0" value="5"&gt;&lt;/td&gt;
+      &lt;td class="labels"&gt;\(\beta\)  : &lt;/td&gt;
+      &lt;td class="numeric"&gt;
+        &lt;input id="beta-numeric-beta" type="number" min="0" value="5"&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;&lt;p&gt;Now, you can see exactly how changing &lt;em&gt;priors&lt;/em&gt; affects our &lt;em&gt;posterior&lt;/em&gt; distribution. Play around with the values for &lt;span class="math"&gt;\(n\)&lt;/span&gt;, &lt;span class="math"&gt;\(x\)&lt;/span&gt;, &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt;, and &lt;span class="math"&gt;\(\beta\)&lt;/span&gt;. The third distribution (in gray) represents the &lt;em&gt;posterior&lt;/em&gt; assuming that used a &lt;em&gt;uniform prior&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Some fun values to try:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\alpha = 0\)&lt;/span&gt; and &lt;span class="math"&gt;\(\beta = 0\)&lt;/span&gt;. Yup! Plug in these value into the equation for the Beta distribution to see why.&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\alpha = 10\)&lt;/span&gt; and &lt;span class="math"&gt;\(\beta = 1\)&lt;/span&gt; or vice-versa. This makes the &lt;em&gt;prior&lt;/em&gt; very one-sided. You can see how this pulls the &lt;em&gt;posterior&lt;/em&gt;, especially for low values of &lt;span class="math"&gt;\(n\)&lt;/span&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\alpha = 0.05\)&lt;/span&gt; and &lt;span class="math"&gt;\(\beta = 0.05\)&lt;/span&gt;. What? It can do that?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Done playing?&lt;/p&gt;
+&lt;p&gt;I think we can now finally answer our question on &lt;em&gt;priors&lt;/em&gt;. While varying inputs and parameters, I hope you noticed exactly how sensitive our &lt;em&gt;posteriors&lt;/em&gt; can be when we have low amounts of data. Conversely, I also hope you noticed how insignificant our &lt;em&gt;prior&lt;/em&gt; became when we had large amounts of data. The fact that &lt;em&gt;prior&lt;/em&gt; distributions don't matter much once we have enough input data is known as the &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Bernstein%E2%80%93von_Mises_theorem"&gt;Bernstein von Mises Theorem&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusions"&gt;
+&lt;h3&gt;Conclusions&lt;/h3&gt;
+&lt;p&gt;We've gone through a lot of mathematics at this point in the tutorial. We covered &lt;em&gt;Bayes' Theorem&lt;/em&gt; and how we can view it as a means of updating prior knowledge with data. We talked about modeling, compared Bayes methods to Frequentist methods, as well as how each methodology has both it's strengths and weaknesses . Finally, just not, we explored how &lt;em&gt;priors&lt;/em&gt; affect &lt;em&gt;posteriors&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Is that all there is to learn? I think we both know the answer here.&lt;/p&gt;
+&lt;p&gt;As much as I would have liked, there's a whole plethora of topics I haven't even mentioned nor scratched the surface of. We didn't talk about &lt;a class="reference external" href="http://lesswrong.com/lw/5sn/the_joys_of_conjugate_priors/"&gt;conjugate priors&lt;/a&gt;, a building block of many complex models. There's &lt;a class="reference external" href="http://stat.columbia.edu/~porbanz/papers/porbanz_BNP_draft.pdf"&gt;nonparametric models&lt;/a&gt;, where the parameters &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; are infinite dimensional vectors. &lt;a class="reference external" href="https://wiseodd.github.io/techblog/2017/01/01/mle-vs-map/"&gt;Maximum a Posteriori&lt;/a&gt; (MAP) estimators, a combination of Bayesian and Frequentist methods. Not to mention the &lt;a class="reference external" href="http://fastml.com/bayesian-machine-learning/"&gt;Dirichlet Processes&lt;/a&gt; and it's applications to natural language processing.&lt;/p&gt;
+&lt;p&gt;I hope you view this tutorial as a stepping stone for more learning in the future. Take a look at the resources and footnotes below for a new starting point!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="resources"&gt;
+&lt;h3&gt;Resources&lt;/h3&gt;
+&lt;div class="section" id="textbooks"&gt;
+&lt;h4&gt;Textbooks&lt;/h4&gt;
+&lt;p&gt;The credit for a lot of the examples in this post doesn't belong to me. I took several examples on this page from two sources:&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;David MacKay's book &lt;em&gt;Information Theory, Inference, and Learning Algorithms&lt;/em&gt;. Both the textbook
+and the lectures associated with them are free and available online with a simple search. Links
+for the lazy: &lt;a class="reference external" href="http://www.inference.org.uk/itprnn/book.pdf"&gt;book&lt;/a&gt; and &lt;a class="reference external" href="http://videolectures.net/david_mackay/"&gt;lectures&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Andrew Gelman's book &lt;em&gt;Bayesian Data Analysis&lt;/em&gt;. Not only is this &lt;a class="reference external" href="https://www.amazon.com/gp/product/1439840954/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;amp;camp=1789&amp;amp;creative=9325&amp;amp;creativeASIN=1439840954&amp;amp;linkCode=as2&amp;amp;tag=andrsblog0f-20&amp;amp;linkId=YPLI6GJ24RK74BHN"&gt;text&lt;/a&gt; well written, it also contains great one-lines like&lt;a class="footnote-reference" href="#id18" id="id9"&gt;&lt;sup&gt;9&lt;/sup&gt;&lt;/a&gt;:&lt;ul&gt;
+&lt;li&gt;&amp;quot;As you know from teaching introductory statistics, 30 is infinity.&amp;quot;&lt;/li&gt;
+&lt;li&gt;&amp;quot;Why is it Normal? Because that’s the only continuous multivariate distribution we have. Oh, we have the multivariate &lt;span class="math"&gt;\(t\)&lt;/span&gt; ... as if that’s a different distribution.”&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class="section" id="footnotes"&gt;
+&lt;h4&gt;Footnotes&lt;/h4&gt;
+&lt;table class="docutils footnote" frame="void" id="id10" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id1"&gt;[1]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;The &lt;span class="math"&gt;\(\partial\)&lt;/span&gt; symbol notation comes from the fact that, for a continuous random variable, you can calculate it's distribution by taking a derivative. For example, if &lt;span class="math"&gt;\(X\)&lt;/span&gt; is a continuous random variable with density function &lt;span class="math"&gt;\(f\)&lt;/span&gt;, then we can write &lt;span class="math"&gt;\(f\)&lt;/span&gt; like this:&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\begin{array}{rcl}
+  f(x) &amp;amp; = &amp;amp; \dfrac{d}{dx} \boldsymbol{P}(X &amp;lt; x)
+\end{array}
+\end{equation*}
+&lt;/div&gt;
+&lt;table class="docutils footnote" frame="void" id="id11" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id2"&gt;[2]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;This can get philosophical very quickly. On one hand, we know about many systems that we can predict with almost absolute certainty. On the other hand, chaos theory and quantum mechanics and all that.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id12" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id3"&gt;[3]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;If used correctly, of course. Even the most flexible models, such as neural nets or nearest neighbor approximations fail when used incorrectly. Words of advice: &amp;quot;Don't try to put a square model into a round phenomena&amp;quot;.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id13" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id4"&gt;[4]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;David McKay was a British Physicist who wrote a great book on information theory. See the &lt;strong&gt;Textbooks&lt;/strong&gt; section above.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id14" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id5"&gt;[5]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;In any problem involving &lt;em&gt;Bayes' Theorem&lt;/em&gt;, the &lt;em&gt;evidence&lt;/em&gt; is usually the most difficult to calculate. Below is a derivation of the &lt;em&gt;evidence&lt;/em&gt; term for the urn problem. As far as I'm aware, there's no closed form for this summation, so I just calculated it numerically. I used &lt;span class="math"&gt;\(n = 10\)&lt;/span&gt; as the number of marbles drawn from the urn. I used &lt;span class="math"&gt;\(u_t = 11\)&lt;/span&gt; as the total amount of urns.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\boldsymbol{P}(N_b = 3) =&amp;amp; \dfrac{1}{u_t} \sum_{u = 0}^{u_t -1} \binom{n}{3} p^{3} (1 - p)^{n - 3} \\
+=&amp;amp; \dfrac{1}{11} \sum_{u = 0}^{10} \binom{10}{3} \dfrac{u}{10}^{3} (1 - \dfrac{u}{10})^{n - 3} \\
+=&amp;amp; 0.08272661
+\end{align*}
+&lt;/div&gt;
+&lt;table class="docutils footnote" frame="void" id="id15" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id6"&gt;[6]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;The more important reason probably stemmed from the difficulty in calculating a &lt;em&gt;posterior&lt;/em&gt; distribution without computer aid. When doing Bayesian statistics by hand, you often cannot calculate the &lt;em&gt;posterior&lt;/em&gt; using analytical methods, especially more complex ones. So you have to numerically estimate them or their properties (like mode or median). This is a lot more tedious than simply calculating one number, the estimator (most likely MLE), that is required under the Frequentist paradigm.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id16" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id7"&gt;[7]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;Here is the gruesome derivation for those interested. You know you did good math if the equation start simple, explodes into a unmanageable mess, and finally collapses into a surprisingly neat expression.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\boldsymbol{P}(N_h = x \: | \: n) =&amp;amp; \int_{p} \partial\boldsymbol{P}(N_h = x, P_h = p \: | \: n) \\
+&amp;amp; \scriptstyle\text{By the relationship between marginal and joint distributions} \\
+=&amp;amp; \int_{p} \boldsymbol{P}(N_h = x \: | \: P_h = p, n) \ \partial\boldsymbol{P}(P_h = p \: | \: n) \\
+&amp;amp; \scriptstyle\text{By the definition of conditional probability} \\
+=&amp;amp; \int_{p} \binom{n}{x} p^x (1 - p)^{n - x} \ \partial\boldsymbol{P}(P_h = p \: | \: n) \\
+&amp;amp; \scriptstyle\text{By the definition of } \textit{likelihood } \text{above} \\
+=&amp;amp; \int_{p} \binom{n}{x} p^x (1 - p)^{n - x} \: \mathbf{1}_{[0, 1]}(p) \: dp \\
+&amp;amp; \scriptstyle\text{By the definition of } \textit{prior } \text{above} \\
+=&amp;amp; \int_{0}^{1} \binom{n}{x} p^x (1 - p)^{n - x} \: dp \\
+&amp;amp; \scriptstyle\text{By taking care of the indicator function} \\
+=&amp;amp; \binom{n}{x} \dfrac{x! \: (n - x)!}{\Gamma (n + 2)} \\
+&amp;amp; \scriptstyle\text{By integrating using the Gamma integral} \\
+=&amp;amp; \binom{n}{x} \dfrac{x! \: (n - x)!}{(n + 1)!} \\
+&amp;amp; \scriptstyle\text{By the definition of the Gamma function} \\
+=&amp;amp; \dfrac{n!}{(n - x)! \: x!} \dfrac{x! \: (n - x)!}{(n + 1)!} \\
+&amp;amp; \scriptstyle\text{By the definition of the Binomial Coefficient} \\
+=&amp;amp; \dfrac{1}{n + 1} \\
+&amp;amp; \scriptstyle\text{Canceling out the factorials}
+\end{align*}
+&lt;/div&gt;
+&lt;table class="docutils footnote" frame="void" id="id17" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id8"&gt;[8]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;If you really know your distributions, you'll note that the &lt;em&gt;posterior&lt;/em&gt; in this case is a &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Beta_distribution"&gt;Beta&lt;/a&gt; distribution. This is no accident, and neither is the fact that I use the &lt;em&gt;Beta&lt;/em&gt; distribution as a &lt;em&gt;prior&lt;/em&gt; in the subsequent example! The &lt;em&gt;Beta&lt;/em&gt; distribution is called the &lt;em&gt;conjugate prior&lt;/em&gt; of the binomial distribution.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id18" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id9"&gt;[9]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;For more great statistics lines (and you know you want more) see this &lt;a class="reference external" href="http://www.stat.columbia.edu/~gelman/book/gelman_quotes.pdf"&gt;page of 77 best Gelman quotes&lt;/a&gt;.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "true";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Ajax.config.path['img'] = 'https://cdn.rawgit.com/pkra/mathjax-img/1.0.0/';" +
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js',], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js','[img]/img.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="learning"></category><category term="bayes"></category></entry><entry><title>A Primer on Bayesian Statistics (Part 1)</title><link href="/a_primer_on_bayesian_statistics_p1.html" rel="alternate"></link><published>2017-09-15T12:00:00-07:00</published><updated>2017-09-15T12:00:00-07:00</updated><author><name>Dawid Minorczyk</name></author><id>tag:None,2017-09-15:/a_primer_on_bayesian_statistics_p1.html</id><summary type="html">&lt;p class="first last"&gt;Heard about Bayesian statistics but don't really know what the hubbub is? Start here!&lt;/p&gt;
+</summary><content type="html">&lt;div class="admonition note"&gt;
+&lt;p class="first admonition-title"&gt;Note&lt;/p&gt;
+&lt;p class="last"&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; This is the first part in a two part series. You can find the second part &lt;a class="reference external" href="a_primer_on_bayesian_statistics_p2.html"&gt;right here&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="a-primer-on-bayesian-statistics-part-1"&gt;
+&lt;h2&gt;A Primer on Bayesian Statistics (Part 1)&lt;/h2&gt;
+&lt;p&gt;Like many people first starting out on their journey into data science, I dove
+straight into the cool and shiny stuff long before I really knew what I was doing&lt;a class="footnote-reference" href="#id10" id="id1"&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt;. It was
+during this exploratory phase, while I oogled those fancy neural
+networks, that I began noticing the term
+&lt;em&gt;Bayesian Statistics&lt;/em&gt; with increasing frequency. It popped up in blogs, it popped up in books, it
+popped up in online videos. &amp;quot;What are they talking about?&amp;quot; I thought, &amp;quot;That one equation I learned
+about in my intro statistics course? What's the big deal here?&amp;quot;&lt;/p&gt;
+&lt;p&gt;As I soon found out, I was missing out on a whole school of statistics knowledge and I didn't even
+know about it! Unfortunately, sources I found on the subject tended to swing either towards textbook-levels of denseness or vague philosophical works about &amp;quot;Dutch Books&amp;quot;&lt;a class="footnote-reference" href="#id11" id="id2"&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;. This is a shame, because I think you &lt;em&gt;can&lt;/em&gt; explain the concept in some meaningful depth without writing a whole textbook; all you need is a few visuals and insightful examples.&lt;/p&gt;
+&lt;div class="section" id="reviewing-bayes-theorem-with-a-few-visuals-and-insightful-examples"&gt;
+&lt;h3&gt;Reviewing Bayes' Theorem With a Few Visuals and Insightful Examples&lt;/h3&gt;
+&lt;p&gt;Unsurprisingly, I want to start this tutorial by reviewing &lt;em&gt;Bayes' Theorem&lt;/em&gt;. The math involved in the theorem isn't especially difficult, but I think many people really miss the point when they first see it. I myself remember learning the formula, thinking to myself &amp;quot;oh, that's cool&amp;quot;, and then moving on, leaving the knowledge in a dusty corner of my mind. In order to avoid that in this tutorial, I'll try to be thorough, and build up intuition as much as possible. I'll do this by taking a visual approach and deriving &lt;em&gt;Bayes' Theorem&lt;/em&gt; through an example:
+&lt;span class="math"&gt;\(\require{color}\)&lt;/span&gt;
+&lt;span class="math"&gt;\(\definecolor{cs}{RGB}{252, 141, 98}\)&lt;/span&gt;
+&lt;span class="math"&gt;\(\definecolor{cc}{RGB}{102, 194, 165}\)&lt;/span&gt;
+&lt;span class="math"&gt;\(\definecolor{cr}{RGB}{141, 160, 203}\)&lt;/span&gt;
+&lt;span class="math"&gt;\(\definecolor{cj}{RGB}{231, 138, 195}\)&lt;/span&gt;
+&lt;span class="math"&gt;\(\definecolor{ccr}{RGB}{227, 26, 28}\)&lt;/span&gt;
+&lt;span class="math"&gt;\(\definecolor{ccb}{RGB}{31, 120, 180}\)&lt;/span&gt;
+&lt;span class="math"&gt;\(\definecolor{ccw}{RGB}{51, 160, 44}\)&lt;/span&gt;
+&lt;span class="math"&gt;\(\definecolor{def}{RGB}{93, 93, 93}\)&lt;/span&gt;&lt;/p&gt;
+&lt;div class="section" id="weather-and-hobbies"&gt;
+&lt;h4&gt;Weather and Hobbies&lt;/h4&gt;
+&lt;p&gt;As all meteorologists will tell you, there are only three types of weather in the world: &lt;span class="sunny"&gt;sunny&lt;/span&gt;, &lt;span class="cloudy"&gt;cloudy&lt;/span&gt;, and &lt;span class="rainy"&gt;rainy&lt;/span&gt;. Here in California, the weather tends to favor long, dry days. As an approximation, let's say that it's &lt;span class="sunny"&gt;sunny&lt;/span&gt; &lt;span class="math"&gt;\(\color{cs}{60\%}\)&lt;/span&gt; of the time, &lt;span class="cloudy"&gt;cloudy&lt;/span&gt; &lt;span class="math"&gt;\(\color{cc}{30\%}\)&lt;/span&gt; of the time, and &lt;span class="rainy"&gt;rainy&lt;/span&gt; &lt;span class="math"&gt;\(\color{cr}{10\%}\)&lt;/span&gt; of the time. We can represent this situation quite simply with a visualization:&lt;/p&gt;
+&lt;object class="align-center" data="images/1d_weather_only.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;Now, when I make small talk about the weather, I usually talk about my hobbies as well. I'm a pretty simple guy, so you can segregate my hobbies into two categories: &lt;span class="jog"&gt;running&lt;/span&gt; and everything else. Out of these two groups, I estimate that I go &lt;span class="jog"&gt;running&lt;/span&gt; &lt;span class="math"&gt;\(\color{cj}{40\%}\)&lt;/span&gt; of all days:&lt;/p&gt;
+&lt;object class="align-center" data="images/1d_running_only.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;That's an intuitive way to represent probabilities, but it doesn't allow us to compare everything directly. It would be great if we could talk about the weather and our hobbies at the same time. Fortunately, we can! Just combine the scales above into a 2D figure:&lt;/p&gt;
+&lt;object class="align-center" data="images/2d_independent_plain.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;Now we can show off both sets of events, just like we wanted. We can see all of the probabilities and even measure them out if we wanted to:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\begin{array}{rccl}
+\boldsymbol{P}(\color{cs}sunny\color{def}) &amp;amp; = 0.60 &amp;amp; \rightarrow &amp;amp; \, \scriptstyle\text{The size of the sunny area } \img[-0.25em][1em][1em]{images/ss.svg} \text{ when compared to the whole area}. \\
+\boldsymbol{P}(\color{cc}cloudy\color{def}) &amp;amp; = 0.30 &amp;amp; \rightarrow &amp;amp; \, \scriptstyle\text{The size of the cloudy area } \img[-0.25em][1em][1em]{images/sc.svg} \text{ when compared to the whole area}. \\
+\boldsymbol{P}(\color{cr}rainy\color{def}) &amp;amp; = 0.10 &amp;amp; \rightarrow &amp;amp; \, \scriptstyle\text{The size of the rainy area } \img[-0.25em][1em][1em]{images/sr.svg} \text{ when compared to the whole area}. \\
+\boldsymbol{P}(\color{cj}running\color{def}) &amp;amp; = 0.40 &amp;amp; \rightarrow &amp;amp; \, \scriptstyle\text{The size of the running area } \img[-0.25em][1em][1em]{images/sj.svg} \text{ when compared to the whole area}.
+\end{array}
+\end{equation*}
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conditional-probability"&gt;
+&lt;h4&gt;Conditional Probability&lt;/h4&gt;
+&lt;p&gt;Hmmm, something seems off. You see, I actually don't like running when it's too hot outside. While my overall rate is &lt;span class="math"&gt;\(\color{cj}{40\%}\)&lt;/span&gt;, I tend to run &lt;em&gt;less&lt;/em&gt; than that if I think I might die of dehydration. Conversely, I also tend to run a lot &lt;em&gt;more&lt;/em&gt; on cool, rainy days. The diagram above doesn't show that. See all those right angles? Those are right angles of &lt;em&gt;independence&lt;/em&gt;! They imply that, no matter what kind of weather I'm currently experiencing, I will always have a &lt;span class="math"&gt;\(\color{cj}40\%\)&lt;/span&gt; running rate. Me &lt;span class="jog"&gt;running&lt;/span&gt; and the weather don't affect one another.&lt;/p&gt;
+&lt;p&gt;We can visually prove this by looking at the &lt;em&gt;conditional probabilities&lt;/em&gt; of each event. For example, say it's a &lt;span class="sunny"&gt;sunny&lt;/span&gt; day and we want to know the probability of me going for a &lt;span class="jog"&gt;jog&lt;/span&gt;. In mathematical notation, we're looking for the quantity &lt;span class="math"&gt;\(\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cs}sunny\color{def})\)&lt;/span&gt;. We can find it like this:&lt;/p&gt;
+&lt;object class="align-center" data="images/2d_conditional_sunny.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;This image shows how I like to think about &lt;em&gt;conditional probability&lt;/em&gt;. When we assumed that it was a &lt;span class="sunny"&gt;sunny&lt;/span&gt; day, we essentially said that we must land in the &lt;span class="math"&gt;\(\img[-0.25em][1em][1em]{images/ss.svg}\)&lt;/span&gt; area (&lt;em&gt;you are here&lt;/em&gt;). To see how likely it is that I go &lt;span class="jog"&gt;running&lt;/span&gt; in &lt;span class="sunny"&gt;sunny&lt;/span&gt; weather, we then look for how likely it is that we land in the &lt;span class="math"&gt;\(\img[-0.25em][1em][1em]{images/sj.svg}\)&lt;/span&gt; area, knowing that we have to stay in the &lt;span class="math"&gt;\(\img[-0.25em][1em][1em]{images/ss.svg}\)&lt;/span&gt; area. Thus, the probability of me &lt;span class="jog"&gt;running&lt;/span&gt; given that it's &lt;span class="sunny"&gt;sunny&lt;/span&gt;, &lt;span class="math"&gt;\(\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cs}sunny\color{def})\)&lt;/span&gt;, is the area of the intersection &lt;span class="math"&gt;\(\img[-0.25em][1em][1em]{images/sjs.svg}\)&lt;/span&gt; compared to the &lt;span class="math"&gt;\(\img[-0.25em][1em][1em]{images/ss.svg}\)&lt;/span&gt; area. Notice that this is still &lt;span class="math"&gt;\(40\%\)&lt;/span&gt;! Thus, &lt;span class="math"&gt;\(\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cs}sunny\color{def}) = \boldsymbol{P}(\color{cj}running\color{def})\)&lt;/span&gt; and we have &lt;em&gt;independence&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;We can go a step further, take what I said above, and make it concrete with a formula:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\begin{array}{crcc}
+&amp;amp; \boldsymbol{P}(\color{cj}running\color{def}) &amp;amp; \rightarrow &amp;amp; \img[-0.25em][1em][1em]{images/sj.svg} \\
+&amp;amp; \boldsymbol{P}(\color{cs}sunny\color{def}) &amp;amp; \rightarrow &amp;amp; \img[-0.25em][1em][1em]{images/ss.svg} \\
+&amp;amp; \boldsymbol{P}(\color{cj}running\color{def},\,\color{cs}sunny\color{def}) &amp;amp; \rightarrow &amp;amp; \img[-0.25em][1em][1em]{images/sjs.svg} \\
+&amp;amp; \boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cs}sunny\color{def}) &amp;amp; \rightarrow &amp;amp; \dfrac{\img[-0.25em][1em][1em]{images/sjs.svg}}{\img[-0.25em][1em][1em]{images/ss.svg}}
+\end{array}
+\Large\Rightarrow\normalsize
+\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cs}sunny\color{def}) = \dfrac{\boldsymbol{P}(\color{cj}running\color{def},\,\color{cs}sunny\color{def})}{\boldsymbol{P}(\color{cs}sunny\color{def})}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;To anyone who's taken a statistics course, this is the all-too-familiar formula for &lt;em&gt;conditional probability&lt;/em&gt;, derived using a purely visual method! It's usually presented with arbitrary events &lt;span class="math"&gt;\(A\)&lt;/span&gt; and &lt;span class="math"&gt;\(B\)&lt;/span&gt; in a somewhat bland way:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\boldsymbol{P}(A|B) \boldsymbol{P}(B) = \boldsymbol{P}(A,B) = \boldsymbol{P}(B|A) \boldsymbol{P}(A)
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;Now that we've established &lt;em&gt;independence&lt;/em&gt; between &lt;span class="jog"&gt;running&lt;/span&gt; and all the weather events, how can we go about changing that? Well, we just have to get rid of the right angles:&lt;/p&gt;
+&lt;object class="align-center" data="images/2d_fixed_plain.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;Look at how the probability of &lt;span class="jog"&gt;running&lt;/span&gt; shifted away from &lt;span class="sunny"&gt;sunny&lt;/span&gt; towards &lt;span class="cloudy"&gt;cloudy&lt;/span&gt; and &lt;span class="rainy"&gt;rainy&lt;/span&gt; (the dotted line is the old boundary). The events now work out in a way that reflects my preferences:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\begin{array}{rccl}
+\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cs}sunny\color{def}) &amp;amp; = 0.32 &amp;amp; &amp;lt; 0.40\\
+\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cc}cloudy\color{def}) &amp;amp; = 0.50 &amp;amp; &amp;gt; 0.40\\
+\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cr}rainy\color{def}) &amp;amp; = 0.58 &amp;amp; &amp;gt; 0.40\\
+\end{array}
+\end{equation*}
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="bayes-theorem"&gt;
+&lt;h4&gt;Bayes' Theorem&lt;/h4&gt;
+&lt;p&gt;Bad luck, it seems you've suddenly developed an acute case of &lt;em&gt;can't-tell-the-weather-itus&lt;/em&gt;. It's an extremely rare disease that temporarily removes your ability to detect the weather (strangely, it doesn't affect your life in any other way). Just as this happens, you spot me &lt;span class="jog"&gt;jogging&lt;/span&gt; across the street. Aha! A way out of this predicament! You've read this post, so you know that I'm more likely to be &lt;span class="jog"&gt;running&lt;/span&gt; if it's &lt;span class="rainy"&gt;raining&lt;/span&gt; or &lt;span class="cloudy"&gt;cloudy&lt;/span&gt;. The chances of &lt;span class="rainy"&gt;rainy&lt;/span&gt; or &lt;span class="cloudy"&gt;cloudy&lt;/span&gt; weather must be high!&lt;/p&gt;
+&lt;p&gt;No wait, that's wrong. You only know how the weather affects my tendency to run, not the other way around. In other words, you might know &lt;span class="math"&gt;\(\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cr}rainy\color{def})\)&lt;/span&gt; but you do not know &lt;span class="math"&gt;\(\boldsymbol{P}(\color{cr}rainy\color{def}\,|\,\color{cj}running\color{def})\)&lt;/span&gt;, and these two values are &lt;em&gt;not&lt;/em&gt; necessarily equal. Visually:&lt;/p&gt;
+&lt;object class="align-center" data="images/2d_bayes_rain.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;If we're looking for &lt;span class="math"&gt;\(\boldsymbol{P}(\color{cr}rainy\color{def}\,|\,\color{cj}running\color{def})\)&lt;/span&gt;, we want to know how likely it is that we land in &lt;span class="math"&gt;\(\img[-0.25em][1em][1em]{images/sr.svg}\)&lt;/span&gt; assuming we're already in &lt;span class="math"&gt;\(\img[-0.25em][1em][1em]{images/sj.svg}\)&lt;/span&gt;; just looking at the diagram, you can surmise that this is a small number, especially when compared to &lt;span class="math"&gt;\(\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cr}rainy\color{def}) = 0.58\)&lt;/span&gt; (how likely we are to land in &lt;span class="math"&gt;\(\img[-0.25em][1em][1em]{images/sj.svg}\)&lt;/span&gt; assuming we're inside &lt;span class="math"&gt;\(\img[-0.25em][1em][1em]{images/sr.svg}\)&lt;/span&gt;). The discrepancy stems from that fact that, in California, the base rate of &lt;span class="rainy"&gt;rain&lt;/span&gt; starts low, &lt;span class="math"&gt;\(\boldsymbol{P}(\color{cr}rainy\color{def}) = 0.10\)&lt;/span&gt;. If you want to get the correct prediction, you have to approach this from a different angle.&lt;/p&gt;
+&lt;p&gt;Good thing we learned about &lt;em&gt;conditional probability&lt;/em&gt; in the last section! Just like last time, we can find &lt;span class="math"&gt;\(\boldsymbol{P}(\color{cr}rainy\color{def}\,|\,\color{cj}running\color{def})\)&lt;/span&gt; as follows:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\begin{array}{crcc}
+&amp;amp; \boldsymbol{P}(\color{cr}rainy\color{def}) &amp;amp; \rightarrow &amp;amp; \img[-0.25em][1em][1em]{images/sr.svg} \\
+&amp;amp; \boldsymbol{P}(\color{cj}running\color{def}) &amp;amp; \rightarrow &amp;amp; \img[-0.25em][1em][1em]{images/sj.svg} \\
+&amp;amp; \boldsymbol{P}(\color{cr}rainy\color{def},\,\color{cj}running\color{def}) &amp;amp; \rightarrow &amp;amp; \img[-0.25em][1em][1em]{images/sjr.svg} \\
+&amp;amp; \boldsymbol{P}(\color{cr}rainy\color{def}\,|\,\color{cj}running\color{def}) &amp;amp; \rightarrow &amp;amp; \dfrac{\img[-0.25em][1em][1em]{images/sjr.svg}}{\img[-0.25em][1em][1em]{images/sj.svg}}
+\end{array}
+\Large\Rightarrow\normalsize
+\boldsymbol{P}(\color{cr}rainy\color{def}\,|\,\color{cj}running\color{def}) = \dfrac{\boldsymbol{P}(\color{cr}rainy\color{def},\,\color{cj}running\color{def})}{\boldsymbol{P}(\color{cj}running\color{def})}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;The only problem here is that we don't know the numerical value of the &lt;span class="math"&gt;\(\img[-0.25em][1em][1em]{images/sjr.svg}\)&lt;/span&gt; area, the intersection &lt;span class="math"&gt;\(\boldsymbol{P}(\color{cr}rainy\color{def},\,\color{cj}running\color{def})\)&lt;/span&gt;. We can fix this by applying &lt;em&gt;conditional probability&lt;/em&gt; in the other direction, basically switching the roles of &lt;span class="jog"&gt;running&lt;/span&gt; and &lt;span class="rainy"&gt;rainy&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+&amp;amp; \boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cr}rainy\color{def}) = \dfrac{\boldsymbol{P}(\color{cr}rainy\color{def},\,\color{cj}running\color{def})}{\boldsymbol{P}(\color{cr}rainy\color{def})} \\
+\Large\Rightarrow\normalsize
+&amp;amp; \boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cr}rainy\color{def}) \boldsymbol{P}(\color{cr}rainy\color{def}) = \boldsymbol{P}(\color{cr}rainy\color{def},\,\color{cj}running\color{def})
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;Finally, we substitute and get our answer:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\boldsymbol{P}(\color{cr}rainy\color{def}\,|\,\color{cj}running\color{def}) = \dfrac{\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cr}rainy\color{def}) \boldsymbol{P}(\color{cr}rainy\color{def})}{\boldsymbol{P}(\color{cj}running\color{def})}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;Or, in case you prefer to do all your math using colorful squares&lt;a class="footnote-reference" href="#id12" id="id3"&gt;&lt;sup&gt;3&lt;/sup&gt;&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\dfrac{\img[-0.25em][1em][1em]{images/sjr.svg}}{\img[-0.25em][1em][1em]{images/sj.svg}} = \dfrac{\img[-0.25em][1em][1em]{images/sjr.svg}}{\img[-0.25em][1em][1em]{images/sr.svg}} \cdot \dfrac{\img[-0.25em][1em][1em]{images/sr.svg}}{\img[-0.25em][1em][1em]{images/sj.svg}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;This formula is known as &lt;em&gt;Bayes' Theorem&lt;/em&gt;. The most immediate result of &lt;em&gt;Bayes' Theorem&lt;/em&gt; is that it allows you to flip &lt;em&gt;conditional probabilities&lt;/em&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\boldsymbol{P}(\color{cr}rainy\color{def}\,|\,\color{cj}running\color{def})
+\leftrightarrow
+\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cr}rainy\color{def})
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;In our case, for example, it allows us to solve the big problem you were having just a little while ago:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\boldsymbol{P}(\color{cr}rainy\color{def}\,|\,\color{cj}running\color{def}) = &amp;amp; \dfrac{\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cr}rainy\color{def}) \boldsymbol{P}(\color{cr}rainy\color{def})}{\boldsymbol{P}(\color{cj}running\color{def})} \\
+= &amp;amp; \dfrac{0.58 \cdot 0.10}{0.40} = 0.145
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;Similarly, we can use this method to find the other probabilities as well:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+&amp;amp; \boldsymbol{P}(\color{cc}cloudy\color{def}\,|\,\color{cj}running\color{def}) = \dfrac{\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cc}cloudy\color{def}) \boldsymbol{P}(\color{cc}cloudy\color{def})}{\boldsymbol{P}(\color{cj}running\color{def})} =
+0.375 \\
+&amp;amp; \boldsymbol{P}(\color{cs}sunny\color{def}\,|\,\color{cj}running\color{def}) = \dfrac{\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cs}sunny\color{def}) \boldsymbol{P}(\color{cs}sunny\color{def})}{\boldsymbol{P}(\color{cj}running\color{def})} =
+0.48
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;Predicament solved! Even though I prefer &lt;span class="rainy"&gt;rain&lt;/span&gt; to &lt;span class="sunny"&gt;sun&lt;/span&gt; when &lt;span class="jog"&gt;jogging&lt;/span&gt;, the fact that California has mostly &lt;span class="sunny"&gt;sunny&lt;/span&gt; weather beats out my preferences. If you see me out for a &lt;span class="jog"&gt;jog&lt;/span&gt;, I'm probably dehydrated (I should start working out with a water bottle).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="a-different-way-to-think-about-bayes"&gt;
+&lt;h4&gt;A Different Way to Think About Bayes&lt;/h4&gt;
+&lt;p&gt;The ability to switch &lt;em&gt;conditional probabilities&lt;/em&gt; sounds useful, but how can you create a whole school of thought based around it? How can people write whole textbooks on the subject? How come this tutorial is only half over? Well, the real power of &lt;em&gt;Bayes' Theorem&lt;/em&gt; doesn't lie in it's ability to switch &lt;em&gt;conditional probabilities&lt;/em&gt;, and I wouldn't want you to come away from this tutorial thinking that. Instead, statisticians view &lt;em&gt;Bayes' Theorem&lt;/em&gt; like so:&lt;/p&gt;
+&lt;object class="align-center" data="images/Bayes_Theorem_Explained.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;This view of &lt;em&gt;Bayes' Theorem&lt;/em&gt; says you can combine the base rate of an event (the &lt;em&gt;prior&lt;/em&gt;) and modify it with new information to get a better estimate of the same event (the &lt;em&gt;posterior&lt;/em&gt;). In the picture above, you start with base knowledge about the probability of &lt;span class="rainy"&gt;rain&lt;/span&gt;. If you don't have any other information, you can only rely on the this base rate, so &lt;span class="math"&gt;\(\boldsymbol{P}(\color{cr}rainy\color{def}) = 0.10\)&lt;/span&gt;. However, once you get a piece of data (whether I'm &lt;span class="jog"&gt;running&lt;/span&gt; that day or not), &lt;em&gt;Bayes' Theorem&lt;/em&gt; says that you integrate this information into a new estimate and get a &lt;em&gt;posterior&lt;/em&gt; probability. In this case, you find that &lt;span class="math"&gt;\(\boldsymbol{P}(\color{cr}rainy\color{def}\,|\,\color{cj}running\color{def}) = 0.145\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;The modifying term compares the likelihood of me &lt;span class="jog"&gt;running&lt;/span&gt; in &lt;span class="rainy"&gt;rainy&lt;/span&gt; weather (the numerator) to the flat chance of me &lt;span class="jog"&gt;running&lt;/span&gt; in any weather (the denominator). These two terms have names, the &lt;em&gt;likelihood&lt;/em&gt; and the &lt;em&gt;evidence&lt;/em&gt;&lt;a class="footnote-reference" href="#id13" id="id4"&gt;&lt;sup&gt;4&lt;/sup&gt;&lt;/a&gt;:&lt;/p&gt;
+&lt;object class="align-center" data="images/Bayes_Theorem_Full.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;In effect, the &lt;em&gt;likelihood&lt;/em&gt; and the &lt;em&gt;evidence&lt;/em&gt; measure how much information we get out of the data. If the modifier ends up greater than &lt;span class="math"&gt;\(1\)&lt;/span&gt;, our &lt;em&gt;posterior&lt;/em&gt; probability ends up higher than our &lt;em&gt;prior&lt;/em&gt;. The same is true in the other direction; if the modifier is less than &lt;span class="math"&gt;\(1\)&lt;/span&gt;, the &lt;em&gt;posterior&lt;/em&gt; probability will be lower than the &lt;em&gt;prior&lt;/em&gt;. For example:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\dfrac{\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cr}rainy\color{def})}{\boldsymbol{P}(\color{cj}running\color{def})}
+= \dfrac{0.58}{0.40} &amp;gt; 1
+\Large\Rightarrow\normalsize
+\text{posterior} \, &amp;gt; \, \text{prior}
+\end{equation*}
+&lt;/div&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\dfrac{\boldsymbol{P}(\color{cj}running\color{def}\,|\,\color{cs}sunny\color{def})}{\boldsymbol{P}(\color{cj}running\color{def})}
+= \dfrac{0.32}{0.40} &amp;lt; 1
+\Large\Rightarrow\normalsize
+\text{posterior} \, &amp;lt; \, \text{prior}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;Since you know that I prefer &lt;span class="rainy"&gt;rainy&lt;/span&gt; weather when working out, your estimate of &lt;span class="rainy"&gt;rain&lt;/span&gt; goes up from the base rate if you see me &lt;span class="jog"&gt;running&lt;/span&gt;. Similarly, your estimate on the chances of &lt;span class="sunny"&gt;sunny&lt;/span&gt; weather go down. Why is this so useful? Because now, we have a way to incorporate data into initial estimates and refine them! Isn't that exciting!&lt;/p&gt;
+&lt;p&gt;What's that? You still don't see what the big deal is? Maybe we need another example.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="a-new-example-and-a-change-of-colors"&gt;
+&lt;h3&gt;A New Example and a Change of Colors&lt;/h3&gt;
+&lt;p&gt;To appreciate the power of incorporating data into estimates, let's change gears and work through a new, more serious, example.&lt;/p&gt;
+&lt;p&gt;Consider a city with two competing cab companies: the &lt;span class="red"&gt;red&lt;/span&gt; and &lt;span class="blue"&gt;blue&lt;/span&gt; company. The &lt;span class="red"&gt;red&lt;/span&gt; company dominates the market with &lt;span class="math"&gt;\(\color{ccr}75\%\)&lt;/span&gt; of cabs in the city, leaving &lt;span class="math"&gt;\(\color{ccb}25\%\)&lt;/span&gt; to the &lt;span class="blue"&gt;blue&lt;/span&gt; company. One day, a hit-and-run occurs. Local camera footage manages to see that a cab driver was the perpetrator. Unfortunately, the camera did not catch the logo on the cab, the only distinguishing feature between the two companies. Because of your vast statistics knowledge, you've been chosen to act as a judge on this case. Which company do you believe should be fined&lt;a class="footnote-reference" href="#id14" id="id5"&gt;&lt;sup&gt;5&lt;/sup&gt;&lt;/a&gt;? Most likely, guilt lies with the &lt;span class="red"&gt;red&lt;/span&gt; company, simply due to chance:&lt;/p&gt;
+&lt;object class="align-center" data="images/cabs_1.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;This sets up our &lt;em&gt;prior&lt;/em&gt;. Right now, we only know the following:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\begin{array}{rccl}
+\boldsymbol{P}(\color{ccb}blue\color{def}) &amp;amp; = 0.25 &amp;amp; \rightarrow &amp;amp; \, \scriptstyle\text{The probability that the cab belonged to the blue company.} \\
+\boldsymbol{P}(\color{ccr}red\color{def}) &amp;amp; = 0.75 &amp;amp; \rightarrow &amp;amp; \, \scriptstyle\text{The probability that the cab belonged to the red company.}
+\end{array}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;Of course, the story doesn't end there. Not wanting to pay hefty fees, the &lt;span class="red"&gt;red&lt;/span&gt; company produces a &lt;span class="wit"&gt;witness&lt;/span&gt; that says he saw the &lt;span class="blue"&gt;blue&lt;/span&gt; company logo. You check the camera footage and notice that this &lt;span class="wit"&gt;witness&lt;/span&gt; was indeed nearby when the crime happened. The &lt;span class="blue"&gt;blue&lt;/span&gt; company, aware that eyewitnesses can be unreliable, proposes a test to see if the &lt;span class="wit"&gt;witness&lt;/span&gt; can correctly differentiate company logos when a cab drives past him. The &lt;span class="wit"&gt;witness&lt;/span&gt; takes the test and, much to the &lt;span class="red"&gt;red&lt;/span&gt; companies' chagrin, it's found he can only identify the correct logo &lt;span class="math"&gt;\(\color{ccw}60\%\)&lt;/span&gt; of the time.&lt;/p&gt;
+&lt;p&gt;Ok judge, which company do you suspect now? Well, let's look at the data we just got:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\begin{array}{rccl}
+\boldsymbol{P}(\color{ccw}witness \color{def} \text{ says } \color{ccb}blue \color{def}\,|\,\color{ccb}blue\color{def}) &amp;amp; = 0.60 &amp;amp; \rightarrow &amp;amp; \, \scriptstyle\text{The witness is correct.} \\
+\boldsymbol{P}(\color{ccw}witness \color{def} \text{ says } \color{ccb}blue \color{def}\,|\,\color{ccr}red\color{def}) &amp;amp; = 0.40 &amp;amp; \rightarrow &amp;amp; \, \scriptstyle\text{The witness is incorrect.}
+\end{array}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;The testimony represents a single data point that we can use to modify the base rate of either &lt;span class="math"&gt;\(\boldsymbol{P}(\color{ccb}blue\color{def})\)&lt;/span&gt; or &lt;span class="math"&gt;\(\boldsymbol{P}(\color{ccr}red\color{def})\)&lt;/span&gt;. Looking at the probability space can give us some good intuition about the case:&lt;/p&gt;
+&lt;object class="align-center" data="images/cabs_2.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;Since the &lt;span class="wit"&gt;witness&lt;/span&gt; testified against the &lt;span class="blue"&gt;blue&lt;/span&gt; company, we know we're in the striped region. Just looking at the picture, the &lt;span class="red"&gt;red&lt;/span&gt; company remains the most likely suspect: the area of the lower-right striped region (culprit was &lt;span class="red"&gt;red&lt;/span&gt; and the &lt;span class="wit"&gt;witness&lt;/span&gt; is wrong) looks larger than the upper-left striped region (culprit was &lt;span class="blue"&gt;blue&lt;/span&gt; and &lt;span class="wit"&gt;witness&lt;/span&gt; is right).&lt;/p&gt;
+&lt;p&gt;Of course, we need to test this out rigorously. Let's try to find the &lt;em&gt;posterior&lt;/em&gt; probability for &lt;span class="blue"&gt;blue&lt;/span&gt; (we could have also chosen to calculate the &lt;em&gt;posterior&lt;/em&gt; for &lt;span class="red"&gt;red&lt;/span&gt;, I just made a random choice). To find &lt;span class="math"&gt;\(\boldsymbol{P}(\color{ccb}blue\color{def} \,|\, \color{ccw}witness\color{def} \text{ says } \color{ccb}blue\color{def})\)&lt;/span&gt; we use &lt;em&gt;Bayes' Theorem&lt;/em&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\begin{array}{rcl}
+posterior &amp;amp; = &amp;amp; \dfrac{likelihood}{evidence} \cdot prior \\
+\boldsymbol{P}(\color{ccb}blue\color{def} \,|\, \color{ccw}witness\color{def} \text{ says } \color{ccb}blue\color{def}) &amp;amp; = &amp;amp; \dfrac{\boldsymbol{P}(\color{ccw}witness\color{def} \text{ says } \color{ccb}blue\color{def} \,|\, \color{ccb}blue\color{def})}{\boldsymbol{P}(\color{ccw}witness\color{def} \text{ says } \color{ccb}blue\color{def})} \cdot \boldsymbol{P}(\color{ccb}blue\color{def})
+\end{array}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;The only term that we don't immediately know here is the &lt;em&gt;evidence&lt;/em&gt;, the probability that the &lt;span class="wit"&gt;witness&lt;/span&gt; says &lt;span class="blue"&gt;blue&lt;/span&gt;. However, we can easily figure this out, we just need to consider all the situations that can lead to the &lt;span class="wit"&gt;witness&lt;/span&gt; saying &lt;span class="blue"&gt;blue&lt;/span&gt;. There are two, each represented by one of the striped regions in the probability space:&lt;/p&gt;
+&lt;object class="align-center" data="images/cabs_3.svg" type="image/svg+xml"&gt;
+Whoops, something went wrong when fetching this svg.&lt;/object&gt;
+&lt;p&gt;We arrive at a pretty expected answer:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\boldsymbol{P}(\color{ccb}blue\color{def} \,|\, \color{ccw}witness\color{def} \text{ says } \color{ccb}blue\color{def}) = \dfrac{(0.60)(0.25)}{(0.60)(0.25) + (0.40)(0.75)} = 0.333
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;So, even with the testimony, we find that most guilt still lies with the &lt;span class="red"&gt;red&lt;/span&gt; company. The chances of the culprit being &lt;span class="blue"&gt;blue&lt;/span&gt; are only &lt;span class="math"&gt;\(1\)&lt;/span&gt; in &lt;span class="math"&gt;\(3\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;But wait, just as you're about to pass your judgment, someone bursts into the courtroom&lt;a class="footnote-reference" href="#id15" id="id6"&gt;&lt;sup&gt;6&lt;/sup&gt;&lt;/a&gt;. It's a second &lt;span class="wit"&gt;witness&lt;/span&gt;, who also says he saw a &lt;span class="blue"&gt;blue&lt;/span&gt; logo. And behind him? There's a third &lt;span class="wit"&gt;witness&lt;/span&gt;, and a fourth, and a fifth, ...&lt;/p&gt;
+&lt;p&gt;Each &lt;span class="wit"&gt;witness&lt;/span&gt; has their own story, ready to supply evidence for either the &lt;span class="red"&gt;red&lt;/span&gt; or &lt;span class="blue"&gt;blue&lt;/span&gt; company. They all took the test and each of them also got a &lt;span class="math"&gt;\(\color{ccw}60\%\)&lt;/span&gt; (really blurry logos)&lt;a class="footnote-reference" href="#id16" id="id7"&gt;&lt;sup&gt;7&lt;/sup&gt;&lt;/a&gt;. If running out of the courtroom while screaming is not an option, how can you handle this situation? Will &lt;em&gt;Bayes' Theorem&lt;/em&gt; stop working now that we have multiple data points? Of course not! For example, if we have two &lt;span class="wit"&gt;witnesses&lt;/span&gt; and both say they saw &lt;span class="blue"&gt;blue&lt;/span&gt;, we could calculate:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\begin{array}{rcl}
+posterior &amp;amp; = &amp;amp; \dfrac{likelihood}{evidence} \cdot prior \\
+\boldsymbol{P}(\color{ccb}b\color{def} \,|\, \color{ccw}w_1\color{def} \text{ says } \color{ccb}b\color{def}, \color{ccw}w_2\color{def} \text{ says } \color{ccb}b\color{def}) &amp;amp; = &amp;amp; \dfrac{\boldsymbol{P}(\color{ccw}w_1\color{def} \text{ says } \color{ccb}b\color{def}, \color{ccw}w_2\color{def} \text{ says } \color{ccb}b\color{def} \,|\, \color{ccb}b\color{def})}{\boldsymbol{P}(\color{ccw}w_1\color{def} \text{ says } \color{ccb}b\color{def}, \color{ccw}w_2\color{def} \text{ says } \color{ccb}b\color{def})} \cdot \boldsymbol{P}(\color{ccb}b\color{def})
+\end{array}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;Here, I used a shorthand &lt;span class="math"&gt;\(\color{ccb}blue\color{def} \leftrightarrow \color{ccb}b\color{def}\)&lt;/span&gt; and &lt;span class="math"&gt;\(\color{ccw}witness\color{def} \leftrightarrow \color{ccw}w\color{def}\)&lt;/span&gt; to save space. So clearly, &lt;em&gt;Bayes' Theorem&lt;/em&gt; can handle any amount of data, we simply treat the two (or potentially more) data points as one event. To make this even more clear, we can rewrite our data &lt;span class="math"&gt;\((\color{ccw}w_1\color{def} \text{ says } \color{ccb}b\color{def}, \color{ccw}w_2\color{def} \text{ says } \color{ccb}b\color{def})\)&lt;/span&gt; as an ambiguous &lt;span class="math"&gt;\(\color{ccw}d\color{def}\)&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\begin{array}{rcl}
+\boldsymbol{P}(\color{ccb}b\color{def} \,|\, \color{ccw}d\color{def}) &amp;amp; = &amp;amp; \dfrac{\boldsymbol{P}(\color{ccw}d\color{def} \,|\, \color{ccb}b\color{def})}{\boldsymbol{P}(\color{ccw}d\color{def})} \cdot \boldsymbol{P}(\color{ccb}b\color{def})
+\end{array}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;Unfortunately, I won't be able to draw probability spaces (like the ones I drew above) to explain the actual calculations that go on here. This stems from the fact that, to keep each data point &lt;em&gt;independent&lt;/em&gt;, we would need to move from 2D into 3D, 4D, 5D, etc. We can, however, demonstrate the power of this approach by generating actual samples. Take a look at the following graph, which shows the outcome of using &lt;em&gt;Bayes' Theorem&lt;/em&gt; with a &lt;em&gt;LOT&lt;/em&gt; of &lt;span class="wit"&gt;witnesses&lt;/span&gt;:&lt;/p&gt;
+&lt;img alt="Whoops, something went wrong when fetching this png." class="align-center" src="images/Bayes_Multi.png" /&gt;
+&lt;p&gt;I randomly generated the &lt;span class="blue"&gt;blue&lt;/span&gt; line above by assuming that &lt;span class="blue"&gt;blue&lt;/span&gt; was the real culprit. This would mean that &lt;span class="math"&gt;\(60\%\)&lt;/span&gt; of the &lt;span class="wit"&gt;witnesses&lt;/span&gt; would testify against &lt;span class="blue"&gt;blue&lt;/span&gt;, so that if we have &lt;span class="math"&gt;\(10\)&lt;/span&gt; of them, &lt;span class="math"&gt;\(6\)&lt;/span&gt; (on average) would say they saw a &lt;span class="blue"&gt;blue&lt;/span&gt; logo. I randomly generated the &lt;span class="red"&gt;red&lt;/span&gt; line by assuming the opposite: the &lt;span class="red"&gt;red&lt;/span&gt; company was the culprit. This means that &lt;span class="math"&gt;\(60\%\)&lt;/span&gt; of the &lt;span class="wit"&gt;witnesses&lt;/span&gt; testified against the &lt;span class="red"&gt;red&lt;/span&gt; company. The y-axis represents our &lt;em&gt;posterior&lt;/em&gt; in every case.&lt;/p&gt;
+&lt;p&gt;Looking at the graph, it seems that within &lt;span class="math"&gt;\(\color{ccw}20\)&lt;/span&gt; &lt;span class="wit"&gt;witnesses&lt;/span&gt;, we had about &lt;span class="math"&gt;\(99\%\)&lt;/span&gt; confidence we knew the true culprit. This number would have been lower if each &lt;span class="wit"&gt;witness&lt;/span&gt; could identify the logos at a better rate than &lt;span class="math"&gt;\(\color{ccw}60\%\)&lt;/span&gt;&lt;a class="footnote-reference" href="#id17" id="id8"&gt;&lt;sup&gt;8&lt;/sup&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Notice also, that our data eventually overrode the &lt;em&gt;prior&lt;/em&gt;. Even though we initially believed that &lt;span class="red"&gt;red&lt;/span&gt; was the culprit in both cases (the &lt;em&gt;prior&lt;/em&gt;), we always end up believing in the correct outcome once we got enough information. This is an important aspect of the &lt;em&gt;Bayesian&lt;/em&gt; approach that I hope to flesh out later: &lt;em&gt;priors&lt;/em&gt; can skew &lt;em&gt;posteriors&lt;/em&gt; when we have low amounts of data, but the &lt;em&gt;posterior&lt;/em&gt; always converges to the same answer.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="moving-onto-the-harder-stuff"&gt;
+&lt;h3&gt;Moving Onto the Harder Stuff&lt;/h3&gt;
+&lt;p&gt;If you care about using data to try and tease out answers, hopefully you see how fundamental &lt;em&gt;Bayes' Theorem&lt;/em&gt; is. You can take initially available information, encode it in a &lt;em&gt;prior&lt;/em&gt;, and modify it through data. But how is this different than what statisticians have been doing for decades using classical estimators and p-values? And what if we don't know what &lt;em&gt;prior&lt;/em&gt; to pick? Are we out of luck?&lt;/p&gt;
+&lt;p&gt;Discovering the connections between &lt;em&gt;Bayes&lt;/em&gt; and the &lt;em&gt;Frequentist&lt;/em&gt; (classical) approach and developing those consequences takes a bit more mathematical know-how than what I've used so far. If you're curious and feel up to the task, read on to &lt;a class="reference external" href="a_primer_on_bayesian_statistics_p2.html"&gt;Part 2&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="resources"&gt;
+&lt;h3&gt;Resources&lt;/h3&gt;
+&lt;div class="section" id="textbooks"&gt;
+&lt;h4&gt;Textbooks&lt;/h4&gt;
+&lt;p&gt;The credit for a lot of the examples in this post doesn't belong to me. I took several examples on this page from two sources:&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;David MacKay's book &lt;em&gt;Information Theory, Inference, and Learning Algorithms&lt;/em&gt;. Both the textbook
+and the lectures associated with them are free and available online with a simple search. Links
+for the lazy: &lt;a class="reference external" href="http://www.inference.org.uk/itprnn/book.pdf"&gt;book&lt;/a&gt; and &lt;a class="reference external" href="http://videolectures.net/david_mackay/"&gt;lectures&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Andrew Gelman's book &lt;em&gt;Bayesian Data Analysis&lt;/em&gt;. Not only is this &lt;a class="reference external" href="https://www.amazon.com/gp/product/1439840954/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;amp;camp=1789&amp;amp;creative=9325&amp;amp;creativeASIN=1439840954&amp;amp;linkCode=as2&amp;amp;tag=andrsblog0f-20&amp;amp;linkId=YPLI6GJ24RK74BHN"&gt;text&lt;/a&gt; well written, it also contains great one-lines like&lt;a class="footnote-reference" href="#id18" id="id9"&gt;&lt;sup&gt;9&lt;/sup&gt;&lt;/a&gt;:&lt;ul&gt;
+&lt;li&gt;&amp;quot;As you know from teaching introductory statistics, 30 is infinity.&amp;quot;&lt;/li&gt;
+&lt;li&gt;&amp;quot;Why is it Normal? Because that’s the only continuous multivariate distribution we have. Oh, we have the multivariate &lt;span class="math"&gt;\(t\)&lt;/span&gt; ... as if that’s a different distribution.”&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class="section" id="footnotes"&gt;
+&lt;h4&gt;Footnotes&lt;/h4&gt;
+&lt;table class="docutils footnote" frame="void" id="id10" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id1"&gt;[1]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;Disclaimer: I still don't. I'm active learning about this topic as I write. Please don't hesitate to tell me about anything that seems wrong.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id11" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id2"&gt;[2]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;Not that there's anything wrong with textbooks of philosophical works. If you're looking for the former, check out the two books I mention right above these footnotes. If you're looking for the latter, try some &lt;a class="reference external" href="https://plato.stanford.edu/entries/epistemology-bayesian/"&gt;Bayesian Epistemology&lt;/a&gt;.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id12" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id3"&gt;[3]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;I don't know about you, but I was personally surprised by this version of &lt;em&gt;Bayes' Theorem&lt;/em&gt;. You're just canceling out areas!&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id13" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id4"&gt;[4]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;Yes, this is the exact same &lt;em&gt;likelihood&lt;/em&gt; function that you use when constructing a &lt;em&gt;maximum likelihood estimate&lt;/em&gt; (MLE). In fact, &lt;em&gt;Bayes&lt;/em&gt; essentially becomes &lt;em&gt;maximum likelihood&lt;/em&gt; under certain conditions! Here's a good &lt;a class="reference external" href="https://stats.stackexchange.com/questions/74082/what-is-the-difference-in-bayesian-estimate-and-maximum-likelihood-estimate"&gt;Stack Overflow&lt;/a&gt; post about it.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id14" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id5"&gt;[5]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;If this were a real case, the legal system would obviously not work like this. This is just an example.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id15" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id6"&gt;[6]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;Again, not how real courtrooms work. Pretend this is a TV drama.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id16" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id7"&gt;[7]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;What I'm doing here is setting up a set of independent and identically distributed samples; the bread and butter of pretty much all statistical inference.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id17" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id8"&gt;[8]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;Luckily, it wasn't &lt;span class="math"&gt;\(50\%\)&lt;/span&gt;! I leave it as an exercise for you to imagine what would happen in that case. Hint, do the calculation for one data point assuming a &lt;span class="math"&gt;\(50\%\)&lt;/span&gt; reliable witness.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id18" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id9"&gt;[9]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;For more great statistics lines (and you know you want more) see this &lt;a class="reference external" href="http://www.stat.columbia.edu/~gelman/book/gelman_quotes.pdf"&gt;page of 77 best Gelman quotes&lt;/a&gt;.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "true";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Ajax.config.path['img'] = 'https://cdn.rawgit.com/pkra/mathjax-img/1.0.0/';" +
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js',], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js','[img]/img.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="learning"></category><category term="bayes"></category></entry></feed>

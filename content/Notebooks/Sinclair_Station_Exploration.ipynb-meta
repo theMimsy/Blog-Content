@@ -1,0 +1,9 @@
+title: Sinclair Station Exploration
+slug: sinclair-station-exploration
+date: 2017-08-30 12:00
+category: Notebooks
+tags: R, ggplot2, maps, sinclair
+author: Dawid Minorczyk
+picture: images/jupyter_r_logo.png
+summary: A step-by-step guide through my analysis of Sinclair Broadcast Group stations.
+sortorder: 3

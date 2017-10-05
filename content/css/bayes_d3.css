@@ -1,0 +1,117 @@
+.d3-visual
+{
+  display: flex;
+  flex-direction: column;
+}
+
+.d3-visual h3
+{
+  margin: auto;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.d3-visual table
+{
+  margin: auto;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  border-collapse: separate;
+  border-spacing: 0.5em 0;
+}
+
+.d3-visual svg
+{
+  margin: auto;
+}
+
+.d3-visual .ranges
+{
+  width: 30em;
+}
+
+.d3-visual .counts
+{
+  width: 60px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.d3-visual .labels 
+{
+  width: 60px;
+}
+
+.d3-visual .numeric 
+{
+  vertical-align: top;
+}
+
+.d3-visual .counts,
+.d3-visual .labels
+{
+    display: inline-block;
+    position: relative;
+    color: #fff;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 3px;
+    background: #353535;
+    padding: 5px 10px;
+    
+    float: right;
+}
+
+.prior
+{
+  color: red;
+}
+
+.posterior
+{
+  color: blue;
+  fill: blue;
+}
+
+.gray
+{
+  color: gray;
+  opacity: 0.5;
+}
+
+#prior-uniform,
+#prior-beta
+{
+  fill: red;
+  fill-opacity: 0.15;
+  stroke: red;
+}
+
+#posterior-uniform,
+#posterior-beta
+{
+  fill: blue;
+  fill-opacity: 0.15;
+  stroke: blue;
+}
+
+#posterior-old
+{
+  fill: gray;
+  fill-opacity: 0.075;
+  stroke: gray;
+  stroke-opacity: 0.5;
+}
+
+.sunny { color: #FC8D62; }
+.cloudy { color: #66C2A5; }
+.rainy { color: #8DA0CB; }
+.jog { color: #E78AC3; }
+
+.red { color: #E31A1C; }
+.blue { color: #1F78B4; }
+.wit{ color: #33A02C; }
+
+.green{ color: #33A02C; }
+.orange{ color: #FC8D62; }

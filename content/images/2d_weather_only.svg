@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 99.500526 117.54794"
+   height="117.54794mm"
+   width="99.500526mm">
+  <defs
+     id="defs2" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(-35.72848,6.6776665)"
+     id="layer1">
+    <rect
+       transform="scale(1,-1)"
+       y="-101.79044"
+       x="35.979004"
+       height="74.998947"
+       width="39.5"
+       id="rect5984"
+       style="fill:#66c2a5;fill-opacity:0.68627451;stroke:#000000;stroke-width:0.5;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke" />
+    <rect
+       transform="scale(1,-1)"
+       y="-101.79044"
+       x="75.479004"
+       height="99.499985"
+       width="59.5"
+       id="rect5988"
+       style="fill:#fc8d62;fill-opacity:0.68627451;stroke:#000000;stroke-width:0.5;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke" />
+    <rect
+       transform="scale(1,-1)"
+       y="-26.7915"
+       x="35.977959"
+       height="24.501041"
+       width="39.501041"
+       id="rect5990"
+       style="fill:#8da0cb;fill-opacity:0.68627451;stroke:#000000;stroke-width:0.4989582;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke" />
+    <flowRoot
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       id="flowRoot5996"
+       xml:space="preserve"><flowRegion
+         id="flowRegion5998"><rect
+           y="524.30737"
+           x="400.22244"
+           height="50.91169"
+           width="35.355339"
+           id="rect6000" /></flowRegion><flowPara
+         id="flowPara6002"></flowPara></flowRoot>    <text
+       id="text6563"
+       y="109.16702"
+       x="108.86077"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#fc8d62;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       xml:space="preserve"><tspan
+         style="font-size:8.46666622px;fill:#fc8d62;fill-opacity:1;stroke-width:0.26458332"
+         y="109.16702"
+         x="108.86077"
+         id="tspan6561">sunny</tspan></text>
+    <text
+       id="text6567"
+       y="109.16702"
+       x="35.795395"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#66c2a5;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       xml:space="preserve"><tspan
+         style="font-size:8.46666622px;fill:#66c2a5;fill-opacity:1;stroke-width:0.26458332"
+         y="109.16702"
+         x="35.795395"
+         id="tspan6565">cloudy</tspan></text>
+    <text
+       id="text6571"
+       y="-0.48062906"
+       x="35.463669"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#8da0cb;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       xml:space="preserve"><tspan
+         style="font-size:8.46666622px;fill:#8da0cb;fill-opacity:1;stroke-width:0.26458332"
+         y="-0.48062906"
+         x="35.463669"
+         id="tspan6569">rainy</tspan></text>
+    <text
+       id="text6729"
+       y="99.968567"
+       x="122.13944"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.46666622px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       xml:space="preserve"><tspan
+         style="font-size:4.93888903px;stroke-width:0.26458332"
+         y="99.968567"
+         x="122.13944"
+         id="tspan6727">60%</tspan></text>
+    <text
+       id="text6733"
+       y="98.900467"
+       x="37.651127"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93888889px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332;"
+       xml:space="preserve"><tspan
+         style="stroke-width:0.26458332;font-size:4.93888889px;"
+         y="106.62486"
+         x="37.651127"
+         id="tspan6731" /></text>
+    <text
+       id="text6737"
+       y="7.8461833"
+       x="37.369312"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.46666622px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       xml:space="preserve"><tspan
+         style="font-size:4.93888903px;stroke-width:0.26458332"
+         y="7.8461833"
+         x="37.369312"
+         id="tspan6735">10%</tspan></text>
+    <text
+       id="text7979"
+       y="99.968567"
+       x="37.369312"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.46666622px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       xml:space="preserve"><tspan
+         style="font-size:4.93888903px;stroke-width:0.26458332"
+         y="99.968567"
+         x="37.369312"
+         id="tspan7977">30%</tspan></text>
+  </g>
+</svg>

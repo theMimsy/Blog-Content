@@ -1,0 +1,43 @@
+.d3-visual .background {
+  fill: none;
+  pointer-events: all;
+}
+
+.d3-visual .graticule {
+  fill: none;
+  stroke: #777;
+  stroke-width: .5;
+  stroke-opacity: .7;
+}
+
+.d3-visual #dma-borders {
+  fill: none;
+  stroke: black;
+  stroke-width: 0.7;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+.d3-visual #header {
+  font-family: Arial, Helvetica;
+  font-size: 2em;
+  margin: 1cm;
+}
+
+.d3-visual #title {
+  position: relative;
+  margin: 1em 0 1em 0;
+}
+
+.d3-visual #textbox {
+  position: relative;
+  top: -100px;
+  height: 100px;
+  width: 425px;
+}
+
+.d3-visual #textbox text p {
+  font-size: initial;
+  margin: 0;
+}

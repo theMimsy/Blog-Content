@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>mimsy.io - Stories</title><link href="/" rel="alternate"></link><link href="/feeds/stories.atom.xml" rel="self"></link><id>/</id><updated>2017-08-30T12:00:00-07:00</updated><entry><title>Introducing the Sinclair Broadcast Group</title><link href="/sinclair_1_3.html" rel="alternate"></link><published>2017-08-30T12:00:00-07:00</published><updated>2017-08-30T12:00:00-07:00</updated><author><name>Dawid Minorczyk</name></author><id>tag:None,2017-08-30:/sinclair_1_3.html</id><summary type="html">&lt;p class="first last"&gt;The first part in a three part series examining the Sinclair Broadcast Group and their affect on American political sentiment.&lt;/p&gt;
+</summary><content type="html">&lt;p class="head-info"&gt;&lt;em&gt;This post is the first in a three part series on the Sinclair Broadcast Group. I will be posting
+links to the second and third parts here once I finish them.&lt;/em&gt;&lt;/p&gt;
+&lt;p class="head-info"&gt;&lt;em&gt;I skim over a lot of technical work in this post. If you want to see the code that generated
+the graphs I show, try looking through&lt;/em&gt;
+&lt;a class="reference external" href="sinclair-station-exploration.html"&gt;this notebook on Sinclair stations&lt;/a&gt;
+&lt;em&gt;or&lt;/em&gt;
+&lt;a class="reference external" href="sinclair-dma-exploration.html"&gt;this notebook on DMAs and how they apply to Sinclair&lt;/a&gt;
+&lt;em&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;div class="section" id="introducing-the-sinclair-broadcast-group"&gt;
+&lt;h2&gt;Introducing the Sinclair Broadcast Group&lt;/h2&gt;
+&lt;p&gt;Do you remember broadcast television? Yes, that ancient technology the internet completely replaced
+like 10 years ago? Oh boy, those were the days. Saturday morning cartoons; watching &lt;em&gt;How It's Made&lt;/em&gt;
+episodes about styrofoam; local news stories about that one guy who tried to
+sell himself on eBay. Today, of course, it's pretty obvious that Facebook and Twitter have
+completely supplanted TV's role as ...&lt;/p&gt;
+&lt;p&gt;What's that?&lt;/p&gt;
+&lt;p&gt;Only the younger population is &lt;a class="reference external" href="http://www.marketingcharts.com/featured-24817/attachment/nielsen-traditional-tv-viewing-by-age-q12011-q12017-jul2017"&gt;watching less TV&lt;/a&gt;? People 40 and over watch &lt;a class="reference external" href="http://www.marketingcharts.com/featured-24817/attachment/nielsen-traditional-tv-viewing-trends-by-age-group-in-q1-2017-jul2017"&gt;about as much TV&lt;/a&gt;
+today as they did 5 years ago? Traditional TV still makes up the
+&lt;a class="reference external" href="http://www.marketingcharts.com/featured-24817/attachment/nielsen-video-viewing-by-device-in-q42016-jul2017"&gt;single largest video consumption source&lt;/a&gt; in the US?&lt;a class="footnote-reference" href="#id14" id="id1"&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Yup! Even in the age of social media, millions of American still get their entertainment and news
+from sources other than tweets and newsfeeds. While I personally found this surprising (I'm a
+classic example of a cord cutter), it seems hosts of popular HBO news shows were already in the
+know.&lt;/p&gt;
+&lt;p&gt;I'm talking, of course, about John Oliver and his show &lt;em&gt;Last Week Tonight&lt;/em&gt;. He recently talked about
+broadcast television and local news. No, it wasn't an in depth exposition on that guy who tried to
+sell himself on eBay (I wish). Instead, John looked into political bias in our local news broadcasts
+by examining the Sinclair Broadcast Group, or as he called it: &amp;quot;Maybe the most influential media
+company that you've never heard of.&amp;quot;&lt;a class="footnote-reference" href="#id15" id="id2"&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;For the uninitiated (or those that don't have HBO), here's a bullet point summary of the episode:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;The Sinclair Broadcast Group is the largest owner of local TV stations in the country, yet not
+many Americans have heard about the company before.&lt;/li&gt;
+&lt;li&gt;Sinclair is currently in the process of &lt;a class="reference external" href="http://www.latimes.com/business/hollywood/la-fi-ct-tribune-sinclair-20170508-story.html"&gt;acquiring Tribune Media&lt;/a&gt;, which would increase its
+holdings by 42 TV stations.&lt;/li&gt;
+&lt;li&gt;Sinclair forces the stations that it owns to broadcast content labeled as &lt;em&gt;must runs&lt;/em&gt; on a regular
+basis.&lt;/li&gt;
+&lt;li&gt;The &lt;em&gt;must runs&lt;/em&gt;, John argues, show a clear conservative slant. I don't really want to get into
+this, but if you want to know more, Wikipedia has a &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Sinclair_Broadcast_Group#Political_views"&gt;brief description&lt;/a&gt; of these editorials and
+their content.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This episode of &lt;em&gt;Last Week Tonight&lt;/em&gt; serves as a starting point for the rest of this post. After
+seeing the episode, I really wanted to know more. So what if John is right? What if Sinclair
+really &lt;em&gt;does&lt;/em&gt; present a conservative slant. Does it matter?  Yes, there's that whole
+journalistic-integrity-in-local-news thing on the line, but are there other consequences? For
+example, can Sinclair affect how many people vote and who they vote for?&lt;/p&gt;
+&lt;p&gt;These are the questions I'll try to answer below; hopefully you'll stay along for the ride.&lt;/p&gt;
+&lt;div class="section" id="the-general-plan"&gt;
+&lt;h3&gt;The General Plan&lt;/h3&gt;
+&lt;p&gt;We've known for a while that media plays a pretty large role in affecting political views&lt;a class="footnote-reference" href="#id16" id="id3"&gt;&lt;sup&gt;3&lt;/sup&gt;&lt;/a&gt;&lt;a class="footnote-reference" href="#id17" id="id4"&gt;&lt;sup&gt;4&lt;/sup&gt;&lt;/a&gt;
+(with the notable exception of social media, which doesn't seem to change political views as much as
+affirm existing ones&lt;a class="footnote-reference" href="#id18" id="id5"&gt;&lt;sup&gt;5&lt;/sup&gt;&lt;/a&gt;&lt;a class="footnote-reference" href="#id19" id="id6"&gt;&lt;sup&gt;6&lt;/sup&gt;&lt;/a&gt;). However, controlled studies measuring exactly &lt;em&gt;how much&lt;/em&gt; a specific
+medium can shift votes are few and far in between.&lt;/p&gt;
+&lt;p&gt;This is where the Sinclair Broadcast Group comes in. The fact that Sinclair does not broadcast its
+&lt;em&gt;must runs&lt;/em&gt; to every location in the United States, only to locations where they have a nearby TV
+station, means that the company is fundamentally a nationwide natural experiment and that teasing
+out the information we want is, in theory, pretty simple. We just need to follow these steps:&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;Find all pairs of counties in the US where one county has never had access to Sinclair
+programming but the second one has. We use counties as our standard unit of measurement because
+we want to be as fine-grained as possible while still having access to complete voting data.&lt;/li&gt;
+&lt;li&gt;Out of all those county pairs, we keep only the ones that were politically similar &lt;em&gt;before&lt;/em&gt;
+Sinclair acquired a station in the area. I'll define what &amp;quot;politically similar&amp;quot; means formally
+later on, but we basically want to look for counties that have similar demographics and voting
+records.&lt;/li&gt;
+&lt;li&gt;Look at the voting patterns of the two counties &lt;em&gt;after&lt;/em&gt; Sinclair buys a TV station in one of
+them and test to see if the voting patterns begin to differ (and if they do, by how much).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Ok, you got me, these steps aren't that simple. However, using this approach should get us some
+strong evidence either for or against Sinclair and their effect on American politics. Also, I'll
+be doing all the work, so no complaining!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="some-background-information-on-sinclair"&gt;
+&lt;h3&gt;Some Background Information on Sinclair&lt;/h3&gt;
+&lt;p&gt;Before we take on the daunting task of trying to measure &amp;quot;political similarity&amp;quot; (step &lt;strong&gt;2&lt;/strong&gt; above),
+we need to get a better look at the Sinclair Broadcast Group itself; specifically, we want to know
+both &lt;em&gt;where&lt;/em&gt; its stations are located as well as &lt;em&gt;when&lt;/em&gt; Sinclair built/acquired each station. I'll
+make exploring this (step &lt;strong&gt;1&lt;/strong&gt;) the focus of the rest of this post.&lt;/p&gt;
+&lt;div class="section" id="so-how-many-tv-stations-does-sinclair-own"&gt;
+&lt;h4&gt;So, How Many TV Stations Does Sinclair Own?&lt;/h4&gt;
+&lt;p&gt;That's easy, the answer is 173&lt;a class="footnote-reference" href="#id20" id="id7"&gt;&lt;sup&gt;7&lt;/sup&gt;&lt;/a&gt;! Erm, no wait, 285&lt;a class="footnote-reference" href="#id21" id="id8"&gt;&lt;sup&gt;8&lt;/sup&gt;&lt;/a&gt;? Maybe 139&lt;a class="footnote-reference" href="#id22" id="id9"&gt;&lt;sup&gt;9&lt;/sup&gt;&lt;/a&gt;?&lt;/p&gt;
+&lt;p&gt;As it turns out, even this seemingly simple question is a bit tough to answer. For example, consider
+the TV stations WTTO and WBDD, both located in Alabama. Since Sinclair acquired the stations in
+1995, WBDD has broadcast (mostly) the same content as WTTO. In TV jargon, WBDD is called a
+&lt;a class="reference external" href="https://en.wikipedia.org/wiki/Broadcast_relay_station#Satellite_stations"&gt;satellite station&lt;/a&gt; of WTTO. Should we count these two as separate stations?&lt;/p&gt;
+&lt;p&gt;Moreover, what about stations that Tribune Media currently owns, but that Sinclair is in the process
+of buying? Should we count those?&lt;/p&gt;
+&lt;p&gt;Then there's also the problem of &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Local_marketing_agreement"&gt;local marketing agreements&lt;/a&gt;, which allow one entity to own a
+station, but another to operate it (choose the programming). How should we count these?&lt;/p&gt;
+&lt;p&gt;Luckily for us, Wikipedia already filtered these options for us. According to the data found there,
+173 stations is the correct number. This number double counts satellite stations (so WBDD and WTTO
+count as two separate stations), does not include stations that Tribune Media currently owns, and
+counts &amp;quot;ownership&amp;quot; as who gets to decide the programming in a station.&lt;/p&gt;
+&lt;p&gt;With the technicalities out of the way, let's jump right to the data! The graph below shows how
+Sinclair has grown since Julian Sinclair Smith founded the company in 1971:&lt;/p&gt;
+&lt;img alt="Whoops, something went wrong when fetching this png image." class="align-center" src="images/Sinclair_Growth.png" style="width: 80%;" /&gt;
+&lt;p&gt;Nothing too surprising here; we knew that Sinclair Broadcast was a successful group, so we expected
+a general upward trend in growth. In my opinion, the really interesting aspect of this graph is how
+well it explains the history of Sinclair, with large growth spikes occurring when the company goes
+on a buying spree and dips during financial trouble. Look at the following summary and see if you
+can spot the effects of major events:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;strong&gt;1971:&lt;/strong&gt; Julian Sinclair Smith establishes the company as the Chesapeake Television Corporation
+with one TV station.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;1980:&lt;/strong&gt; Smith's son David Smith begins taking a more active role in the company.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;1985:&lt;/strong&gt; The company changes its name to the Sinclair Broadcast Group.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;1990:&lt;/strong&gt; David Smith, along with his three brothers, buy their parents' stock and take control of
+the company.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;1991:&lt;/strong&gt; The company pioneers the concept of a local marketing agreement for TV broadcasting
+(it's been done before in radio broadcasting). This tool later becomes a large part of their
+business strategy.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;1994:&lt;/strong&gt; Sinclair acquires &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Act_III_Broadcasting"&gt;Act III Broadcasting&lt;/a&gt; and its 8 stations.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;1997:&lt;/strong&gt; Sinclair merges with &lt;a class="reference external" href="https://en.wikipedia.org/wiki/River_City_Broadcasting"&gt;River City Broadcasting&lt;/a&gt;, gaining 6 stations.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;1998:&lt;/strong&gt; Sinclair acquires &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Guy_Gannett_Communications"&gt;Guy Gannett Communications&lt;/a&gt; and its 6 stations.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;2007:&lt;/strong&gt; The financial crisis hits and Sinclair stops its expansion, actually selling off some
+stations.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;2009:&lt;/strong&gt; The company almost files for Chapter 11 Bankruptcy in July.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;2011:&lt;/strong&gt; Sinclair seemingly recovers and acquires &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Four_Points_Media_Group"&gt;Four Points Media Group&lt;/a&gt; along with 6 of its
+stations.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;2012:&lt;/strong&gt; Sinclair acquires both &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Freedom_Communications"&gt;Freedom Communications&lt;/a&gt; (7 stations) and &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Newport_Television"&gt;Newport Television&lt;/a&gt;
+(8 stations).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;2013:&lt;/strong&gt; Sinclair acquires both &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Barrington_Broadcasting"&gt;Barrington Broadcasting&lt;/a&gt; (15 stations) and
+&lt;a class="reference external" href="https://en.wikipedia.org/wiki/Fisher_Communications"&gt;Fisher Communications&lt;/a&gt; (17 stations).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;2014:&lt;/strong&gt; Sinclair acquires &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Allbritton_Communications"&gt;Allbritton Communications&lt;/a&gt; (6 stations).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;2017:&lt;/strong&gt; Sinclair files for acquisition of Tribune Media.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The animation below reiterates this history, but gives a more complete view of the company's growth.
+We see not only &lt;em&gt;when&lt;/em&gt; Sinclair made acquisitions, but &lt;em&gt;where&lt;/em&gt; these new stations were. From this,
+we can also track the 40 year long expansion from the Eastern seaboard to the Western one. (Manifest
+Destiny, anyone?)&lt;/p&gt;
+&lt;img alt="Whoops, something went wrong when fetching this gif." class="align-center" src="images/Sinclair_Stations.gif" /&gt;
+&lt;p&gt;A quick note: in the map above, you probably noticed that I've included transmitter power as part of
+the data. This number basically corresponds to how large any particular station is. Originally, I
+thought that using this information would give me a good idea of how far the programming of each station reaches, knowledge that we'll need in the future, so that we can compare which counties in the US have access to Sinclair programming and which don't. For vairous reasons, this turned out to be a naive assumption&lt;a class="footnote-reference" href="#id23" id="id10"&gt;&lt;sup&gt;10&lt;/sup&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;So now we hit a roadblock. If transmitter power gave us inaccurate forecasts about which locations
+have access to which stations, what else can we try? For our plan to work, we need to know which
+locations have access to which stations. Luckily people have already figured this out: TV markets!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="television-has-markets"&gt;
+&lt;h4&gt;Television Has Markets?&lt;/h4&gt;
+&lt;p&gt;Ok, admittedly, this question can go straight into the &amp;quot;well duh&amp;quot; category. Any company worth their
+stock price would want to find out which places they should market to and which demographics they
+should target; why would TV be any different? And the granddaddy of all research on TV, radio, and
+internet? &lt;a class="reference external" href="http://www.nielsen.com/us/en.html"&gt;Nielsen&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Nielsen collects data on media audiences. These include newspapers, television, radio, and films.
+If you've ever had a favorite TV show cancelled because of low ratings, you can probably blame the
+&lt;a class="reference external" href="https://www.forbes.com/sites/seamuskirst/2015/12/18/what-are-nielsen-ratings-and-how-are-they-calculated/#1fbd1fa656e0"&gt;Nielsen ratings system&lt;/a&gt; which &amp;quot;has been the deciding factor in cancelling or renewing television
+shows by television networks for years&amp;quot;&lt;a class="footnote-reference" href="#id24" id="id11"&gt;&lt;sup&gt;11&lt;/sup&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Another product the company famously provides: &lt;em&gt;Designated Market Areas&lt;/em&gt; or DMAs. These areas divide
+the United States into jigsaw-like pieces that allow marketers or researchers to organize TV
+viewership geographically. Since having a blog automatically qualifies me as a veteran researcher,
+I'll be using these marketing regions to quantify all that Sinclair growth we've talked about in
+the last few sections.&lt;/p&gt;
+&lt;p&gt;So here they are, in all their glory; how media moguls (at least the TV ones) see the United States&lt;a class="footnote-reference" href="#id25" id="id12"&gt;&lt;sup&gt;12&lt;/sup&gt;&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="d3-visual"&gt;&lt;/div&gt;&lt;p&gt;The visualization above holds information about each DMA (just hover over it with your mouse). This
+includes the name, the number of homes with TVs, the percentage of homes with cable, the population
+as a percentage of the US total, and rank according to Nielsen.&lt;/p&gt;
+&lt;p&gt;We can combine our previous results about Sinclair stations with this population data to get a
+better view of the market share that Sinclair has in the US. The way we do this is by first seeing
+where Sinclair has TV stations (we already know this). We then look up which market goes with each
+station. Finally we make the assumption that each station can broadcast to it's entire market (as
+far as I can tell, this is standard) and count the population.&lt;/p&gt;
+&lt;p&gt;Voilà! We now know the percentage of the US population that has access to Sincliar programming&lt;a class="footnote-reference" href="#id26" id="id13"&gt;&lt;sup&gt;13&lt;/sup&gt;&lt;/a&gt;:&lt;/p&gt;
+&lt;img alt="Whoops, something went wrong when fetchin this png." class="align-center" src="images/Sinclair_Viewership.png" style="width: 80%;" /&gt;
+&lt;p&gt;In case you're wondering, the graph peaks at 36.287% in 2014 and is currently at 35.494%. In
+addition to this graph, we can once again take a look at which markets Sinclair operates in by using
+an animated map.&lt;/p&gt;
+&lt;img alt="Whoops, something went wrong when fetching this gif." class="align-center" src="images/Sinclair_DMAs.gif" /&gt;
+&lt;p&gt;If the last two graphs about DMAs look similar to the earlier graphs describing stations, it's
+because they are. This points to the fact that Sinclair doesn't just buy stations nilly-willy; they
+make most purchases in new markets, so as to expand their viewing audience as much as possible.&lt;/p&gt;
+&lt;p&gt;It also reflects the fact that the Federal Communications Commission (FCC) actually has rules in
+place for regulating television broadcasts. That's right ...&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="television-has-rules"&gt;
+&lt;h4&gt;Television Has Rules?&lt;/h4&gt;
+&lt;p&gt;Yes, and they're more involved than &amp;quot;Don't shout obscenities during a broadcast&amp;quot;.&lt;/p&gt;
+&lt;p&gt;You may be interested in learning that the FCC, in addition to licensing broadcast rights to TV
+stations, has a &lt;a class="reference external" href="https://www.fcc.gov/consumers/guides/fccs-review-broadcast-ownership-rules"&gt;law prohibiting duopolies&lt;/a&gt; within a single market. This rule historically exists
+on the premise that owning two (or more) stations in the same region gives too much influence to
+one company. This rule also helps explain &lt;em&gt;some&lt;/em&gt; of the correlation between stations and markets we
+saw above; Sinclair usually wants to buy new stations in new markets to avoid fines and lawsuits.&lt;/p&gt;
+&lt;p&gt;Of course, station owners have long since figured out loopholes in the law through local marketing
+agreements, in effect creating virtual duopolies. In addition, in 2002, the FCC voted to
+&lt;a class="reference external" href="https://en.wikipedia.org/wiki/Duopoly_(broadcasting)"&gt;allow duopolies&lt;/a&gt; under certain criteria, so the rule is not a strong as it initially appears.&lt;/p&gt;
+&lt;p&gt;The FCC also sets a ceiling on the total number of households a single station group (like Sinclair)
+broadcasts to. This number? 39% of all US households. With about 35%, it seems Sinclair is set to
+soon reach this maximum.&lt;/p&gt;
+&lt;p&gt;Except they're not, because of something known as the Ultra High Frequency (UHF) Discount. I can go
+into this in more detail, but it's not actually necessary for our ultimate goal, just something I
+came across in my research. For those interested, &lt;a class="reference external" href="https://www.bloomberg.com/news/articles/2017-05-07/sinclair-said-close-to-buying-tribune-for-about-45-a-share"&gt;here's a good article&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="up-next"&gt;
+&lt;h3&gt;Up Next&lt;/h3&gt;
+&lt;p&gt;Now that we know &lt;em&gt;where&lt;/em&gt; and &lt;em&gt;when&lt;/em&gt; the Sinclair Broadcast Group acquired its holdings, we've
+essentially fulfilled step &lt;strong&gt;1&lt;/strong&gt; above. Technically, I haven't looked at county data yet, but as
+it turns out, the DMAs we talked about align very nicely with county boundaries. We just need to
+connect each DMA with the counties it contains.&lt;/p&gt;
+&lt;p&gt;Up next, we'll look at different measures of political sentiment and political polarization across
+all 3000 counties in the USA and attempt to assign similarity ratings to each pair.&lt;/p&gt;
+&lt;/div&gt;
+&lt;hr class="docutils" /&gt;
+&lt;div class="section" id="resources"&gt;
+&lt;h3&gt;Resources&lt;/h3&gt;
+&lt;p&gt;The data and code used in this post can be found in &lt;a class="reference external" href="https://github.com/theMimsy/Blog---Sinclair-Broadcast-Group"&gt;this GitHub repo&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I created two annotated JUPYTER &lt;strong&gt;R&lt;/strong&gt; notebooks describing how I got and created the graphs here:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="sinclair-station-exploration.html"&gt;Sinclair Station Exploration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="sinclair-dma-exploration.html"&gt;Sinclair DMA Exploration&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="section" id="footnotes"&gt;
+&lt;h4&gt;Footnotes&lt;/h4&gt;
+&lt;table class="docutils footnote" frame="void" id="id14" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id1"&gt;[1]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;You can find the full marketing report for these statistics from &lt;a class="reference external" href="http://www.marketingcharts.com/featured-24817"&gt;Marketing Charts&lt;/a&gt;.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id15" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id2"&gt;[2]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;Here's &lt;a class="reference external" href="https://www.youtube.com/watch?v=GvtNyOzGogc"&gt;the segment&lt;/a&gt;, for those wanting to see it themselves.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id16" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id3"&gt;[3]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;Here's a general overview of how the media can affect politcs by the &lt;a class="reference external" href="http://journalism.uoregon.edu/news/six-ways-media-influences-elections/"&gt;University of Oregon&lt;/a&gt;.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id17" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id4"&gt;[4]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;For those interested, here's a &lt;a class="reference external" href="https://www.washingtonpost.com/news/monkey-cage/wp/2016/06/24/a-deep-dive-into-the-news-medias-role-in-the-rise-of-donald-j-trump/?utm_term=.17f7bd101845"&gt;Washington Post&lt;/a&gt; breakdown of how media coverage affected
+the 2016 presidential election.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id18" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id5"&gt;[5]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;There exist a few papers that tested this rigorously. The most influential seem to be
+&lt;a class="reference external" href="http://www.nber.org/papers/w15916"&gt;Ideological Segregation Online and Offline&lt;/a&gt; and &lt;a class="reference external" href="http://www.nber.org/papers/w20681"&gt;Evidence from Twitter&lt;/a&gt;.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id19" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id6"&gt;[6]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;Curiously, a new paper emerged recently that seems to say that social media doesn't account
+for &lt;em&gt;all&lt;/em&gt; recent polarization, so other culprits might be print news and TV (my speculation).
+Here's an overview from &lt;a class="reference external" href="https://www.nytimes.com/2017/04/13/us/political-polarization-internet.html"&gt;The New York Times&lt;/a&gt;.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id20" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id7"&gt;[7]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;According to the &lt;a class="reference external" href="https://en.wikipedia.org/wiki/List_of_stations_owned_or_operated_by_Sinclair_Broadcast_Group"&gt;Wikipedia page on Sinclair stations&lt;/a&gt;.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id21" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id8"&gt;[8]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;According to a site called &lt;a class="reference external" href="http://rabbitears.info/search.php?request=owner_search&amp;amp;owner=Sinclair&amp;amp;sort=state"&gt;RabbitEars&lt;/a&gt;. I only found out about this site after writing the
+majority of this article, but these guys have some serious data on all stations in the US.  They
+have location, tower height, tower power, tower coverage and contour, population served, video
+quality (720i, 480i, etc), and even the exact dielectrics used in the transmitters.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id22" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id9"&gt;[9]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;So say the &lt;a class="reference external" href="http://www.latimes.com/business/hollywood/la-fi-ct-tribune-sinclair-20170508-story.html"&gt;LA Times&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id23" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id10"&gt;[10]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;There are many reasons why you wouldn't be able to accurately look at the reach of a station
+using only transmitter power. Geographic features are one reason; broadcasts have a hard time
+going over mountains. Air temperature and quality are another. Then there's the fact that some
+transmitters use beamforming to transmitt signals in particular directions. For example, the TV
+station KCVU in Paradise CA uses most of it's power to transmitt only North (where the majority
+of the population resides):&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;img alt="Whoops, something went wrong when fetching this image." class="align-center" src="images/KCVU_Power.png" style="width: 25%;" /&gt;
+&lt;table class="docutils footnote" frame="void" id="id24" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id11"&gt;[11]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;I got the last part of this sentence verbatim from the &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Nielsen_Media_Research"&gt;Nielsen Wikipedia page&lt;/a&gt;.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id25" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id12"&gt;[12]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;I took the bulk of the code here from &lt;a class="reference external" href="http://bl.ocks.org/simzou/6459889"&gt;Simon Zou's Github page&lt;/a&gt;. Since his code uses old
+Nielsen data, I first updated it from the newest (2017) rankings on &lt;a class="reference external" href="https://www.tvb.org/Default.aspx?TabID=1579"&gt;TVB&lt;/a&gt;. I then tweaked the
+some aesthetics to make it conform to this blog page.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id26" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id13"&gt;[13]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;I confess, this chart isn't 100% accurate. I used population percentages from 2017 in &lt;em&gt;all&lt;/em&gt;
+the years on the chart. This isn't a big deal because most cities stayed roughly where they always
+were (Chicago, for example, was about 3% of the population since the 1970s), but there can be
+discreptencies.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</content><category term="sinclair"></category><category term="last week tonight"></category></entry></feed>

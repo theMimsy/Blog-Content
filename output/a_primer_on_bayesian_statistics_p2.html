@@ -1,0 +1,740 @@
+
+<!DOCTYPE HTML>
+<!--
+	Dopetrope 2.0 by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+			<title>mimsy.io</title>
+			<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+			<meta charset="utf-8" />
+			<link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="mimsy.io Full Atom Feed" />
+			<link href="/feeds/tutorials.atom.xml" type="application/atom+xml" rel="alternate" title="mimsy.io Categories Atom Feed" />
+			<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,900,300italic" rel="stylesheet" />
+				<link rel="stylesheet" href="/theme/css/pygment.css" />
+			<noscript>
+				<link rel="stylesheet" href="/theme/css/skel-noscript.css" />
+				<link rel="stylesheet" href="/theme/css/style.css" />
+				<link rel="stylesheet" href="/theme/css/style-desktop.css" />
+			</noscript>
+<link rel="stylesheet" href="/css/bayes_d3.css" type="text/css" />
+ 
+	</head>
+	<body class="no-sidebar">
+		<!-- Header Wrapper -->
+			<div id="header-wrapper">
+				<div class="container">
+					<div class="row">
+						<div class="12u">
+						
+							<!-- Header -->
+								<section id="header">
+									
+									<!-- Logo -->
+									<h1><a href="/">mimsy.io</a></h1>
+									
+									<!-- Nav -->
+										<nav id="nav">
+											<ul>
+															<li><a href="/category/announcements.html">Announcements</a></li>
+															<li><a href="/category/notebooks.html">Notebooks</a></li>
+															<li><a href="/category/stories.html">Stories</a></li>
+															<li class="active"><a href="/category/tutorials.html">Tutorials</a></li>
+											</ul>
+										</nav>
+
+								</section>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		
+		<!-- Main Wrapper -->
+			<div id="main-wrapper">
+				<div class="container">
+<div class="row">
+	<div class="12u">
+			<section>
+				<div>
+					<div class="row">
+						<div class="12u skel-cell-mainContent">
+							<!-- Content -->
+								<article class="box is-post">
+									<div class="image image-full"><img src="/images/Bayes_Final.svg"/><a href="" class="img-copy"></a></div>
+									<div class="post-infos">
+										<ul class="tags">
+											<li><a class="button" href="category/tutorials.html">Tutorials</a></li>
+												<li><a class="button button-alt" href="tag/learning.html">learning</a></li>
+
+												<li><a class="button button-alt" href="tag/bayes.html">bayes</a></li>
+
+										</ul>
+									</div>
+
+									<div class="pennant pennant-alt date">2017-09-30</div>
+									<h2>A Primer on Bayesian Statistics (Part 2)</h2>
+									<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><strong>NOTE:</strong> This is the second part in a two part series. You can find the first part <a class="reference external" href="a_primer_on_bayesian_statistics_p1.html">right here</a>.</p>
+</div>
+<div class="section" id="a-primer-on-bayesian-statistics-part-2">
+<h2>A Primer on Bayesian Statistics (Part 2)</h2>
+<p>Last time, we explained the basics surrounding Bayesian Statistics and its use in data science. We covered <em>Bayes' Theorem</em>, <em>priors</em>, <em>posteriors</em>, and how we can use these tools to refine estimates. While this knowledge opens up a lot of doors, I left a few big questions unanswered:</p>
+<ul class="simple">
+<li>I never mentioned how one might use <em>Bayes' Theorem</em> in conjunction with popular distributions; in fact, I didn't even define a single random variable! The Frequentist method has standard tools based (mostly) around the normal distribution, such as confidence intervals and p-values. What tools do we have for Bayesian analysis?</li>
+<li>Why would you want to use Bayesian statistics as opposed to classical methods in the first place? What advantages does it bring? Are there any disadvantages?</li>
+</ul>
+<p>To answer these questions, I'll need to bring out a bit more mathematical machinery from this point on. As such, Part 2 will be harder (but also more interesting!) than the first part. Glance at the <strong>Notation</strong> card below to get an idea of what I'll be using; see if everything makes sense. A word of warning: I'll be making <em>heavy</em> use of the binomial distribution over the next few sections; I definitely recommend brushing up on it!</p>
+<p><div class="card">
+  <p class="notation"></p>
+<div class="section" id="notation">
+<h3>Notation</h3>
+<p>To try to keep things organized and clear, I'll use verbose and self-explanatory notation throughout the post:</p>
+<ul class="simple">
+<li>Uppercase letters like <span class="math">\(X\)</span>, <span class="math">\(N_b\)</span>, or <span class="math">\(U\)</span> will represent <em>random variables</em> only.</li>
+<li>I'll use lowercase letters like <span class="math">\(x\)</span>, <span class="math">\(n_b\)</span>, or <span class="math">\(u\)</span> to represent <em>constant parameters</em> or <em>specific values of random variables</em>.</li>
+<li>As before, the symbol <span class="math">\(\boldsymbol{P}\)</span> will represent the standard probability function.</li>
+<li>The symbol <span class="math">\(\partial \boldsymbol{P}\)</span> will represent continuous probability distributions. This is nonstandard notation, read on for an explanation.</li>
+</ul>
+<div class="section" id="why-partial-boldsymbol-p">
+<h4>Why <span class="math">\(\partial \boldsymbol{P}\)</span>?</h4>
+<p>The final piece of notation will probably be unfamiliar. When reading statistics textbooks, most authors tend to use a single function (usually a lower case <span class="math">\(\boldsymbol{p}\)</span>) to describe distributions of random variables:</p>
+<ul class="simple">
+<li>If <span class="math">\(X\)</span> is <em>any</em> random variable (either discrete or continuous) with density function <span class="math">\(f\)</span>, then <span class="math">\(f(x) \leftrightarrow \boldsymbol{p}(X = x)\)</span>.</li>
+</ul>
+<p>In fact, they usually don't mention <span class="math">\(X\)</span> at all and just write <span class="math">\(\boldsymbol{p}(x)\)</span>! This saves space and allows authors to sweep unneeded details under a rug. I want to be as clear as possible in this post, so I'll want to differentiate between discrete and continuous random variables. I'll write:</p>
+<ul class="simple">
+<li>If <span class="math">\(X\)</span> is a discrete random variable with density function <span class="math">\(f_X\)</span>, then <span class="math">\(f_X(x) \leftrightarrow \boldsymbol{P}(X = x)\)</span>.</li>
+<li>If <span class="math">\(Y\)</span> is a continuous random variable with density function <span class="math">\(f_Y\)</span>, then <span class="math">\(f_Y(y) \leftrightarrow \partial \boldsymbol{P}(Y = y)\)</span>.</li>
+</ul>
+<p>If you feel uncomfortable with having a partial (<span class="math">\(\partial\)</span>) in front of the probability function (<span class="math">\(\boldsymbol{P}\)</span>), rest assured there's a good reason for it!<a class="footnote-reference" href="#id10" id="id1"><sup>1</sup></a></p>
+<p>Hopefully, all of this housekeeping made sense. Let's move on to the actual material.</p>
+</div>
+<div class="section" id="example">
+<h4>Example</h4>
+<p>Let's see this notation in action by reading through a classic card problem.</p>
+<p>Say we're playing cards with a standard <span class="math">\(52\)</span>-card deck. You draw <span class="math">\(n = 5\)</span> cards and you want to figure out the probability of getting <span class="math">\(0\)</span> to <span class="math">\(4\)</span> aces. We can let <span class="math">\(N_a\)</span> be a random variable representing the number of aces in your hand. In this case, we're looking for <span class="math">\(\boldsymbol{P}(N_a = x)\)</span> for <span class="math">\(x \in \{0, 1, 2, 3, 4 \}\)</span>.</p>
+<p>Here, I set <span class="math">\(n\)</span> as a simple constant that does not change, <span class="math">\(N_a\)</span> as a random variable, and <span class="math">\(x\)</span> as a specific value for the random variable <span class="math">\(N_a\)</span>.</p>
+<p>Although it's pretty standard, I will <em>not</em> use the notation <span class="math">\(\boldsymbol{P}(X)\)</span> or <span class="math">\(\boldsymbol{P}(x)\)</span> as shorthand for <span class="math">\(\boldsymbol{P}(X = x)\)</span>. I do this to separate the notion of a random variable <span class="math">\(X\)</span> and the notion of an event <span class="math">\(X = x\)</span>.</p>
+<p>  </p>
+</div></p>
+</div>
+</div>
+<div class="section" id="i-want-to-get-into-modeling">
+<h3>I Want to Get Into Modeling</h3>
+<p>When we make predictions using the Bayesian approach, how do they differ from predictions made using the Frequentist approach? To answer this, I'll first go on a bit of a tangent about statistical modeling. This won't take long, and understanding the anatomy of statistical models is useful in and of itself. By the end of this section, we'll use our newfound knowledge pinpoint the exact locations where the two competing approaches diverge.</p>
+<div class="section" id="what-do-models-look-like">
+<h4>What Do Models Look Like?</h4>
+<p>In theory, modeling is a simple concept to understand; in practice it can be very tricky to implement. The simplest description of modeling is that it allows us to compartmentalize and organize probability spaces. For example, consider tossing a coin <span class="math">\(n = 4\)</span> times and counting the number of heads. The probability space for all possible outcomes looks like this (assuming a fair coin):</p>
+<object class="align-center" data="images/4_toss_1.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>It would be a pain to have to refer to each event in the probability space individually, even in this simplistic example. Imagine doing this in something like image recognition, where we might not even know what the probability space looks like! This is where models come in. As you probably already know, we usually model counting heads in coin tosses with a single random variable, which I'll call <span class="math">\(N_h\)</span> (number of heads). This random variable partitions the probability space and allows us to talk about groups of events using the <span class="math">\(N_h = x\)</span> notation. For example, if we want to talk about getting <span class="math">\(1\)</span> or <span class="math">\(2\)</span> heads, we can say <span class="math">\(N_h = 1\)</span> or <span class="math">\(N_h = 2\)</span> instead of listing all the events ourselves:</p>
+<object class="align-center" data="images/4_toss_2.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>To complete our model, we assign probabilities to each of our new compound events. Since coin tossing is such an elementary example, we already have a ready-made answer for this. We say that <span class="math">\(N_h\)</span> has a binomial distribution:</p>
+<div class="math">
+\begin{equation*}
+N_h \sim \mathit{Binomial}(n, p) \implies \boldsymbol{P}(N_h = x) =
+\binom{n}{x} \cdot p^x (1 - p)^{n - x}
+\end{equation*}
+</div>
+<p>Let's try to formalize what we just did. We started with a natural phenomena along with some underlying probability space. This phenomena took in some inputs (<span class="math">\(x\)</span>) and spat out some outputs (<span class="math">\(y\)</span>). Visually:</p>
+<object class="align-center" data="images/Model_1.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>In our coin tossing case, we can view the input as the number of tosses we perform (<span class="math">\(n\)</span>) and the output as the number of heads we count (<span class="math">\(N_h\)</span>):</p>
+<object class="align-center" data="images/Model_Coin_1.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>I should point out that this diagram is a bit misleading. Most natural phenomena are not fully deterministic<a class="footnote-reference" href="#id11" id="id2"><sup>2</sup></a>, events usually involve some chance (especially when tossing a coin!). As such, we might not always get the same <span class="math">\(y\)</span> for the same <span class="math">\(x\)</span>, like the diagram might imply. I'll get back to this soon, but just keep it in the back of your head for now.</p>
+<p>After identifying the ins and outs of a phenomena, we start to build the model. We construct it by attempting to parameterize the probability space. In layman's terms, we build a mathematical formula with some knobs and levers (called parameters). We turn the knobs and pulls the levers (vary the parameters) to try to get the model to look as close as possible to our phenomena:</p>
+<object class="align-center" data="images/Model_2.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>In the picture above, we tweak the model by varying the  <span class="math">\(\theta\)</span> terms, the parameters I spoke about. These quantities affect how the model makes it's predictions <span class="math">\(\hat{y}\)</span>. Of course, we want these predictions to approximate <span class="math">\(y\)</span> as closely as possible.</p>
+<p>What does <span class="math">\(\hat{y}\)</span> look like? Most of the time, <span class="math">\(\hat{y}\)</span> looks like <span class="math">\(y\)</span>. I don't mean that <span class="math">\(\hat{y}\)</span> equals <span class="math">\(y\)</span> (that would be quite an impressive model!). What I mean is, the two span the same range of values. If <span class="math">\(y \in \{1, 2, ... , 10\}\)</span>, then <span class="math">\(\hat{y} \in \{1, 2, ... , 10\}\)</span>. If <span class="math">\(y\)</span> is a vector with <span class="math">\(3\)</span> values, then <span class="math">\(\hat{y}\)</span> is also a vector with <span class="math">\(3\)</span> values.</p>
+<p>If <span class="math">\(\hat{y}\)</span> looks like <span class="math">\(y\)</span> most of the time, when does it not? Well, if we have a lot of uncertainty in our model, we might opt to output a set of answers, each with a probability attached, instead of a single value. For example, in our coin tossing case, the simplest <span class="math">\(\hat{y}\)</span> we could output is a prediction for the number of heads. However, since our model involves a lot of uncertainty (by design), it would be safer to report a list all of the possibilities and attach probabilities to them. In other words, we output a distribution:</p>
+<object class="align-center" data="images/Model_Coin_2.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>To summarize, instead of saying:</p>
+<blockquote>
+&quot;With <span class="math">\(n = 4\)</span> flips, we expect <span class="math">\(\hat{y} = 2\)</span> heads&quot;</blockquote>
+<p>For our model, we say:</p>
+<blockquote>
+&quot;With <span class="math">\(n = 4\)</span> flips, there could be anywhere between <span class="math">\(0\)</span> and <span class="math">\(4\)</span> heads with such and such probabilities&quot;.</blockquote>
+<p>These two views of <span class="math">\(\hat{y}\)</span> (single value vs. a distributions) are usually only semantic differences. If your model outputs a distribution and you're forced to pick a single value, you can always pick the most likely value (the one with the highest probability).</p>
+<p>Congratulations! Now we know how models look like in general. It might seem simple, just a few boxes and arrows, but this picture is a very good way to get a handle on even the most complicated cases.</p>
+<p>For example, say you want to predict the price of a home. If you want to be accurate (and of course you do) you will probably use hundreds of variables, each representing a feature of the house, such as square footage and zip code. After exploring all the data, you might decide that this problems is complex enough to warrant the use of something like a neural network. Can we imagine what this model will look like? Yes!</p>
+<object class="align-center" data="images/Model_NN.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>In this case, our input <span class="math">\(x\)</span>, our parameters <span class="math">\(\theta\)</span>, and our output <span class="math">\(\hat{y}\)</span> all grew in complexity. <span class="math">\(x\)</span> turned into a vector, our parameters into matrices, and our output into the network network function <span class="math">\(nn(x)\)</span>. Through all of this, notice that our two box structure remained the same!</p>
+</div>
+<div class="section" id="what-do-models-do">
+<h4>What Do Models Do?</h4>
+<p>At this point, it should be pretty clear that models are a powerful tool<a class="footnote-reference" href="#id12" id="id3"><sup>3</sup></a>. Anytime we want to describe or predict a phenomena using statistics, we always model the problem first. We can construct models that are quite simple (for example, models you see in introductory statistics classes and blogs), or quite complex (for example, <a class="reference external" href="http://twiecki.github.io/blog/2017/02/08/bayesian-hierchical-non-centered/">hierarchical models</a> or <a class="reference external" href="http://www.wildml.com/2015/09/recurrent-neural-networks-tutorial-part-1-introduction-to-rnns/">RNNs</a>).</p>
+<p>So, what exactly do we get out of model besides boxes? Two things:</p>
+<ol class="arabic simple">
+<li>When we model a phenomena, we can use that model to make predictions about future outcomes. This means we can predict where a hurricane will hit, how a disease will spread, or how many ads to show you so that you buy that expensive new laptop.</li>
+<li>A model allows us to make sense of past observations. That is, if we have a model for a situation where we don't exactly know what is going on (our model is not perfect), we can use data to try and refine our model and learn more about the underlying situation.</li>
+</ol>
+<p>To put it another way, we either want to our model to generate new data (<strong>1</strong>), or we want to use data gathered about some phenomena to adjust our model (<strong>2</strong>). David McKay<a class="footnote-reference" href="#id13" id="id4"><sup>4</sup></a> calls these two ideas <em>forward probability</em> and <em>reverse probability</em>.</p>
+<p>Using this vocabulary, we can now locate where Bayesian and Frequentist methods differ! Both do <em>forward probability</em> in the same way; it's <em>reverse probability</em> where the two schools begin to diverge. The best way to show this is through examples:
+<span class="math">\(\require{color}\)</span>
+<span class="math">\(\definecolor{cco}{RGB}{252, 141, 98}\)</span>
+<span class="math">\(\definecolor{ccr}{RGB}{227, 26, 28}\)</span>
+<span class="math">\(\definecolor{ccb}{RGB}{31, 120, 180}\)</span>
+<span class="math">\(\definecolor{ccg}{RGB}{51, 160, 44}\)</span>
+<span class="math">\(\definecolor{def}{RGB}{93, 93, 93}\)</span></p>
+</div>
+<div class="section" id="forward-probability-example">
+<h4>Forward Probability Example</h4>
+<p>An urn contains <span class="math">\(k\)</span> marbles, of which <span class="math">\(b\)</span> are black and <span class="math">\(w = k - b\)</span> are white. Fred draws a marble at random, notes its color, and puts it back in the urn. He does this <span class="math">\(n\)</span> times. What is the probability distribution of the number of black marbles drawn, <span class="math">\(N_b\)</span>?</p>
+<p>You might see this type of problem in any standard textbook on probability theory. In fact, I took it straight out of one! Here, we are given all of the necessary information to fully model the situation. It ends up being just another incarnation of the binomial distribution, with a modified value of <span class="math">\(p\)</span>:</p>
+<object class="align-center" data="images/Model_Urn_1.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>And we're done! <em>Forward probability</em>, where we already know the model as well as all the parameter values, typically never occurs out in the real world. Next up, a more realistic but still urn-related problem.</p>
+</div>
+<div class="section" id="reverse-probability-example">
+<h4>Reverse Probability Example</h4>
+<p>In front of you are <span class="math">\(11\)</span> urns labeled by a number <span class="math">\(u \in \{ 0, 1, ... , 10 \}\)</span>. Each urn contains <span class="math">\(10\)</span> marbles. The urn labeled <span class="math">\(u\)</span> contains <span class="math">\(u\)</span> black marbles and <span class="math">\(10 - u\)</span> white marbles. Fred selects an urn at random (you don't know which) and draws from that urn  <span class="math">\(n\)</span> times, always putting back the marble he drew. He counts <span class="math">\(N_b\)</span> black marbles and <span class="math">\(N_w = n - N_b\)</span> white marbles. After <span class="math">\(n = 10\)</span> draws, he counted <span class="math">\(N_b = 3\)</span> black marbles. If we were to draw another marble (the <span class="math">\(11^{th}\)</span> draw) from the same urn, what is the probability that it would be black?</p>
+<p>Another textbook problem, except much harder than the previous one. Here is where Bayesian and Frequentist statistics start to differ. Let's solve this problem twice, once using <em>Bayes' Theorem</em> and once using classical methods, so that we can directly compare and contrast.</p>
+<p>First up, the Bayesian approach.</p>
+<p>We start with our oh-so-handy chart for the model that we'll use. I've circled in <span class="orange">orange</span> the main difference between this problem and the <em>forward probability</em> one we had earlier:</p>
+<object class="align-center" data="images/Model_Urn_3.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>Unlike all the other cases before, we don't know the correct value of one of our parameters; we don't know which urn Fred picked! The probability of getting a single black marble may have been <span class="math">\(p = \frac{1}{10}\)</span> if Fred chose <span class="math">\(u = 1\)</span>. It may have been <span class="math">\(p = \frac{5}{10}\)</span> if Fred chose <span class="math">\(u = 5\)</span>. Thus, we can't immediately use our model for prediction. Instead, we have data (shown in <span class="green">green</span>) that must use to try and <em>infer</em> what <span class="math">\(u\)</span> might be. We can only do predictions after we get this sorted out.</p>
+<p>In the Bayesian view, we can never know for sure what the correct value of <span class="math">\(u\)</span> (and thus <span class="math">\(p\)</span>) actually is, and we won't try to. You probably noticed that I used capital letters <span class="math">\(U\)</span> and <span class="math">\(P\)</span> in our box diagram. This points to the way to our approach: we'll say that <span class="math">\(u\)</span> can have any value between <span class="math">\(0\)</span> and <span class="math">\(10\)</span> and try to find the probabilities of each of those values. In other words, we'll assume that there exists some random variable <span class="math">\(U\)</span> (and thus <span class="math">\(P\)</span>) that represents the urn Fred picked.</p>
+<p>The random variable <span class="math">\(U\)</span> will have some sort of initial distribution (our <em>prior</em>). We'll use our <span class="green">data</span> to modify this <em>prior</em> and turn it into a <em>posterior</em> distribution. Yup! Our old friend is back:</p>
+<div class="math">
+\begin{equation*}
+\text{posterior} = \dfrac{\text{likelihood} \: \cdot \: \text{prior}}{\text{evidence}}
+\end{equation*}
+</div>
+<p>Let's see what this looks like in action:</p>
+<object class="align-center" data="images/Urn_Problem_1.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>Ok, that was a lot of information all at once. What happened here? Unlike in <a class="reference external" href="a_primer_on_bayesian_statistics_p1.html">Part 1</a> we're not dealing with single events anymore. The unknown value <span class="math">\(u\)</span> parameterizes our <em>prior</em>, <em>posterior</em>, and <em>likelihood</em> so that the probabilities change when <span class="math">\(u\)</span> changes. The charts above show this by having <span class="math">\(u\)</span> on their x-axes. A bit more information:</p>
+<ul>
+<li><p class="first"><strong>PRIOR</strong> <br \> Since Fred chose an urn at random, it makes sense to think that he didn't have a preference for any urn in particular. It should be safe to assume that each urn <span class="math">\(u\)</span> had a <span class="math">\(\frac{1}{11}\)</span> chance of being selected.</p>
+</li>
+<li><p class="first"><strong>LIKELIHOOD</strong> <br \> In Bayesian analysis, this always comes from our model, which is binomial in our case. However, notice that the <em>likelihood</em> plot in the top-right corner is not a traditional binomial plot! Normally, when we have a <em>binomal</em> random variable:</p>
+<div class="math">
+\begin{equation*}
+X \sim \mathit{Binomial}(n, p)
+\end{equation*}
+</div>
+<p>We usually see this as a function of <span class="math">\(x\)</span> with constant <span class="math">\(n\)</span> and <span class="math">\(p\)</span>:</p>
+<div class="math">
+\begin{equation*}
+\boldsymbol{P}(X = x) = \binom{n}{x} \cdot p^x (1 - p)^{n - x}
+\end{equation*}
+</div>
+<p>However, in our case, we already know <span class="math">\(x\)</span>. From our data we have <span class="math">\(\color{ccg}N_b = 3\)</span> when <span class="math">\(\color{ccg}n = 10\)</span>. What we don't know is <span class="math">\(p = u / 10\)</span>. Thus, our situation looks like this:</p>
+<div class="math">
+\begin{equation*}
+\boldsymbol{P}(\color{ccg}N_b = 3\color{def} \,|\, U = u) = \binom{\color{ccg}10\color{def}}{\color{ccg}3\color{def}} p^{\color{ccg}3\color{def}} (1 - p)^{\color{ccg}10 - 3\color{def}}
+\end{equation*}
+</div>
+<p>We're looking at this binomial distribution as a function of our parameter <span class="math">\(u\)</span>.</p>
+</li>
+<li><p class="first"><strong>EVIDENCE</strong> <br \> This value acts as a normalization constant. It does not depend on the value of <span class="math">\(u\)</span>, so we have no graph to draw<a class="footnote-reference" href="#id14" id="id5"><sup>5</sup></a>.</p>
+</li>
+<li><p class="first"><strong>POSTERIOR</strong> <br \> The final distribution for <span class="math">\(U\)</span>. Since our <em>prior</em> was <em>uniform</em>, it looks almost exactly the same as our <em>likelihood</em>. It doesn't have a closed form, so I won't write it here. For our purposes, the graph above (calculated numerically) is enough.</p>
+</li>
+</ul>
+<p>Now, how do we go about making a prediction for the <span class="math">\(11^{th}\)</span> marble? Even after all that work, we still don't know for sure which urn we drew from. Most likely, <span class="math">\(u = 3\)</span>, so should the probability of drawing a black marble be <span class="math">\(\frac{u}{10} = \frac{3}{10}\)</span>? Not according to Bayes. The Bayesian approach doesn't decide on one value of <span class="math">\(u\)</span>, it averages out all of them to make a prediction:</p>
+<object class="align-center" data="images/Urn_Problem_2.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>Here, we looked at each possible value of <span class="math">\(u\)</span>, asked what the probability of drawing a black marble would be if that urn were picked, and then weighed that probability by our <em>posterior</em>. The result was <span class="math">\(\frac{1}{3}\)</span>. Notice that this is a bit over <span class="math">\(30\% = \frac{3}{10}\)</span>.</p>
+<p>Next up, the Frequentist method.</p>
+<p>Again, we start with a model:</p>
+<object class="align-center" data="images/Model_Urn_2.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>Looks similar doesn't it? No wait, there is one difference! I used a lowercase <span class="math">\(u\)</span> this time instead of and upper case <span class="math">\(U\)</span>. According to the Frequentist scheme, we do not assume that <span class="math">\(u\)</span> has some distribution. Instead we think of <span class="math">\(u\)</span> as a constant but unknown value. We then try to figure out value of <span class="math">\(u\)</span> by using an <em>estimator</em>.</p>
+<p>The most popular estimator around (and the most appropriate to use in this case) is the <em>maximum likelihood estimator</em>, or MLE. Basically, we just calculate the <em>likelihood</em>, <span class="math">\(\boldsymbol{P}(\color{ccg}N_b = 3\color{def} \,|\, U = u)\)</span>, like we would when using <em>Bayes' Theorem</em>. Then, instead of using this as a building block for our <em>posterior</em>, we pick the <span class="math">\(u\)</span> that gives us the highest probability.</p>
+<p>We've already done all the work for this!</p>
+<object class="align-center" data="images/Urn_Problem_3.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>Clearly, the most probable value of <span class="math">\(u\)</span> occurs at <span class="math">\(u = 3\)</span>. Thus, when we estimate what the <span class="math">\(11^{th}\)</span> draw will look like, we say we'll have a <span class="math">\(30\% = \frac{3}{10}\)</span> chance of getting a black marble. This is different than the Bayesian approach!</p>
+<p>But wait, this seems wrong. We don't know for sure that <span class="math">\(u = 3\)</span>, do we? We accounted for that in the Bayesian approach by averaging over all the values in the <em>posterior</em>. How do we account for this uncertainty here?</p>
+<p>Classically, we usually do this using confidence intervals or p-values. When we use an <em>estimators</em> like the MLE, we can calculate how sure/confident we are in our guess of <span class="math">\(u\)</span>. I won't do this here, but in the real world we would report that value alongside the <span class="math">\(30\%\)</span> we predicted earlier.</p>
+</div>
+<div class="section" id="compare-and-contrast">
+<h4>Compare and Contrast</h4>
+<p>We solved Fred's marble problem with two approaches. How did they differ?</p>
+<p>When using the <em>Bayesian</em> approach:</p>
+<ul class="simple">
+<li>We assumed the hole in our model was an unknown distribution represented by the random variable <span class="math">\(U\)</span>.</li>
+<li>Using the data, we modified a uniform <em>prior</em> to generate a <em>posterior</em> distribution.</li>
+<li>Once we had a <em>posterior</em> distribution, we averaged over all the values to generate our prediction. In this case, we found that the probability of getting a black marble in our <span class="math">\(11^{th}\)</span> sample as <span class="math">\(\frac{1}{3}\)</span>, slightly higher than with the <em>Frequentist</em> method.</li>
+</ul>
+<p>When using the <em>Frequentist</em> approach:</p>
+<ul class="simple">
+<li>We assumed that the hole in our model was unknown but constant, a value <span class="math">\(u\)</span>.</li>
+<li>Using the data, we constructed an estimator for the value <span class="math">\(u\)</span>.</li>
+<li>Once we arrived at a value of <span class="math">\(u\)</span>, we reported how uncertain we were about this. In the real world, we usually do this using p-values or confidence intervals.</li>
+<li>After reporting our uncertainty, we simply used our estimate of <span class="math">\(u\)</span> in all future predictions that we generated out of our model. In this case, we found that the probability of getting a black marble in our <span class="math">\(11^{th}\)</span> sample was <span class="math">\(\frac{3}{10}\)</span>.</li>
+</ul>
+<p>So which method is better? Looking at the above example, you might think that <em>Bayes</em> wins hands down. After all, it's the more general estimate of the two. It takes into account all possible values of <span class="math">\(U\)</span> to make our prediction! Comparatively, the classical method seems to make assumptions that it doesn't need to.</p>
+<p>Of course, it's not that black and white. David McKay, the man who engineered this example, did so with the intention of creating this contrast. The classical method is called &quot;classical&quot; for a reason. Historically, people tended to use Frequentist methods much more often than Bayesian ones. What gives?</p>
+<p>For one, when using the Bayesian method, you have to keep track of the entire <em>prior</em> distribution and the entire <em>posterior</em> distribution. Compare this with a single MLE estimate (one value) that you might make when using the classical approach! Not only that, in real world examples, you won't have nice closed forms of probability distributions; the models grow way too complex for that. You'll have to numerically estimate the <em>posterior</em>. Today this doesn't pose as much a challenge, but you can imagine it was a real show-stopper during most of the twentieth century.</p>
+<p>Then, there's the problem of <em>priors</em>, a topic I spend the rest of this post discussing.</p>
+</div>
+</div>
+<div class="section" id="priors">
+<h3>Priors</h3>
+<p>Although Bayes published his seminal paper in 1763, doing inference through conditional
+probabilities didn't really become popular until the 1990s, when <a class="reference external" href="https://en.wikipedia.org/wiki/Markov_chain_Monte_Carlo">Markov Chain Monte Carlo</a> methods (used to estimate <em>posterior</em> distributions), along with widespread computerization, pushed it to the mainstream. Why is this?</p>
+<p>One common complaint against Bayes was that choosing a <em>prior</em> feels very subjective and unscientific<a class="footnote-reference" href="#id15" id="id6"><sup>6</sup></a>. In the problems above, we always had a pretty obvious choice of <em>prior</em>. For example, we assumed that each urn had the same probability of being chosen. In the real world, this choice becomes more tricky.</p>
+<p>The problem becomes easier to appreciate when you're modeling a complex situation. Say you're trying to infer (<em>reverse probability</em>) the proportion of people that will vote for a specific mayoral candidate. Furthermore, say that you've constructed a sophisticated model for this situation that uses poll data. What's your <em>prior</em>? Do you assume that all proportions are equally likely? This might sound appealing at first, but by doing this, you assume that mayoral candidates are just as likely to barely edge out the election (get <span class="math">\(51\%\)</span> of the vote) as they are to win in a complete landslide (get <span class="math">\(99\%\)</span> of the vote). To get a better <em>prior</em>, you might first need to know how close most mayoral races are in general.</p>
+<p>Other factors could affect the <em>prior</em>. For example, say this candidate is part of a particularly well-liked political party in this city. Should you try to include this in the <em>prior</em>, or should you just assume that this information is already implicit in the poll data?</p>
+<p>As you'll see below, your choice of <em>prior</em> can affect the distribution of the <em>posterior</em>, so in some ways the fear of setting an unhelpful (or even hurtful) <em>prior</em> is justified. In this last section I want to show you how to mitigate this problem and how, for sufficiently large datasets, choosing a <em>prior</em> isn't a problem at all. And who will help me with this? Fred, of course.</p>
+<div class="section" id="fred">
+<h4>Fred</h4>
+<p>I know a guy; his name is Fred. When Fred walks into a room, a smell that people describe as &quot;hair-gel ... probably&quot; assaults all those unfortunate enough to stand near the entrance. Fred enjoys sporting his gold watch, always half visible below his white shirt, as well as his favorite tie, satin black patterned with subtle dollar bills. The first words that pop into the heads of most people who meet Fred? Used car salesman.</p>
+<p>One day, Fred comes up to you with a proposition for a simple betting game. Even though you feel slightly faint (most likely because of the inordinate amount of hair-gel particles entering your lungs) you manage to hear out the basic rules: it's a simple coin-toss, where you win <span class="math">\(\$1\)</span> for every heads and lose <span class="math">\(\$1\)</span> for every tails. You and Fred keep going until one of you decides to stop.</p>
+<p>Of course, you immediately suspect a rigged game. It would be wise to simply turn down the offer, but you don't want to refuse since you know this will make him angry. You agree on the condition that you toss the coin a few times before playing. How can you test for fairness?</p>
+</div>
+<div class="section" id="solving-the-game">
+<h4>Solving the Game</h4>
+<p>Let's translate Fred's game into the language of statistics, so that we can put it under heavy
+analysis and quantify exactly how much we can trust Fred (if at all). To do this, we'll first define all of the variables/constants we need to solve the problem and create a model of the situation:</p>
+<ul class="simple">
+<li><span class="math">\(n\)</span>: the number of times we flip the coin (this is a <em>constant</em>)</li>
+<li><span class="math">\(N_h\)</span>: the number of heads we observe (this is a <em>random variable</em>)</li>
+<li><span class="math">\(P_h\)</span>: the probability of getting heads in a single toss (this is also a <em>random
+variable</em>)</li>
+</ul>
+<p>Notice that we're taking the <em>Bayesian</em> approach here, because <span class="math">\(P_H\)</span> is a random variable as opposed to an unknown constant. Our goal is to answer the question: what is the probability distribution of <span class="math">\(P_h\)</span> given that we have performed <span class="math">\(n\)</span> tosses and found that <span class="math">\(N_h\)</span> of them ended up as heads? In other words, we want to find:</p>
+<div class="math">
+\begin{equation*}
+\partial\boldsymbol{P}( P_h = p \: | \: N_h = x)
+\end{equation*}
+</div>
+<p>Notice that I used <span class="math">\(\partial\boldsymbol{P}\)</span> notation as opposed to <span class="math">\(\boldsymbol{P}\)</span>. This is because <span class="math">\(P_h\)</span> is a <em>continuous</em> random variable as opposed to a discrete one. If the coin is fair, then <span class="math">\(P_h\)</span> has a high density around <span class="math">\(p = 0.5\)</span>, but it could theoretically take on any value in the interval <span class="math">\([0, 1]\)</span>.</p>
+<p>So, how do we actually go about finding this value? Well, we already know what model we should use. Say it with me:</p>
+<object class="align-center" data="images/Model_Fred_1.svg" type="image/svg+xml">
+Whoops, something went wrong when fetching this svg.</object>
+<p>Furthermore, you may have noticed that this is an example of a <em>reverse probability</em> problem, so that our friend Bayes can help us out. According to <em>Bayes Theorem</em>:</p>
+<div class="math">
+\begin{equation*}
+\text{posterior} = \dfrac{\text{likelihood} \: \cdot \: \text{prior}}{\text{evidence}}
+\end{equation*}
+</div>
+<p>Or, if we substitute in all of our variables:</p>
+<div class="math">
+\begin{equation*}
+\partial\boldsymbol{P}(P_h = p \: | \: N_h = x) =
+\dfrac{\boldsymbol{P}(N_h = x \: | \: P_h = p) \:
+\cdot \: \partial\boldsymbol{P}(P_h = p)}{\boldsymbol{P}(N_h = x)}
+\end{equation*}
+</div>
+<p>Let's tackle each term one at a time, explaining the intuition behind it and deriving it's value
+along the way.</p>
+<p>First, we'll look at the <em>prior</em> value <span class="math">\(\partial\boldsymbol{P}(P_h = p)\)</span>. This is the only term in the above relation that we have to guess at or assume. The prior term basically codifies what we originally think about the probability distribution of <span class="math">\(P_h\)</span>. Since this is Fred we're talking about, we probably don't want to assume that the coin is perfectly fair. In fact, we shouldn't rule out any possibility; it's equally likely to be any value. Thus, we will choose a <em>uniform</em> distribution over all the values that <span class="math">\(P_h\)</span> can take on (values in the interval <span class="math">\([0, 1]\)</span>). This leads to:</p>
+<div class="math">
+\begin{equation*}
+P_h \sim \mathit{Uniform}(0,1) \implies \partial\boldsymbol{P}(P_h = p) =
+\mathbf{1}_{[0,1]}(p) = \left\{
+\begin{array}{ll}
+1, &amp; \quad x \in [0, 1] \\
+0, &amp; \quad \text{otherwise}
+\end{array}
+\right.
+\end{equation*}
+</div>
+<p>The next value we have to calculate is the <em>likelihood</em>. This quantity ask the question: if we
+assume that <span class="math">\(P_h = p\)</span> is in fact true, then what is the probability that we get <span class="math">\(N_h =
+x\)</span> heads in <span class="math">\(n\)</span> tosses? Of course, this is just our binomial model. With this knowledge, we can write:</p>
+<div class="math">
+\begin{equation*}
+N_h \: | \: P_h \sim \mathit{Binomial}(n, p) \implies \boldsymbol{P}(N_h = x \: | \: P_h = p) =
+\binom{n}{x} \cdot p^x (1 - p)^{n - x}
+\end{equation*}
+</div>
+<p>Finally, we turn towards the last value we need, the <em>evidence</em>. This value is a bit
+different because it doesn't depend at all on the random variable who's distribution we're trying to
+estimate <span class="math">\(P_h\)</span>. Because of this, it's common to see this term as a sort of normalization term
+that's not needed when comparing two different &quot;estimates&quot; for the <em>posterior</em> distribution.</p>
+<p>In this case, however, we want to know the exact value of the <em>posterior</em> so we go ahead and compute it. To do this, we note that we can rewrite <span class="math">\(\boldsymbol{P}(N_h = x \: | \: n)\)</span> using the join distribution between <span class="math">\(N_h\)</span> and <span class="math">\(P_h\)</span> and then marginalize over <span class="math">\(P_h\)</span>. The calculation is pretty cumbersome and also relies on the <em>Gamma</em> integral<a class="footnote-reference" href="#id16" id="id7"><sup>7</sup></a>, but the final result is strikingly simple:</p>
+<div class="math">
+\begin{equation*}
+\boldsymbol{P}(N_h = x) = \dfrac{1}{n + 1}
+\end{equation*}
+</div>
+<p>This makes intuitive sense. The <em>evidence</em> term in <em>Bayes' Theorem</em> calculates the probability that <span class="math">\(N_h = x\)</span> regardless of the value of <span class="math">\(P_h\)</span>. We do this by averaging over all possible values of <span class="math">\(P_h\)</span> in the <em>prior</em>. So, if we toss the coin <span class="math">\(n = 5\)</span> times, we have <span class="math">\(6\)</span> possible values of <span class="math">\(x\)</span>. The number of heads could anywhere between <span class="math">\(0\)</span> and <span class="math">\(5\)</span>: <span class="math">\(x \in \{ 0, 1, 2, 3, 4, 5 \}\)</span>. If we have a <em>uniform prior</em> (the coin can be biased in either direction or fair) then the chances of getting <span class="math">\(x = 0\)</span> heads are <span class="math">\(\frac{1}{1 + n} = \frac{1}{6}\)</span>. The chances of getting <span class="math">\(x = 1\)</span> are also <span class="math">\(\frac{1}{1 + n} = \frac{1}{6}\)</span>. For a <em>uniform prior</em> all values of <span class="math">\(x\)</span> are equally likely.</p>
+<p>Putting together the <em>prior</em>, <em>likelihood</em>, and <em>evidence</em> yields us the following expression<a class="footnote-reference" href="#id17" id="id8"><sup>8</sup></a>:</p>
+<div class="math">
+\begin{equation*}
+\partial\boldsymbol{P}(P_h = p \: | \: N_h = x) =
+(n + 1) \cdot \binom{n}{x} \cdot
+p^x (1 - p)^{n - x} \cdot
+\mathbf{1}_{[0,1]}(p)
+\end{equation*}
+</div>
+<p>This formula probably doesn't tell you much about how you should trust Fred. What does the <em>posterior</em> actually look like? Well, it depends on the specific value of <span class="math">\(n\)</span> we use and the value of <span class="math">\(x\)</span> we get. To help you visualize this, I graphed both the <em>prior</em> and <em>posterior</em> in the visualization below. Play around with the values!</p>
+<div class="d3-visual" id="bayes-uniform">
+  <h3><span class="prior">Uniform Prior</span> and
+    <span class="posterior">Resulting Posterior</span> Distribution</h3>
+  <table>
+    <tr>
+      <td class="labels">\(n\) :  </td>
+      <td><input class="ranges" id="n-range-uniform" type="range" min="0" max="160"></td>
+      <td><span class="counts" id="n-count-uniform">80</span></td>
+    </tr>
+    <tr>
+      <td class="labels">\(x\) :  </td>
+      <td><input class="ranges" id="x-range-uniform" type="range" min="0" max="80"></td>
+      <td><span class="counts" id="x-count-uniform">40</span></td>
+    </tr>
+  </table>
+</div><p>To get better intuition about this, try the following combinations:</p>
+<ul class="simple">
+<li><span class="math">\(n = 0\)</span> and <span class="math">\(x = 0\)</span>. Why does this happen?</li>
+<li><span class="math">\(n = 20\)</span> compared to <span class="math">\(n = 120\)</span> with any value of <span class="math">\(x\)</span>. You can see how the <em>posterior</em> starts wide, but as more information comes in (increasing <span class="math">\(n\)</span>), we get more and more sure of the true value.</li>
+</ul>
+<p>Now we can figure out whether Fred is using a fair coin or not. To do this we should test the <em>posterior</em> for whatever conditions we want. For example, one way to check for a fair coin might be to check where the mean or median are after <span class="math">\(n\)</span> tosses. If they're within a specified range (say <span class="math">\([0.49, 0.51]\)</span>), then we can say the coin is fair. Another, probably more robust way to test for fairness is to require that <span class="math">\(95\%\)</span> of the probability lies in a specified range.</p>
+<p>The specifics of these tests depends on how stringent we want to be: being more confident requires a skinnier <em>posterior</em> and that, in turn, requires more data. I'll let you decide how you would want to test for fairness in this case.</p>
+<p>What I want to do instead is focus on the <em>prior</em>. I mentioned at the beginning of this section that we would see how a changing <em>prior</em> can affect our final results. What if we wanted to use a different <em>prior</em>?</p>
+</div>
+<div class="section" id="fred-again">
+<h4>Fred Again</h4>
+<p>I know a guy; his name is Fred. When Fred walks into a room, a ray of sunlight illuminates his face, even on cloudy days. Every morning, he asks about your day and listens intently. He makes an effort to organize fun events and always includes everyone he can. You've known him for years, but he's never missed your birthday. A few weeks ago, you heard a rumor that he risked his life to save a litter of puppies from a burning shelter; you believed it.</p>
+<p>One day, Fred comes up to you with a proposition for a simple betting game. Even though you feel slightly faint (most likely because of his blinding smile) you manage to hear out the basic rules: it's a simple coin-toss, where you win <span class="math">\(\$1\)</span> for every heads and lose <span class="math">\(\$1\)</span> for every tails. You and Fred keep going until one of you decides to stop.</p>
+<p>Of course, you immediately suspect a rigged game; rigged in your favor that is. He probably heard about your case of <em>can't-tell-the-weather-itus</em> and wants to cheer you up. You don't want to take advantage of him so you agree on the condition that you toss the coin a few times before playing. How can you test for fairness?</p>
+</div>
+<div class="section" id="you-already-know-the-answer">
+<h4>You Already Know the Answer</h4>
+<p>Hopefully, the story above should sound a bit familiar. As opposed to Fred #1, most people would trust Fred #2 a lot more. It would seem a unfair to use a <em>uniform</em> distribution as a <em>prior</em> here with Fred #2, like we used for Fred #1. Can we change our <em>prior</em> to reflect our newfound trust?</p>
+<p>Of course. We can use a more pointy and centered distribution instead! I recommend the <a class="reference external" href="https://en.wikipedia.org/wiki/Beta_distribution">Beta</a> distribution:</p>
+<div class="math">
+\begin{equation*}
+\partial\boldsymbol{P}(P_h = p) =
+\dfrac{\Gamma(\alpha) \Gamma(\beta)}{\Gamma(\alpha + \beta)} p^{\alpha - 1} (1 - p)^{\beta - 1}
+\end{equation*}
+</div>
+<p>I already did all the work for you here, it's very similar to the case with the <em>uniform</em> distribution. Here's the result:</p>
+<div class="d3-visual" id="bayes-beta">
+  <h3><span class="prior">Beta Prior</span> and
+    <span class="posterior">Resulting Posterior</span> Distribution</br>
+    (Compared to a <span class="gray">Posterior from Uniform Prior</span>)</h3>
+  <table>
+    <tr>
+      <td class="labels">\(n\) :  </td>
+      <td><input class="ranges" id="n-range-beta" type="range" min="0" max="200"></td>
+      <td><span class="counts" id="n-count-beta">100</span></td>
+    </tr>
+    <tr>
+      <td class="labels">\(x\) :  </td>
+      <td><input class="ranges" id="x-range-beta" type="range" min="0" max="100"></td>
+      <td><span class="counts" id="x-count-beta">50</span></td>
+    </tr>
+  </table>
+  <table>
+    <tr>
+      <td class="labels">\(\alpha\) :  </td>
+      <td class="numeric">
+        <input id="alpha-numeric-beta" type="number" min="0" value="5"></td>
+      <td class="labels">\(\beta\)  : </td>
+      <td class="numeric">
+        <input id="beta-numeric-beta" type="number" min="0" value="5"></td>
+    </tr>
+  </table>
+</div><p>Now, you can see exactly how changing <em>priors</em> affects our <em>posterior</em> distribution. Play around with the values for <span class="math">\(n\)</span>, <span class="math">\(x\)</span>, <span class="math">\(\alpha\)</span>, and <span class="math">\(\beta\)</span>. The third distribution (in gray) represents the <em>posterior</em> assuming that used a <em>uniform prior</em>.</p>
+<p>Some fun values to try:</p>
+<ul class="simple">
+<li><span class="math">\(\alpha = 0\)</span> and <span class="math">\(\beta = 0\)</span>. Yup! Plug in these value into the equation for the Beta distribution to see why.</li>
+<li><span class="math">\(\alpha = 10\)</span> and <span class="math">\(\beta = 1\)</span> or vice-versa. This makes the <em>prior</em> very one-sided. You can see how this pulls the <em>posterior</em>, especially for low values of <span class="math">\(n\)</span>.</li>
+<li><span class="math">\(\alpha = 0.05\)</span> and <span class="math">\(\beta = 0.05\)</span>. What? It can do that?</li>
+</ul>
+<p>Done playing?</p>
+<p>I think we can now finally answer our question on <em>priors</em>. While varying inputs and parameters, I hope you noticed exactly how sensitive our <em>posteriors</em> can be when we have low amounts of data. Conversely, I also hope you noticed how insignificant our <em>prior</em> became when we had large amounts of data. The fact that <em>prior</em> distributions don't matter much once we have enough input data is known as the <a class="reference external" href="https://en.wikipedia.org/wiki/Bernstein%E2%80%93von_Mises_theorem">Bernstein von Mises Theorem</a>.</p>
+</div>
+</div>
+<div class="section" id="conclusions">
+<h3>Conclusions</h3>
+<p>We've gone through a lot of mathematics at this point in the tutorial. We covered <em>Bayes' Theorem</em> and how we can view it as a means of updating prior knowledge with data. We talked about modeling, compared Bayes methods to Frequentist methods, as well as how each methodology has both it's strengths and weaknesses . Finally, just not, we explored how <em>priors</em> affect <em>posteriors</em>.</p>
+<p>Is that all there is to learn? I think we both know the answer here.</p>
+<p>As much as I would have liked, there's a whole plethora of topics I haven't even mentioned nor scratched the surface of. We didn't talk about <a class="reference external" href="http://lesswrong.com/lw/5sn/the_joys_of_conjugate_priors/">conjugate priors</a>, a building block of many complex models. There's <a class="reference external" href="http://stat.columbia.edu/~porbanz/papers/porbanz_BNP_draft.pdf">nonparametric models</a>, where the parameters <span class="math">\(\theta\)</span> are infinite dimensional vectors. <a class="reference external" href="https://wiseodd.github.io/techblog/2017/01/01/mle-vs-map/">Maximum a Posteriori</a> (MAP) estimators, a combination of Bayesian and Frequentist methods. Not to mention the <a class="reference external" href="http://fastml.com/bayesian-machine-learning/">Dirichlet Processes</a> and it's applications to natural language processing.</p>
+<p>I hope you view this tutorial as a stepping stone for more learning in the future. Take a look at the resources and footnotes below for a new starting point!</p>
+</div>
+<div class="section" id="resources">
+<h3>Resources</h3>
+<div class="section" id="textbooks">
+<h4>Textbooks</h4>
+<p>The credit for a lot of the examples in this post doesn't belong to me. I took several examples on this page from two sources:</p>
+<ol class="arabic simple">
+<li>David MacKay's book <em>Information Theory, Inference, and Learning Algorithms</em>. Both the textbook
+and the lectures associated with them are free and available online with a simple search. Links
+for the lazy: <a class="reference external" href="http://www.inference.org.uk/itprnn/book.pdf">book</a> and <a class="reference external" href="http://videolectures.net/david_mackay/">lectures</a>.</li>
+<li>Andrew Gelman's book <em>Bayesian Data Analysis</em>. Not only is this <a class="reference external" href="https://www.amazon.com/gp/product/1439840954/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1439840954&amp;linkCode=as2&amp;tag=andrsblog0f-20&amp;linkId=YPLI6GJ24RK74BHN">text</a> well written, it also contains great one-lines like<a class="footnote-reference" href="#id18" id="id9"><sup>9</sup></a>:<ul>
+<li>&quot;As you know from teaching introductory statistics, 30 is infinity.&quot;</li>
+<li>&quot;Why is it Normal? Because that’s the only continuous multivariate distribution we have. Oh, we have the multivariate <span class="math">\(t\)</span> ... as if that’s a different distribution.”</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="footnotes">
+<h4>Footnotes</h4>
+<table class="docutils footnote" frame="void" id="id10" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>The <span class="math">\(\partial\)</span> symbol notation comes from the fact that, for a continuous random variable, you can calculate it's distribution by taking a derivative. For example, if <span class="math">\(X\)</span> is a continuous random variable with density function <span class="math">\(f\)</span>, then we can write <span class="math">\(f\)</span> like this:</td></tr>
+</tbody>
+</table>
+<div class="math">
+\begin{equation*}
+\begin{array}{rcl}
+  f(x) &amp; = &amp; \dfrac{d}{dx} \boldsymbol{P}(X &lt; x)
+\end{array}
+\end{equation*}
+</div>
+<table class="docutils footnote" frame="void" id="id11" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>This can get philosophical very quickly. On one hand, we know about many systems that we can predict with almost absolute certainty. On the other hand, chaos theory and quantum mechanics and all that.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id12" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>If used correctly, of course. Even the most flexible models, such as neural nets or nearest neighbor approximations fail when used incorrectly. Words of advice: &quot;Don't try to put a square model into a round phenomena&quot;.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id13" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>David McKay was a British Physicist who wrote a great book on information theory. See the <strong>Textbooks</strong> section above.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id14" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td>In any problem involving <em>Bayes' Theorem</em>, the <em>evidence</em> is usually the most difficult to calculate. Below is a derivation of the <em>evidence</em> term for the urn problem. As far as I'm aware, there's no closed form for this summation, so I just calculated it numerically. I used <span class="math">\(n = 10\)</span> as the number of marbles drawn from the urn. I used <span class="math">\(u_t = 11\)</span> as the total amount of urns.</td></tr>
+</tbody>
+</table>
+<div class="math">
+\begin{align*}
+\boldsymbol{P}(N_b = 3) =&amp; \dfrac{1}{u_t} \sum_{u = 0}^{u_t -1} \binom{n}{3} p^{3} (1 - p)^{n - 3} \\
+=&amp; \dfrac{1}{11} \sum_{u = 0}^{10} \binom{10}{3} \dfrac{u}{10}^{3} (1 - \dfrac{u}{10})^{n - 3} \\
+=&amp; 0.08272661
+\end{align*}
+</div>
+<table class="docutils footnote" frame="void" id="id15" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id6">[6]</a></td><td>The more important reason probably stemmed from the difficulty in calculating a <em>posterior</em> distribution without computer aid. When doing Bayesian statistics by hand, you often cannot calculate the <em>posterior</em> using analytical methods, especially more complex ones. So you have to numerically estimate them or their properties (like mode or median). This is a lot more tedious than simply calculating one number, the estimator (most likely MLE), that is required under the Frequentist paradigm.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id16" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[7]</a></td><td>Here is the gruesome derivation for those interested. You know you did good math if the equation start simple, explodes into a unmanageable mess, and finally collapses into a surprisingly neat expression.</td></tr>
+</tbody>
+</table>
+<div class="math">
+\begin{align*}
+\boldsymbol{P}(N_h = x \: | \: n) =&amp; \int_{p} \partial\boldsymbol{P}(N_h = x, P_h = p \: | \: n) \\
+&amp; \scriptstyle\text{By the relationship between marginal and joint distributions} \\
+=&amp; \int_{p} \boldsymbol{P}(N_h = x \: | \: P_h = p, n) \ \partial\boldsymbol{P}(P_h = p \: | \: n) \\
+&amp; \scriptstyle\text{By the definition of conditional probability} \\
+=&amp; \int_{p} \binom{n}{x} p^x (1 - p)^{n - x} \ \partial\boldsymbol{P}(P_h = p \: | \: n) \\
+&amp; \scriptstyle\text{By the definition of } \textit{likelihood } \text{above} \\
+=&amp; \int_{p} \binom{n}{x} p^x (1 - p)^{n - x} \: \mathbf{1}_{[0, 1]}(p) \: dp \\
+&amp; \scriptstyle\text{By the definition of } \textit{prior } \text{above} \\
+=&amp; \int_{0}^{1} \binom{n}{x} p^x (1 - p)^{n - x} \: dp \\
+&amp; \scriptstyle\text{By taking care of the indicator function} \\
+=&amp; \binom{n}{x} \dfrac{x! \: (n - x)!}{\Gamma (n + 2)} \\
+&amp; \scriptstyle\text{By integrating using the Gamma integral} \\
+=&amp; \binom{n}{x} \dfrac{x! \: (n - x)!}{(n + 1)!} \\
+&amp; \scriptstyle\text{By the definition of the Gamma function} \\
+=&amp; \dfrac{n!}{(n - x)! \: x!} \dfrac{x! \: (n - x)!}{(n + 1)!} \\
+&amp; \scriptstyle\text{By the definition of the Binomial Coefficient} \\
+=&amp; \dfrac{1}{n + 1} \\
+&amp; \scriptstyle\text{Canceling out the factorials}
+\end{align*}
+</div>
+<table class="docutils footnote" frame="void" id="id17" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id8">[8]</a></td><td>If you really know your distributions, you'll note that the <em>posterior</em> in this case is a <a class="reference external" href="https://en.wikipedia.org/wiki/Beta_distribution">Beta</a> distribution. This is no accident, and neither is the fact that I use the <em>Beta</em> distribution as a <em>prior</em> in the subsequent example! The <em>Beta</em> distribution is called the <em>conjugate prior</em> of the binomial distribution.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id18" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id9">[9]</a></td><td>For more great statistics lines (and you know you want more) see this <a class="reference external" href="http://www.stat.columbia.edu/~gelman/book/gelman_quotes.pdf">page of 77 best Gelman quotes</a>.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "true";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Ajax.config.path['img'] = 'https://cdn.rawgit.com/pkra/mathjax-img/1.0.0/';" +
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js',], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js','[img]/img.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+								</article>
+						</div>
+					</div>
+				</div>
+			</section>
+	</div>
+</div>
+
+				</div>
+			</div>
+
+		<!-- Footer Wrapper -->
+			<div id="footer-wrapper">
+				<!-- Footer -->
+					<section id="footer" class="container">
+						<div class="row">
+							<div class="8u">
+								<section>
+									<header>
+										<h2>Latest articles</h2>
+									</header>
+									<ul class="dates">
+										<li>
+											<span class="date">Sep <strong>30</strong></span>
+											<h3><a href="a_primer_on_bayesian_statistics_p2.html">A Primer on Bayesian Statistics (Part 2)</a></h3>
+											<p><p class="first last">The second in a two part series about Bayesian Statistics</p>
+</p>
+										</li>
+										<li>
+											<span class="date">Sep <strong>15</strong></span>
+											<h3><a href="a_primer_on_bayesian_statistics_p1.html">A Primer on Bayesian Statistics (Part 1)</a></h3>
+											<p><p class="first last">Heard about Bayesian statistics but don't really know what the hubbub is? Start here!</p>
+</p>
+										</li>
+										<li>
+											<span class="date">Aug <strong>30</strong></span>
+											<h3><a href="sinclair_1_3.html">Introducing the Sinclair Broadcast Group</a></h3>
+											<p><p class="first last">The first part in a three part series examining the Sinclair Broadcast Group and their affect on American political sentiment.</p>
+</p>
+										</li>
+										<li>
+											<span class="date">Aug <strong>30</strong></span>
+											<h3><a href="sinclair-station-exploration.html">Sinclair Station Exploration</a></h3>
+											<p><p>A step-by-step guide through my analysis of Sinclair Broadcast Group stations.</p></p>
+										</li>
+									</ul>
+								</section>
+							</div>
+								<div class="4u">
+									<section>
+										<header>
+											<h2>What's this all about?</h2>
+										</header>
+											<img src="/" class="image image-full" alt="" />
+										<p>
+										A blog written by a guy who prefers to look at the world through math, data, and python. Anytime I have too much time on my hands, you can be sure you're about to learn. </br> - Dawid Minorczyk
+										</p>
+										<footer>
+										</footer>
+									</section>
+								</div>
+						</div>
+						<div class="row">
+							<div class="4u">
+								<section>
+									<header>
+										<h2>Blogroll</h2>
+									</header>
+									<ul class="divided">
+											<li><a href="http://getpelican.com/">Pelican</a></li>
+											<li><a href="http://python.org/">Python.org</a></li>
+											<li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+									</ul>
+								</section>
+							</div>
+							<div class="4u">
+								<section>
+									<header>
+										<h2>Categories</h2>
+									</header>
+									<ul class="divided">
+											<li><a href="/category/announcements.html">Announcements</a></li>
+											<li><a href="/category/notebooks.html">Notebooks</a></li>
+											<li><a href="/category/stories.html">Stories</a></li>
+											<li><a href="/category/tutorials.html">Tutorials</a></li>
+									</ul>
+								</section>
+							</div>
+							<div class="4u">
+							
+								<section>
+									<header>
+										<h2>Contact</h2>
+									</header>
+									<ul class="social">
+									</ul>
+								</section>
+							</div>
+						</div>
+					</section>
+			</div>
+		<script src="/theme/js/jquery.min.js"></script>
+		<script src="/theme/js/jquery.dropotron.js"></script>
+		<script src="/theme/js/config.js"></script>
+		<script src="/theme/js/skel.min.js"></script>
+		<script src="/theme/js/skel-panels.min.js"></script>
+		<!--[if lte IE 8]><script src="js/html5shiv.js"></script><link rel="stylesheet" href="/theme/css/ie8.css" /><![endif]-->
+	</body>
+<script src="http://d3js.org/d3.v4.min.js"></script>
+<script src="/js/math.min.js"></script>
+<script src="/js/bayes_uniform_d3.js"></script>
+<script src="/js/bayes_beta_d3.js"></script>
+</html>

@@ -1,0 +1,6 @@
+[submodule "plugins/ipynb"]
+	path = plugins/ipynb
+	url = git://github.com/danielfrg/pelican-ipynb.git
+[submodule "plugins/dynamic"]
+	path = plugins/dynamic
+	url = https://github.com/wrobstory/pelican_dynamic

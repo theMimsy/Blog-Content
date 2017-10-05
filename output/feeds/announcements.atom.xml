@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>mimsy.io - Announcements</title><link href="/" rel="alternate"></link><link href="/feeds/announcements.atom.xml" rel="self"></link><id>/</id><updated>2017-08-30T12:00:00-07:00</updated><entry><title>I'm Starting a Blog!</title><link href="/first_post.html" rel="alternate"></link><published>2017-08-30T12:00:00-07:00</published><updated>2017-08-30T12:00:00-07:00</updated><author><name>Dawid Minorczyk</name></author><id>tag:None,2017-08-30:/first_post.html</id><summary type="html">&lt;p class="first last"&gt;An introduction to the &lt;em&gt;mimsy.io&lt;/em&gt; blog&lt;/p&gt;
+</summary><content type="html">&lt;div class="section" id="i-m-starting-a-blog"&gt;
+&lt;h2&gt;I'm Starting a Blog!&lt;/h2&gt;
+&lt;p&gt;Welcome to &lt;em&gt;mimsy.io&lt;/em&gt;! Just another blog about data science, learning, and general tomfoolery
+involving cool visualizations.&lt;/p&gt;
+&lt;p&gt;Like many blogs, this site doesn't have much structure. However, I do file the different post under
+different categories. If you need some guidance, theses are the different types of posts I'll be
+writing:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="category/announcements.html"&gt;Announcements&lt;/a&gt;: Post like this one that provide information about
+the site itself.&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="category/stories.html"&gt;Stories&lt;/a&gt;: Posts that read more like news articles. Here, I take a story
+I've heard somewhere else and try to explore it further using data.&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="category/notebooks.html"&gt;Notebooks&lt;/a&gt;: Blog post versions of JUPYTER notebooks. I usually post
+these a supplementary material to other posts (like &lt;em&gt;Stories&lt;/em&gt;). These involve code (usually &lt;strong&gt;R&lt;/strong&gt;
+or &lt;strong&gt;Python&lt;/strong&gt;) and detail steps I took to create graphs, maps, and visualizations.&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="category/tutorials.html"&gt;Tutorials&lt;/a&gt;: Post where I explore and try to explain various topics in
+data science, statistics, and machine learning.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;As of right now, there's not much content on the site, but this will hopefully change soon!&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="firsts"></category></entry></feed>
